@@ -1,21 +1,23 @@
 import Foundation
-import SwiftData // 💡 1. เรียกใช้งานเวทมนตร์ Database
+import SwiftData
 
 @Model
-class SlipRecord {
-    var id: UUID
-    var assetIdentifier: String // 💡 2. ท่าไม้ตาย! เก็บรหัสอ้างอิงรูปภาพ
-    var amount: Double          // เก็บจำนวนเงิน
-    var scanDate: Date          // เก็บวันที่แอปสแกนเจอ
-    var isExpense: Bool         // เป็นรายจ่ายใช่ไหม? (เผื่อเอาไปทำบัญชีต่อ)
-    var note: String            // เผื่อให้ผู้ใช้พิมพ์โน้ตเพิ่มเองได้
+final class SlipRecord {
+    var amount: Double
+    var scanDate: Date
+    var memo: String = ""
+    var category: String = "ทั่วไป"
+    var transactionID: String = ""
+    var bankName: String = "ไม่ระบุ"
+    @Attribute(.unique) var assetIdentifier: String
     
-    init(assetIdentifier: String, amount: Double, scanDate: Date = .now, isExpense: Bool = true, note: String = "") {
-        self.id = UUID()
-        self.assetIdentifier = assetIdentifier
+    // 💡 แก้ตรงนี้: เพิ่ม memo: String = "" เข้าไปในวงเล็บ
+    init(amount: Double, scanDate: Date, assetIdentifier: String, transactionID: String = "", bankName: String = "ไม่ระบุ", memo: String = "") {
         self.amount = amount
         self.scanDate = scanDate
-        self.isExpense = isExpense
-        self.note = note
+        self.assetIdentifier = assetIdentifier
+        self.transactionID = transactionID
+        self.bankName = bankName
+        self.memo = memo // 💡 เพิ่มบรรทัดนี้ด้วยเพื่อจับคู่ค่า
     }
 }
