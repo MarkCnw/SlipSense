@@ -8,7 +8,6 @@ struct AlbumDetailView: View {
     var photoManager: PhotoManager
     
     @Environment(\.modelContext) private var context
-    
     @State private var assets: [PHAsset] = []
     
     @State private var isBatchScanning = false
@@ -44,7 +43,7 @@ struct AlbumDetailView: View {
                         
                         ProgressView(value: Double(scannedCount), total: Double(assets.count))
                             .progressViewStyle(.linear)
-                            .tint(.green)
+                            .tint(.orange)
                     }
                     .padding()
                     .background(Color.black.opacity(0.8))
@@ -71,12 +70,10 @@ struct AlbumDetailView: View {
         }
     }
     
-    // MARK: - 🚀 ระบบ AI สแกนเหมาเข่ง
+    // MARK: - 🚀 ระบบ AI สแกน (อัปเกรดอ่านชื่อธนาคาร)
     private func startBatchScan() {
         isBatchScanning = true
         scannedCount = 0
-        
-        // 💡 แก้ Error สีเหลือง: ก๊อปปี้ assets ออกมาก่อนเข้า Background Thread!
         let assetsToScan = self.assets
         
         Task.detached(priority: .userInitiated) {
@@ -86,62 +83,149 @@ struct AlbumDetailView: View {
             options.isNetworkAccessAllowed = true
             options.isSynchronous = true
             
-            // 💡 ใช้ assetsToScan แทน self.assets
             for asset in assetsToScan {
+                let assetID = asset.localIdentifier
+                
+                let isDuplicate = await MainActor.run {
+                    let descriptor = FetchDescriptor<SlipRecord>(predicate: #Predicate { $0.assetIdentifier == assetID })
+                    let existing = try? self.context.fetch(descriptor)
+                    return !(existing?.isEmpty ?? true)
+                }
+                
+                if isDuplicate {
+                    await MainActor.run { self.scannedCount += 1 }
+                    continue
+                }
+                
                 manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 800), contentMode: .aspectFit, options: options) { result, _ in
                     if let image = result {
                         if let extractedText = self.performOCR(on: image) {
                             if let amountStr = self.extractAmount(from: extractedText),
                                let amount = Double(amountStr.replacingOccurrences(of: ",", with: "")) {
                                 
+                                // 💡 ตรวจจับชื่อธนาคารจากข้อความที่ AI อ่านได้
+                                let detectedBank = self.detectBank(from: extractedText)
+                                let extractedMemo = self.extractMemo(from: extractedText) // 💡 ดึงข้อความ Memo
+                                
                                 Task { @MainActor in
-                                    let newRecord = SlipRecord(assetIdentifier: asset.localIdentifier, amount: amount)
+                                    let newRecord = SlipRecord(
+                                        amount: amount,
+                                        scanDate: asset.creationDate ?? Date(),
+                                        assetIdentifier: assetID,    // 💡 ย้าย assetIdentifier มาไว้ตรงนี้ (ก่อน memo)
+                                        bankName: detectedBank,
+                                        memo: extractedMemo          // 💡 ย้าย memo มาไว้ล่างสุด
+                                    )
                                     self.context.insert(newRecord)
+                                    try? self.context.save()
                                 }
                             }
                         }
                     }
                 }
                 
-                Task { @MainActor in
+                await MainActor.run {
                     self.scannedCount += 1
                 }
             }
             
-            Task { @MainActor in
+            await MainActor.run {
                 self.isBatchScanning = false
-                print("✅ สแกนเสร็จสมบูรณ์ และบันทึกลง Database เรียบร้อย!")
+                print("✅ สแกนและแยกหมวดหมู่ธนาคารเสร็จสมบูรณ์!")
             }
         }
     }
     
-    // MARK: - Helper Functions
-    private func performOCR(on image: UIImage) -> String? {
-        guard let cgImage = image.cgImage else { return nil }
-        var resultText = ""
-        
-        let request = VNRecognizeTextRequest { request, _ in
-            guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
-            resultText = observations.compactMap { $0.topCandidates(1).first?.string }.joined(separator: "\n")
+    // MARK: - Helper Functions (OCR)
+    // MARK: - 🚀 ฟังก์ชันปรับแต่งภาพ (เคลียร์ลายน้ำ เร่งสีตัวอักษร)
+        private func preprocessImage(image: UIImage) -> CGImage? {
+            // แปลงภาพให้อยู่ในรูปแบบที่ CoreImage จัดการได้
+            guard let ciImage = CIImage(image: image) else { return image.cgImage }
+            
+            // ใส่ฟิลเตอร์ ขาว-ดำ และ เร่งความคมชัด (Contrast)
+            let filter = CIFilter(name: "CIColorControls")!
+            filter.setValue(ciImage, forKey: kCIInputImageKey)
+            filter.setValue(0.0, forKey: kCIInputSaturationKey) // ลดสีเป็น 0 (ภาพขาวดำ)
+            filter.setValue(1.8, forKey: kCIInputContrastKey)   // เร่งความคมชัด 1.8 เท่า (ให้ตัวอักษรเด้งขึ้นมา)
+            filter.setValue(0.1, forKey: kCIInputBrightnessKey) // ปรับสว่างขึ้นนิดหน่อย
+            
+            // เรนเดอร์ภาพออกมาใหม่
+            let context = CIContext(options: nil)
+            if let output = filter.outputImage,
+               let cgImage = context.createCGImage(output, from: output.extent) {
+                return cgImage
+            }
+            
+            return image.cgImage // ถ้าแปลงล้มเหลว ให้ใช้รูปต้นฉบับ
         }
-        request.recognitionLanguages = ["th-TH", "en-US"]
-        request.recognitionLevel = .accurate
-        request.usesLanguageCorrection = false
+
+        // MARK: - Helper Functions (OCR)
+    // MARK: - Helper Functions (OCR ท่าไม้ตาย สแกน 2 รอบ)
+        private func performOCR(on image: UIImage) -> String? {
+            var combinedText = ""
+            
+            let request = VNRecognizeTextRequest { request, _ in
+                guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
+                // ดึงข้อความมาต่อกันด้วยเว้นวรรค
+                let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
+                combinedText += recognizedStrings.joined(separator: " ") + " "
+            }
+            
+            request.recognitionLanguages = ["th-TH", "en-US"]
+            request.recognitionLevel = .accurate
+            request.usesLanguageCorrection = false
+            
+            // 🚀 รอบที่ 1: สแกนจากรูปภาพสีต้นฉบับ
+            if let originalCG = image.cgImage {
+                let handler1 = VNImageRequestHandler(cgImage: originalCG, options: [:])
+                try? handler1.perform([request])
+            }
+            
+            // 🚀 รอบที่ 2: สแกนจากรูปภาพที่ล้างลายน้ำแล้ว (ขาวดำ)
+            if let processedCG = preprocessImage(image: image) {
+                let handler2 = VNImageRequestHandler(cgImage: processedCG, options: [:])
+                try? handler2.perform([request])
+            }
+            
+            // คืนค่าข้อความทั้งหมด (ทั้ง 2 รอบรวมกัน) ส่งไปเก็บเป็น Memo
+            return combinedText
+        }
         
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-        try? handler.perform([request])
         
-        return resultText
+    // MARK: - 💡 ดึงข้อความทั้งหมดเพื่อทำระบบ Full-Text Search
+        private func extractMemo(from text: String) -> String {
+            // กวาดข้อความทุกบรรทัดที่ AI อ่านได้ มาต่อกันเป็นบรรทัดเดียว
+            // เพื่อเป็น "คีย์เวิร์ดซ่อน" ให้ระบบ Search ทำงานได้คลุมทุกคำบนสลิป!
+            return text.replacingOccurrences(of: "\n", with: " ")
+        }
+    
+    // 💡 ฟังก์ชันใหม่: แยกชื่อธนาคารจากข้อความบนสลิป
+    private func detectBank(from text: String) -> String {
+        let lowerText = text.lowercased().replacingOccurrences(of: " ", with: "")
+        
+        if lowerText.contains("kbank") || lowerText.contains("กสิกร") { return "KBANK" }
+        if lowerText.contains("scb") || lowerText.contains("ไทยพาณิชย์") { return "SCB" }
+        if lowerText.contains("bbl") || lowerText.contains("กรุงเทพ") { return "BBL" }
+        if lowerText.contains("ktb") || lowerText.contains("กรุงไทย") { return "KTB" }
+        if lowerText.contains("krungsri") || lowerText.contains("กรุงศรี") || lowerText.contains("bay") { return "BAY" }
+        if lowerText.contains("ttb") || lowerText.contains("ทหารไทยธนชาต") { return "TTB" }
+        if lowerText.contains("gsb") || lowerText.contains("ออมสิน") || lowerText.contains("mymo") { return "ออมสิน" }
+        
+        return "ไม่ระบุ"
     }
     
     private func extractAmount(from text: String) -> String? {
         let lines = text.components(separatedBy: "\n")
         let pattern = #"\d{1,3}(?:,\d{3})*\.\d{2}"#
         guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }
-        let keywords = ["จำนวนเงิน", "ยอดเงิน", "amount", "โอนเงินสำเร็จ", "ยอดโอน"]
         
+        let keywords = ["จำนวนเงิน", "ยอดโอน", "amount", "total amount", "thb", "โอนเงินสำเร็จ", "ยอดเงิน"]
+        let blacklist = ["ยอดเงินคงเหลือ", "available balance", "balance", "คงเหลือ"]
+
         for (index, line) in lines.enumerated() {
             let lowerLine = line.lowercased().replacingOccurrences(of: " ", with: "")
+            
+            if blacklist.contains(where: { lowerLine.contains($0) }) { continue }
+            
             if keywords.contains(where: { lowerLine.contains($0) }) {
                 if let match = findFirstNumber(in: line, using: regex) { return match }
                 if index + 1 < lines.count {
@@ -173,7 +257,7 @@ struct AlbumDetailView: View {
     }
 }
 
-// MARK: - 💡 แก้ Error สีแดง: ใส่ท่อน ThumbnailView กลับคืนมาแล้วครับ!
+// MARK: - Thumbnail Component
 struct ThumbnailView: View {
     let asset: PHAsset
     @State private var image: UIImage?
@@ -185,7 +269,7 @@ struct ThumbnailView: View {
                     .resizable()
                     .scaledToFill()
             } else {
-                Color.gray.opacity(0.2) // สีเทาตอนรอโหลดรูป
+                Color.gray.opacity(0.2)
             }
         }
         .onAppear {
