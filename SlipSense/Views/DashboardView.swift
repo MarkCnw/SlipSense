@@ -116,40 +116,49 @@ struct DashboardView: View {
                     
                     VStack(spacing: 20) {
                         ZStack {
-                            Circle()
-                                .stroke(Color(.systemGray5), lineWidth: 20)
-                            
-                            Circle()
-                                .trim(from: 0, to: CGFloat(previousPeriodTotal == 0 ? 1.0 : ringProgress))
-                                .stroke(
-                                    AngularGradient(
-                                        colors: currentPeriodTotal > previousPeriodTotal ? [.red, .pink] : [.orange, .yellow],
-                                        center: .center
-                                    ),
-                                    style: StrokeStyle(lineWidth: 20, lineCap: .round)
-                                )
-                                .rotationEffect(.degrees(-90))
-                                .animation(.spring(response: 0.8, dampingFraction: 0.7), value: ringProgress)
-                            
-                            // 💡 แก้ไขส่วนตัวเลขในวงแหวน (เปลี่ยน THB เป็น บาท และย้ายลงข้างล่าง)
-                            VStack(spacing: 2) {
-                                Text("ใช้จ่ายไปแล้ว")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                
-                                Text(currentPeriodTotal, format: .number.precision(.fractionLength(2)))
-                                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                                    .foregroundStyle(currentPeriodTotal > previousPeriodTotal && previousPeriodTotal > 0 ? .red : .primary)
-                                    .minimumScaleFactor(0.5) // ย่อขนาดฟอนต์อัตโนมัติถ้าเลขยาวเกินไป
-                                    .lineLimit(1)
-                                    .padding(.horizontal, 30)
-                                
-                                Text("บาท")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .frame(width: 220, height: 220)
+                                                    Circle()
+                                                        .stroke(Color(.systemGray5), lineWidth: 20)
+                                                    
+                                                    Circle()
+                                                        .trim(from: 0, to: CGFloat(previousPeriodTotal == 0 ? 1.0 : ringProgress))
+                                                        .stroke(
+                                                            AngularGradient(
+                                                                colors: currentPeriodTotal > previousPeriodTotal ? [.red, .pink] : [.orange, .yellow],
+                                                                center: .center
+                                                            ),
+                                                            style: StrokeStyle(lineWidth: 20, lineCap: .round)
+                                                        )
+                                                        .rotationEffect(.degrees(-90))
+                                                        .animation(.spring(response: 0.8, dampingFraction: 0.7), value: ringProgress)
+                                                    
+                                                    VStack(spacing: 2) {
+                                                        // 💡 1. ขยายขนาดรูปภาพตรงนี้ (ปรับตัวเลข width/height ได้ตามต้องการ)
+                                                        Image("4") // หรือ Image(systemName: "...") ถ้ายังใช้ไอคอน
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 180, height: 180) // <-- ขยายรูปให้ใหญ่ขึ้น
+                                                            .foregroundStyle(currentPeriodTotal > previousPeriodTotal && previousPeriodTotal > 0 ? .red : .primary)
+                                                            .padding(.bottom, 4)
+                                                        
+                                                        Text(currentPeriodTotal, format: .number.precision(.fractionLength(2)))
+                                                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                                                            .foregroundStyle(currentPeriodTotal > previousPeriodTotal && previousPeriodTotal > 0 ? .red : .primary)
+                                                            .minimumScaleFactor(0.5)
+                                                            .lineLimit(1)
+                                                            .padding(.horizontal, 40)
+                                                        
+                                                        Text("บาท")
+                                                            .font(.subheadline)
+                                                            .foregroundStyle(.secondary)
+                                                        
+                                                        Text("ใช้จ่ายไปแล้ว")
+                                                            .font(.caption)
+                                                            .foregroundStyle(.secondary)
+                                                            .padding(.top, 4)
+                                                    }
+                                                }
+                                                // 💡 2. ขยายขนาดวงกลมตรงนี้ (320 คือขนาดที่ค่อนข้างใหญ่เกือบเต็มจอ iPhone)
+                                                .frame(width: 320, height: 320)
                         
                         Group {
                             if previousPeriodTotal == 0 {
@@ -186,16 +195,14 @@ struct DashboardView: View {
                                 LinearGradient(colors: [.orange.opacity(0.8), .yellow.opacity(0.5)], startPoint: .top, endPoint: .bottom)
                             )
                             .cornerRadius(4)
-                            // 💡 เพิ่มตัวเลขยอดเงินเป๊ะๆ ไว้บนหัวกราฟแต่ละแท่ง
                             .annotation(position: .top) {
-                                                            if item.amount > 0 && selectedTimeframe == .week {
-                                                                Text(item.amount, format: .number.precision(.fractionLength(0)))
-                                                                    .font(.system(size: 10, weight: .medium))
-                                                                    .foregroundStyle(.secondary)
-                                                            }
-                                                        }
+                                if item.amount > 0 && selectedTimeframe == .week {
+                                    Text(item.amount, format: .number.precision(.fractionLength(0)))
+                                        .font(.system(size: 10, weight: .medium))
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
                         }
-                        // ขยับความสูงกราฟนิดหน่อยเพื่อเผื่อพื้นที่ให้ตัวเลขด้านบน
                         .frame(height: 200)
                         .chartXAxis {
                             AxisMarks(values: .stride(by: .day, count: selectedTimeframe == .week ? 1 : 5)) { _ in
@@ -208,6 +215,7 @@ struct DashboardView: View {
                     .cornerRadius(15)
                     .padding(.horizontal)
                     
+                    // --- กราฟช่วงเวลา (Time Spend) ---
                     VStack(alignment: .leading, spacing: 15) {
                         Text("ช่วงเวลาที่เสียเงินเยอะที่สุด")
                             .font(.headline)
@@ -221,7 +229,6 @@ struct DashboardView: View {
                             .cornerRadius(4)
                             .annotation(position: .trailing) {
                                 if item.amount > 0 {
-                                    // 💡 แก้เป็นบาทให้คุมโทน
                                     Text("\(item.amount, format: .number.precision(.fractionLength(0)))")
                                         .font(.caption2)
                                         .foregroundStyle(.secondary)
@@ -236,6 +243,7 @@ struct DashboardView: View {
                     .cornerRadius(15)
                     .padding(.horizontal)
 
+                    // --- ประวัติการใช้จ่ายล่าสุด ---
                     VStack(alignment: .leading) {
                         Text("ประวัติการใช้จ่ายล่าสุด")
                             .font(.headline)
@@ -266,7 +274,7 @@ struct DashboardView: View {
                                                 .foregroundStyle(.secondary)
                                         }
                                         Spacer()
-                                        // 💡 แก้ THB เป็นคำว่า บาท ตรงประวัติล่าสุดด้วยครับ
+                                        
                                         Text("- \(slip.amount, format: .number.precision(.fractionLength(2))) บาท")
                                             .font(.body)
                                             .bold()
