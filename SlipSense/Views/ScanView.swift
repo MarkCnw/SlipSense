@@ -2,24 +2,27 @@ import SwiftUI
 
 struct ScanView: View {
     // 💡 สังเกตว่าเราไม่ต้องมีคำว่า private ก็ได้ และตอนเรียกใช้จะไม่ใส่ $
-    @State var photoManager = PhotoManager()
+    
+    @State private var photoService = PhotoService()
+    @State private var slipParserService = SlipParserService()
+    @State private var slipRecordService = SlipRecordService()
     
     var body: some View {
         NavigationStack {
             Group {
                 
-                if photoManager.hasPermission {
-                    // 💡 ตรงนี้ต้องเป็น photoManager.albums เฉยๆ (ห้ามมี $)
-                    List(photoManager.albums) { album in
-                                            // 💡 เอา NavigationLink มาครอบตรงนี้! เพื่อเชื่อมไปหน้า AlbumDetailView
-                                            NavigationLink(destination: AlbumDetailView(album: album, photoManager: photoManager)) {
-                                                HStack {
-                                                    Text(album.name).font(.headline)
-                                                    Spacer()
-                                                    Text("\(album.photoCount) รูป").foregroundStyle(.secondary)
-                                                }
-                                            }
-                                        }
+                if photoService.hasPermission {
+                    
+                    List(photoService.albums) { album in
+                        // 💡 เอา NavigationLink มาครอบตรงนี้! เพื่อเชื่อมไปหน้า AlbumDetailView
+                        NavigationLink(destination: AlbumDetailView(album: album, photoService: photoService)) {
+                            HStack {
+                                Text(album.name).font(.headline)
+                                Spacer()
+                                Text("\(album.photoCount) รูป").foregroundStyle(.secondary)
+                            }
+                        }
+                    }
                 } else {
                     VStack(spacing: 20) {
                         Image(systemName: "photo.on.rectangle.angled")
@@ -29,7 +32,7 @@ struct ScanView: View {
                             .font(.headline)
                         
                         Button("ขออนุญาตอีกครั้ง") {
-                            Task { await photoManager.requestPermission() }
+                            Task { await photoService.requestPermission() }
                         }
                         .buttonStyle(.borderedProminent)
                     }
@@ -37,7 +40,7 @@ struct ScanView: View {
             }
             .navigationTitle("ค้นหาอัลบั้มสลิป")
             .task {
-                await photoManager.requestPermission()
+                await photoService.requestPermission()
             }
         }
     }
