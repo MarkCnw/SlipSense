@@ -4,9 +4,23 @@ import SwiftData
 @Observable
 class SlipRecordService {
     
-    // 💡 อัปเดตเพิ่ม bankName: String และ memo: String เข้ามาในวงเล็บ
-    func processScannedSlip(amount: Double, date: Date, transID: String, assetIdentifier: String, bankName: String, memo: String, context: ModelContext) {
-        
+    /// onSkipped จะถูกเรียกเมื่อระบบตัดสินใจข้ามสลิป (เช่น โอนให้ตัวเองต่างธนาคาร)
+    func processScannedSlip(
+        amount: Double,
+        date: Date,
+        transID: String,
+        assetIdentifier: String,
+        bankName: String,
+        memo: String,
+        context: ModelContext,
+        onSkipped: ((String) -> Void)? = nil
+    ) {
+        // ✅ ด่านกันหลัก: ข้ามถ้าเป็น self-transfer ข้ามธนาคาร
+        if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: memo) {
+            onSkipped?("ไม่บันทึก: โอนให้ตัวเองต่างธนาคาร")
+            return
+        }
+
         let descriptor = FetchDescriptor<SlipRecord>(
             predicate: #Predicate { $0.assetIdentifier == assetIdentifier }
         )
@@ -14,9 +28,8 @@ class SlipRecordService {
         let existingSlips = try? context.fetch(descriptor)
         
         if let existing = existingSlips, !existing.isEmpty {
-            print("สลิปซ้ำ! ไม่บันทึกเพิ่ม")
+            onSkipped?("ไม่บันทึก: สลิปซ้ำ")
         } else {
-            // 💡 โยนค่า bankName กับ memo ใส่ลงไปตอนสร้าง Record ด้วย
             let newSlip = SlipRecord(
                 amount: amount,
                 scanDate: date,

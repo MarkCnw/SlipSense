@@ -7,7 +7,6 @@ struct AlbumDetailView: View {
     let album: AlbumInfo
     var photoService: PhotoService
     
-    // 💡 จ้างพนักงานใหม่ 2 คน
     @State private var slipParserService = SlipParserService()
     @State private var slipRecordService = SlipRecordService()
     
@@ -16,6 +15,7 @@ struct AlbumDetailView: View {
     
     @State private var isBatchScanning = false
     @State private var scannedCount = 0
+    @State private var skippedSelfTransferCount = 0
     
     let columns = [
         GridItem(.flexible(), spacing: 2),
@@ -48,6 +48,12 @@ struct AlbumDetailView: View {
                         ProgressView(value: Double(scannedCount), total: Double(assets.count))
                             .progressViewStyle(.linear)
                             .tint(.orange)
+                        
+                        if skippedSelfTransferCount > 0 {
+                            Text("ข้ามโอนให้ตัวเองต่างธนาคาร: \(skippedSelfTransferCount)")
+                                .font(.caption)
+                                .foregroundStyle(.white.opacity(0.9))
+                        }
                     }
                     .padding()
                     .background(Color.black.opacity(0.8))
@@ -74,10 +80,11 @@ struct AlbumDetailView: View {
         }
     }
     
-    // MARK: - 🚀 ระบบ AI สแกน (อัปเกรดอ่านชื่อธนาคาร)
+    // MARK: - 🚀 ระบบ AI สแกน
     private func startBatchScan() {
         isBatchScanning = true
         scannedCount = 0
+        skippedSelfTransferCount = 0
         let assetsToScan = self.assets
         
         Task.detached(priority: .userInitiated) {
@@ -90,6 +97,7 @@ struct AlbumDetailView: View {
             for asset in assetsToScan {
                 let assetID = asset.localIdentifier
                 
+                // กันสลิปซ้ำ
                 let isDuplicate = await MainActor.run {
                     let descriptor = FetchDescriptor<SlipRecord>(predicate: #Predicate { $0.assetIdentifier == assetID })
                     let existing = try? self.context.fetch(descriptor)
@@ -101,32 +109,53 @@ struct AlbumDetailView: View {
                     continue
                 }
                 
-                manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 800), contentMode: .aspectFit, options: options) { result, _ in
-                    if let image = result {
-                        if let extractedText = self.performOCR(on: image) {
-                            
-                            // 💡 1. ส่งให้พนักงานนักสืบไปอ่านยอดเงินและธนาคาร (แก้จาก if let เป็น let ธรรมดา เพราะไม่ได้เป็น Optional)
-                            let result = self.slipParserService.parseSlipData(from: extractedText)
-                            
-                            // 💡 2. ถ้ามียอดเงิน ถึงจะทำการบันทึก
-                            if let amount = result.amount {
-                                let bank = result.bank
-                                let memo = self.extractMemo(from: extractedText)
-                                
-                                Task { @MainActor in
-                                    // 💡 3. ส่งให้พนักงานโกดังไปเซฟลงฐานข้อมูล (เพิ่ม bankName กับ memo เข้าไปด้วย)
-                                    self.slipRecordService.processScannedSlip(
-                                        amount: amount,
-                                        date: asset.creationDate ?? Date(),
-                                        transID: "",
-                                        assetIdentifier: assetID,
-                                        bankName: bank,
-                                        memo: memo,
-                                        context: self.context
-                                    )
+                manager.requestImage(
+                    for: asset,
+                    targetSize: CGSize(width: 800, height: 800),
+                    contentMode: .aspectFit,
+                    options: options
+                ) { result, _ in
+                    guard let image = result else { return }
+                    guard let extractedText = self.performOCR(on: image), !extractedText.isEmpty else { return }
+                    print("----- OCR START -----")
+                    print(extractedText)
+                    print("----- OCR END -----")
+                    print("selfTransfer? \(SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: extractedText))")
+                    
+                    // ✅ ด่านที่ 1: กันก่อน parse
+                    if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: extractedText) {
+                        Task { @MainActor in
+                            self.skippedSelfTransferCount += 1
+                            print("⛔️ ข้ามสลิปโอนให้ตัวเองต่างธนาคาร (pre-check): \(assetID)")
+                        }
+                        return
+                    }
+                    print("Guard version: REGEX_PARTY_V1")
+                    print("selfTransfer? \(SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: extractedText))")
+                    
+                    let parseResult = self.slipParserService.parseSlipData(from: extractedText)
+                    guard let amount = parseResult.amount else { return }
+                    
+                    let bank = parseResult.bank
+                    let memo = self.extractMemo(from: extractedText)
+                    
+                    Task { @MainActor in
+                        // ✅ ด่านที่ 2: กันซ้ำตอนบันทึก (เผื่อหลุด)
+                        self.slipRecordService.processScannedSlip(
+                            amount: amount,
+                            date: asset.creationDate ?? Date(),
+                            transID: "",
+                            assetIdentifier: assetID,
+                            bankName: bank,
+                            memo: memo,
+                            context: self.context,
+                            onSkipped: { reason in
+                                if reason.contains("โอนให้ตัวเองต่างธนาคาร") {
+                                    self.skippedSelfTransferCount += 1
+                                    print("⛔️ \(reason) [\(assetID)]")
                                 }
                             }
-                        }
+                        )
                     }
                 }
                 
@@ -137,25 +166,24 @@ struct AlbumDetailView: View {
             
             await MainActor.run {
                 self.isBatchScanning = false
-                print("✅ สแกนและแยกหมวดหมู่ธนาคารเสร็จสมบูรณ์!")
+                print("✅ สแกนเสร็จ | ข้ามโอนตัวเองต่างธนาคาร: \(self.skippedSelfTransferCount) รายการ")
             }
         }
     }
     
     // MARK: - Helper Functions
-    
     private func preprocessImage(image: UIImage) -> CGImage? {
         guard let ciImage = CIImage(image: image) else { return image.cgImage }
         
-        let filter = CIFilter(name: "CIColorControls")!
+        guard let filter = CIFilter(name: "CIColorControls") else { return image.cgImage }
         filter.setValue(ciImage, forKey: kCIInputImageKey)
         filter.setValue(0.0, forKey: kCIInputSaturationKey)
         filter.setValue(1.8, forKey: kCIInputContrastKey)
         filter.setValue(0.1, forKey: kCIInputBrightnessKey)
         
-        let context = CIContext(options: nil)
+        let ciContext = CIContext(options: nil)
         if let output = filter.outputImage,
-           let cgImage = context.createCGImage(output, from: output.extent) {
+           let cgImage = ciContext.createCGImage(output, from: output.extent) {
             return cgImage
         }
         
@@ -168,7 +196,7 @@ struct AlbumDetailView: View {
         let request = VNRecognizeTextRequest { request, _ in
             guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
             let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
-            combinedText += recognizedStrings.joined(separator: " ") + " "
+            combinedText += recognizedStrings.joined(separator: "\n") + "\n"
         }
         
         request.recognitionLanguages = ["th-TH", "en-US"]
@@ -185,11 +213,12 @@ struct AlbumDetailView: View {
             try? handler2.perform([request])
         }
         
-        return combinedText
+        let cleaned = combinedText.trimmingCharacters(in: .whitespacesAndNewlines)
+        return cleaned.isEmpty ? nil : cleaned
     }
         
     private func extractMemo(from text: String) -> String {
-        return text.replacingOccurrences(of: "\n", with: " ")
+        text.replacingOccurrences(of: "\n", with: " ")
     }
 }
 
@@ -214,7 +243,12 @@ struct ThumbnailView: View {
             options.deliveryMode = .opportunistic
             options.isNetworkAccessAllowed = true
             
-            manager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options) { result, _ in
+            manager.requestImage(
+                for: asset,
+                targetSize: CGSize(width: 300, height: 300),
+                contentMode: .aspectFill,
+                options: options
+            ) { result, _ in
                 DispatchQueue.main.async {
                     if let result = result {
                         self.image = result
