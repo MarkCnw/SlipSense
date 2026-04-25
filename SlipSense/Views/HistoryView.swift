@@ -7,11 +7,10 @@ struct HistoryView: View {
     @Query(sort: \SlipRecord.scanDate, order: .reverse) private var slips: [SlipRecord]
     
     @State private var searchText = ""
-    @State private var selectedBank = "ทั้งหมด"
+    @State private var selectedBank: BankType = .all // 💡 ใช้ Enum แทน String
     
-    let banks = ["ทั้งหมด", "KBANK", "SCB", "BBL", "KTB", "BAY", "TTB", "ออมสิน", "ไม่ระบุ"]
+    private let accentColor = Color.indigo
     
-    // ตั้งค่าคอลัมน์สำหรับโชว์ตารางรูปภาพ (3 รูปต่อแถว)
     let gridColumns = [
         GridItem(.flexible(), spacing: 2),
         GridItem(.flexible(), spacing: 2),
@@ -19,180 +18,146 @@ struct HistoryView: View {
     ]
     
     var filteredSlips: [SlipRecord] {
-            var result = slips
-            if selectedBank != "ทั้งหมด" {
-                result = result.filter { $0.bankName == selectedBank }
-            }
-            if !searchText.isEmpty {
-                // 💡 อัปเกรดระบบค้นหาให้ฉลาดและยืดหยุ่นขึ้น
-                result = result.filter {
-                    String($0.amount).localizedStandardContains(searchText) ||
-                    $0.bankName.localizedStandardContains(searchText) ||
-                    $0.memo.localizedStandardContains(searchText)
-                }
-            }
-            return result
+        var result = slips
+        
+        // 💡 กรองตามธนาคาร: เช็คว่าถ้าไม่ใช่ .all ให้เอา rawValue (String) ไปเทียบกับฐานข้อมูล
+        if selectedBank != .all {
+            result = result.filter { $0.bankName == selectedBank.rawValue }
         }
+        
+        if !searchText.isEmpty {
+            result = result.filter { slip in
+                let bank = BankType(rawValue: slip.bankName) ?? .unknown
+                return String(slip.amount).localizedStandardContains(searchText) ||
+                       bank.thaiName.localizedStandardContains(searchText) ||
+                       slip.memo.localizedStandardContains(searchText)
+            }
+        }
+        return result
+    }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // แถบเลือกธนาคาร (ซ่อนเมื่อกำลังค้นหา เพื่อเพิ่มพื้นที่โชว์รูป)
                 if searchText.isEmpty {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 10) {
-                            ForEach(banks, id: \.self) { bank in
+                        HStack(spacing: 24) {
+                            // 💡 วนลูปจาก BankType.allCases ได้เลย ไม่ต้องพิมพ์ Array เอง
+                            ForEach(BankType.allCases, id: \.self) { bank in
                                 Button(action: {
-                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                                         selectedBank = bank
                                     }
                                 }) {
-                                    Text(bank)
-                                        .font(.subheadline)
-                                        .fontWeight(selectedBank == bank ? .bold : .regular)
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 8)
-                                        .background(selectedBank == bank ? Color.orange : Color(.systemGray5))
-                                        .foregroundStyle(selectedBank == bank ? .white : .primary)
-                                        .clipShape(Capsule())
+                                    VStack(spacing: 10) {
+                                        BankLogoView(bank: bank, size: 54, isSelected: selectedBank == bank, accentColor: accentColor)
+                                        
+                                        Text(bank.shortName) // 💡 เรียกจาก Enum ตรงๆ
+                                            .font(.system(size: 13, weight: selectedBank == bank ? .bold : .medium))
+                                            .foregroundStyle(selectedBank == bank ? .primary : Color.gray)
+                                    }
+                                    .frame(width: 65)
                                 }
                             }
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
                     }
                     .background(Color(.systemBackground))
-                    
                     Divider()
-                } else {
-                    // แสดงผลลัพธ์การค้นหา
-                    HStack {
-                        Text("ผลการค้นหา \(filteredSlips.count) รายการ")
-                            .font(.headline)
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                    }
-                    .padding()
                 }
                 
-                // --- สลับ UI ระหว่าง List (ปกติ) และ Grid (เมื่อค้นหา) ---
-                if !searchText.isEmpty {
-                    // 🌟 โหมดค้นหา: โชว์เป็นตารางรูปภาพ (Grid)
-                    ScrollView {
-                        LazyVGrid(columns: gridColumns, spacing: 2) {
-                            ForEach(filteredSlips) { slip in
-                                NavigationLink(destination: SlipImageDetailView(slip: slip)) {
-                                    SlipThumbnailView(assetIdentifier: slip.assetIdentifier)
-                                        .frame(height: 130) // ปรับความสูงของรูป
-                                        .clipped()
+                // MARK: - รายการประวัติ
+                List {
+                    if filteredSlips.isEmpty {
+                        Text("ไม่มีประวัติรายจ่าย")
+                            .foregroundStyle(.secondary)
+                            .listRowSeparator(.hidden)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 40)
+                    } else {
+                        ForEach(filteredSlips) { slip in
+                            let currentBank = BankType(rawValue: slip.bankName) ?? .unknown
+                            
+                            NavigationLink(destination: SlipImageDetailView(slip: slip)) {
+                                HStack(spacing: 16) {
+                                    BankLogoView(bank: currentBank, size: 42, accentColor: accentColor)
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(currentBank == .unknown ? "รายการใช้จ่าย" : currentBank.thaiName)
+                                            .font(.system(size: 16, weight: .semibold))
+                                        
+                                        Text(formatThaiDate(slip.scanDate))
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(Color.gray)
+                                    }
+                                    Spacer()
+                                    Text("- \(slip.amount, format: .currency(code: "THB"))")
+                                        .font(.system(size: 17, weight: .bold))
+                                }
+                                .padding(.vertical, 6)
+                            }
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    context.delete(slip)
+                                } label: {
+                                    Label("ลบ", systemImage: "trash")
                                 }
                             }
                         }
                     }
-                } else {
-                    // 🌟 โหมดปกติ: โชว์เป็นรายการ (List)
-                    List {
-                        if filteredSlips.isEmpty {
-                            Text("ไม่มีประวัติรายจ่ายในหมวดหมู่นี้")
-                                .foregroundStyle(.secondary)
-                                .listRowSeparator(.hidden)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.top, 40)
-                        } else {
-                            ForEach(filteredSlips) { slip in
-                                NavigationLink(destination: SlipImageDetailView(slip: slip)) {
-                                    HStack(spacing: 15) {
-                                        Circle()
-                                            .fill(bankColor(for: slip.bankName).opacity(0.15))
-                                            .frame(width: 44, height: 44)
-                                            .overlay(
-                                                Text(slip.bankName == "ไม่ระบุ" ? "?" : String(slip.bankName.prefix(1)))
-                                                    .font(.headline)
-                                                    .foregroundStyle(bankColor(for: slip.bankName))
-                                            )
-                                        
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(slip.bankName == "ไม่ระบุ" ? "รายการใช้จ่าย" : "โอนจาก \(slip.bankName)")
-                                                .font(.headline)
-                                            Text(slip.scanDate.formatted(date: .abbreviated, time: .shortened))
-                                                .font(.caption)
-                                                .foregroundStyle(.secondary)
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        Text("- \(slip.amount, format: .currency(code: "THB"))")
-                                            .font(.body)
-                                            .bold()
-                                            .foregroundStyle(.primary)
-                                    }
-                                    .padding(.vertical, 4)
-                                }
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        context.delete(slip)
-                                    } label: {
-                                        Label("ลบ", systemImage: "trash")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .listStyle(.plain)
                 }
+                .listStyle(.plain)
             }
             .navigationTitle("ประวัติรายจ่าย")
-            .searchable(text: $searchText, prompt: "ค้นหายอดเงิน หรือ ธนาคาร...")
+            .searchable(text: $searchText, prompt: "ค้นหาด้วยยอดเงิน หรือ ชื่อธนาคาร")
         }
     }
     
-    private func bankColor(for bank: String) -> Color {
-        switch bank {
-        case "KBANK": return .green
-        case "SCB": return .purple
-        case "BBL": return .blue
-        case "KTB": return .cyan
-        case "BAY": return .yellow
-        case "TTB": return .orange
-        case "ออมสิน": return .pink
-        default: return .gray
-        }
+    private func formatThaiDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "th_TH")
+        formatter.calendar = Calendar(identifier: .buddhist)
+        formatter.dateFormat = "d MMM yyyy HH:mm 'น.'"
+        return formatter.string(from: date)
     }
 }
 
-// MARK: - คอมโพเนนต์ดึงรูป Thumbnail อัตโนมัติ (ใส่ไว้ท้ายไฟล์ HistoryView ได้เลย)
-struct SlipThumbnailView: View {
-    let assetIdentifier: String
-    @State private var image: UIImage?
+// MARK: - 🏦 Logo View (ปรับปรุงให้รับ BankType)
+struct BankLogoView: View {
+    let bank: BankType
+    let size: CGFloat
+    var isSelected: Bool = false
+    let accentColor: Color
     
     var body: some View {
-        Group {
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
+        ZStack {
+            if bank == .all {
+                Circle()
+                    .fill(isSelected ? accentColor : accentColor.opacity(0.1))
+                Image(systemName: "square.grid.2x2.fill")
+                    .font(.system(size: size * 0.4))
+                    .foregroundStyle(isSelected ? .white : accentColor)
+            } else if bank == .unknown {
+                Circle()
+                    .fill(Color(.systemGray6))
+                Image(systemName: "ellipsis")
+                    .font(.system(size: size * 0.4, weight: .bold))
+                    .foregroundStyle(.gray)
             } else {
-                Color.gray.opacity(0.2)
+                Image(bank.logoName)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .background(Circle().fill(.white))
             }
         }
-        .onAppear {
-            fetchImage()
-        }
-    }
-    
-    private func fetchImage() {
-        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [assetIdentifier], options: nil)
-        guard let asset = fetchResult.firstObject else { return }
-        
-        let manager = PHImageManager.default()
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .opportunistic
-        options.isNetworkAccessAllowed = true
-        
-        manager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill, options: options) { result, _ in
-            DispatchQueue.main.async {
-                self.image = result
-            }
-        }
+        .frame(width: size, height: size)
+        .overlay(
+            Circle()
+                .stroke(isSelected ? accentColor : Color.clear, lineWidth: 2.5)
+                .padding(-4)
+        )
+        .shadow(color: isSelected ? accentColor.opacity(0.2) : .clear, radius: 8, y: 4)
     }
 }

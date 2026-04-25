@@ -5,7 +5,11 @@ import SwiftData
 
 struct AlbumDetailView: View {
     let album: AlbumInfo
-    var photoManager: PhotoManager
+    var photoService: PhotoService
+    
+    // 💡 จ้างพนักงานใหม่ 2 คน
+    @State private var slipParserService = SlipParserService()
+    @State private var slipRecordService = SlipRecordService()
     
     @Environment(\.modelContext) private var context
     @State private var assets: [PHAsset] = []
@@ -66,7 +70,7 @@ struct AlbumDetailView: View {
             }
         }
         .onAppear {
-            assets = photoManager.fetchPhotos(in: album.collection)
+            assets = photoService.fetchPhotos(in: album.collection)
         }
     }
     
@@ -100,23 +104,26 @@ struct AlbumDetailView: View {
                 manager.requestImage(for: asset, targetSize: CGSize(width: 800, height: 800), contentMode: .aspectFit, options: options) { result, _ in
                     if let image = result {
                         if let extractedText = self.performOCR(on: image) {
-                            if let amountStr = self.extractAmount(from: extractedText),
-                               let amount = Double(amountStr.replacingOccurrences(of: ",", with: "")) {
-                                
-                                // 💡 ตรวจจับชื่อธนาคารจากข้อความที่ AI อ่านได้
-                                let detectedBank = self.detectBank(from: extractedText)
-                                let extractedMemo = self.extractMemo(from: extractedText) // 💡 ดึงข้อความ Memo
+                            
+                            // 💡 1. ส่งให้พนักงานนักสืบไปอ่านยอดเงินและธนาคาร (แก้จาก if let เป็น let ธรรมดา เพราะไม่ได้เป็น Optional)
+                            let result = self.slipParserService.parseSlipData(from: extractedText)
+                            
+                            // 💡 2. ถ้ามียอดเงิน ถึงจะทำการบันทึก
+                            if let amount = result.amount {
+                                let bank = result.bank
+                                let memo = self.extractMemo(from: extractedText)
                                 
                                 Task { @MainActor in
-                                    let newRecord = SlipRecord(
+                                    // 💡 3. ส่งให้พนักงานโกดังไปเซฟลงฐานข้อมูล (เพิ่ม bankName กับ memo เข้าไปด้วย)
+                                    self.slipRecordService.processScannedSlip(
                                         amount: amount,
-                                        scanDate: asset.creationDate ?? Date(),
-                                        assetIdentifier: assetID,    // 💡 ย้าย assetIdentifier มาไว้ตรงนี้ (ก่อน memo)
-                                        bankName: detectedBank,
-                                        memo: extractedMemo          // 💡 ย้าย memo มาไว้ล่างสุด
+                                        date: asset.creationDate ?? Date(),
+                                        transID: "",
+                                        assetIdentifier: assetID,
+                                        bankName: bank,
+                                        memo: memo,
+                                        context: self.context
                                     )
-                                    self.context.insert(newRecord)
-                                    try? self.context.save()
                                 }
                             }
                         }
@@ -135,125 +142,54 @@ struct AlbumDetailView: View {
         }
     }
     
-    // MARK: - Helper Functions (OCR)
-    // MARK: - 🚀 ฟังก์ชันปรับแต่งภาพ (เคลียร์ลายน้ำ เร่งสีตัวอักษร)
-        private func preprocessImage(image: UIImage) -> CGImage? {
-            // แปลงภาพให้อยู่ในรูปแบบที่ CoreImage จัดการได้
-            guard let ciImage = CIImage(image: image) else { return image.cgImage }
-            
-            // ใส่ฟิลเตอร์ ขาว-ดำ และ เร่งความคมชัด (Contrast)
-            let filter = CIFilter(name: "CIColorControls")!
-            filter.setValue(ciImage, forKey: kCIInputImageKey)
-            filter.setValue(0.0, forKey: kCIInputSaturationKey) // ลดสีเป็น 0 (ภาพขาวดำ)
-            filter.setValue(1.8, forKey: kCIInputContrastKey)   // เร่งความคมชัด 1.8 เท่า (ให้ตัวอักษรเด้งขึ้นมา)
-            filter.setValue(0.1, forKey: kCIInputBrightnessKey) // ปรับสว่างขึ้นนิดหน่อย
-            
-            // เรนเดอร์ภาพออกมาใหม่
-            let context = CIContext(options: nil)
-            if let output = filter.outputImage,
-               let cgImage = context.createCGImage(output, from: output.extent) {
-                return cgImage
-            }
-            
-            return image.cgImage // ถ้าแปลงล้มเหลว ให้ใช้รูปต้นฉบับ
-        }
-
-        // MARK: - Helper Functions (OCR)
-    // MARK: - Helper Functions (OCR ท่าไม้ตาย สแกน 2 รอบ)
-        private func performOCR(on image: UIImage) -> String? {
-            var combinedText = ""
-            
-            let request = VNRecognizeTextRequest { request, _ in
-                guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
-                // ดึงข้อความมาต่อกันด้วยเว้นวรรค
-                let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
-                combinedText += recognizedStrings.joined(separator: " ") + " "
-            }
-            
-            request.recognitionLanguages = ["th-TH", "en-US"]
-            request.recognitionLevel = .accurate
-            request.usesLanguageCorrection = false
-            
-            // 🚀 รอบที่ 1: สแกนจากรูปภาพสีต้นฉบับ
-            if let originalCG = image.cgImage {
-                let handler1 = VNImageRequestHandler(cgImage: originalCG, options: [:])
-                try? handler1.perform([request])
-            }
-            
-            // 🚀 รอบที่ 2: สแกนจากรูปภาพที่ล้างลายน้ำแล้ว (ขาวดำ)
-            if let processedCG = preprocessImage(image: image) {
-                let handler2 = VNImageRequestHandler(cgImage: processedCG, options: [:])
-                try? handler2.perform([request])
-            }
-            
-            // คืนค่าข้อความทั้งหมด (ทั้ง 2 รอบรวมกัน) ส่งไปเก็บเป็น Memo
-            return combinedText
-        }
-        
-        
-    // MARK: - 💡 ดึงข้อความทั้งหมดเพื่อทำระบบ Full-Text Search
-        private func extractMemo(from text: String) -> String {
-            // กวาดข้อความทุกบรรทัดที่ AI อ่านได้ มาต่อกันเป็นบรรทัดเดียว
-            // เพื่อเป็น "คีย์เวิร์ดซ่อน" ให้ระบบ Search ทำงานได้คลุมทุกคำบนสลิป!
-            return text.replacingOccurrences(of: "\n", with: " ")
-        }
+    // MARK: - Helper Functions
     
-    // 💡 ฟังก์ชันใหม่: แยกชื่อธนาคารจากข้อความบนสลิป
-    private func detectBank(from text: String) -> String {
-        let lowerText = text.lowercased().replacingOccurrences(of: " ", with: "")
+    private func preprocessImage(image: UIImage) -> CGImage? {
+        guard let ciImage = CIImage(image: image) else { return image.cgImage }
         
-        if lowerText.contains("kbank") || lowerText.contains("กสิกร") { return "KBANK" }
-        if lowerText.contains("scb") || lowerText.contains("ไทยพาณิชย์") { return "SCB" }
-        if lowerText.contains("bbl") || lowerText.contains("กรุงเทพ") { return "BBL" }
-        if lowerText.contains("ktb") || lowerText.contains("กรุงไทย") { return "KTB" }
-        if lowerText.contains("krungsri") || lowerText.contains("กรุงศรี") || lowerText.contains("bay") { return "BAY" }
-        if lowerText.contains("ttb") || lowerText.contains("ทหารไทยธนชาต") { return "TTB" }
-        if lowerText.contains("gsb") || lowerText.contains("ออมสิน") || lowerText.contains("mymo") { return "ออมสิน" }
+        let filter = CIFilter(name: "CIColorControls")!
+        filter.setValue(ciImage, forKey: kCIInputImageKey)
+        filter.setValue(0.0, forKey: kCIInputSaturationKey)
+        filter.setValue(1.8, forKey: kCIInputContrastKey)
+        filter.setValue(0.1, forKey: kCIInputBrightnessKey)
         
-        return "ไม่ระบุ"
+        let context = CIContext(options: nil)
+        if let output = filter.outputImage,
+           let cgImage = context.createCGImage(output, from: output.extent) {
+            return cgImage
+        }
+        
+        return image.cgImage
     }
-    
-    private func extractAmount(from text: String) -> String? {
-        let lines = text.components(separatedBy: "\n")
-        let pattern = #"\d{1,3}(?:,\d{3})*\.\d{2}"#
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return nil }
-        
-        let keywords = ["จำนวนเงิน", "ยอดโอน", "amount", "total amount", "thb", "โอนเงินสำเร็จ", "ยอดเงิน"]
-        let blacklist = ["ยอดเงินคงเหลือ", "available balance", "balance", "คงเหลือ"]
 
-        for (index, line) in lines.enumerated() {
-            let lowerLine = line.lowercased().replacingOccurrences(of: " ", with: "")
-            
-            if blacklist.contains(where: { lowerLine.contains($0) }) { continue }
-            
-            if keywords.contains(where: { lowerLine.contains($0) }) {
-                if let match = findFirstNumber(in: line, using: regex) { return match }
-                if index + 1 < lines.count {
-                    if let match = findFirstNumber(in: lines[index + 1], using: regex) { return match }
-                }
-            }
+    private func performOCR(on image: UIImage) -> String? {
+        var combinedText = ""
+        
+        let request = VNRecognizeTextRequest { request, _ in
+            guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
+            let recognizedStrings = observations.compactMap { $0.topCandidates(1).first?.string }
+            combinedText += recognizedStrings.joined(separator: " ") + " "
         }
         
-        var maxAmount = 0.0
-        var bestMatchStr: String? = nil
-        let allMatches = regex.matches(in: text, range: NSRange(location: 0, length: text.utf16.count))
-        for match in allMatches {
-            let matchStr = (text as NSString).substring(with: match.range)
-            let numberStr = matchStr.replacingOccurrences(of: ",", with: "")
-            if let value = Double(numberStr), value > maxAmount, value < 100000000 {
-                maxAmount = value
-                bestMatchStr = matchStr
-            }
+        request.recognitionLanguages = ["th-TH", "en-US"]
+        request.recognitionLevel = .accurate
+        request.usesLanguageCorrection = false
+        
+        if let originalCG = image.cgImage {
+            let handler1 = VNImageRequestHandler(cgImage: originalCG, options: [:])
+            try? handler1.perform([request])
         }
-        return bestMatchStr
+        
+        if let processedCG = preprocessImage(image: image) {
+            let handler2 = VNImageRequestHandler(cgImage: processedCG, options: [:])
+            try? handler2.perform([request])
+        }
+        
+        return combinedText
     }
-    
-    private func findFirstNumber(in text: String, using regex: NSRegularExpression) -> String? {
-        let nsString = text as NSString
-        if let firstMatch = regex.matches(in: text, range: NSRange(location: 0, length: nsString.length)).first {
-            return nsString.substring(with: firstMatch.range)
-        }
-        return nil
+        
+    private func extractMemo(from text: String) -> String {
+        return text.replacingOccurrences(of: "\n", with: " ")
     }
 }
 
