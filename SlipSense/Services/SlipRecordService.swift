@@ -3,8 +3,7 @@ import SwiftData
 
 @Observable
 class SlipRecordService {
-    
-    /// onSkipped จะถูกเรียกเมื่อระบบตัดสินใจข้ามสลิป (เช่น โอนให้ตัวเองต่างธนาคาร)
+    /// throw เฉพาะ save ผิดพลาด
     func processScannedSlip(
         amount: Double,
         date: Date,
@@ -12,34 +11,35 @@ class SlipRecordService {
         assetIdentifier: String,
         bankName: String,
         memo: String,
-        context: ModelContext,
-        onSkipped: ((String) -> Void)? = nil
-    ) {
-        // ✅ ด่านกันหลัก: ข้ามถ้าเป็น self-transfer ข้ามธนาคาร
-        if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: memo) {
-            onSkipped?("ไม่บันทึก: โอนให้ตัวเองต่างธนาคาร")
-            return
-        }
-
+        context: ModelContext
+    ) throws -> SlipScanStatus {
+        
+        // ด่านกันซ้ำใน service อีกชั้น
         let descriptor = FetchDescriptor<SlipRecord>(
             predicate: #Predicate { $0.assetIdentifier == assetIdentifier }
         )
         
-        let existingSlips = try? context.fetch(descriptor)
-        
-        if let existing = existingSlips, !existing.isEmpty {
-            onSkipped?("ไม่บันทึก: สลิปซ้ำ")
-        } else {
-            let newSlip = SlipRecord(
-                amount: amount,
-                scanDate: date,
-                assetIdentifier: assetIdentifier,
-                transactionID: transID,
-                bankName: bankName,
-                memo: memo
-            )
-            context.insert(newSlip)
-            try? context.save()
+        let existingSlips = try context.fetch(descriptor)
+        if !existingSlips.isEmpty {
+            return .skippedDuplicate
         }
+        
+        // ด่านกัน self-transfer อีกชั้น (defense in depth)
+        if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: memo) {
+            return .skippedSelfTransferCrossBank
+        }
+        
+        let newSlip = SlipRecord(
+            amount: amount,
+            scanDate: date,
+            assetIdentifier: assetIdentifier,
+            transactionID: transID,
+            bankName: bankName,
+            memo: memo
+        )
+        
+        context.insert(newSlip)
+        try context.save()
+        return .saved
     }
 }

@@ -7,15 +7,7 @@ enum SlipSelfTransferGuard {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
 
-        // สร้าง party จาก pattern 3 บรรทัด: name -> bank -> masked account
         let parties = extractPartiesByLineScan(from: lines)
-
-        // debug
-        print("GuardDebug parties.count = \(parties.count)")
-        for (i, p) in parties.enumerated() {
-            print("GuardDebug party[\(i)] name=\(p.name) bank=\(p.bank) account=\(p.account)")
-        }
-
         guard parties.count >= 2 else { return false }
 
         let p1 = parties[0]
@@ -24,12 +16,8 @@ enum SlipSelfTransferGuard {
         let b1 = normalizeBank(p1.bank)
         let b2 = normalizeBank(p2.bank)
 
-        guard !b1.isEmpty, !b2.isEmpty else { return false }
-        guard b1 != b2 else { return false }
-
-        let same = isLikelySamePerson(p1.name, p2.name)
-        print("GuardDebug samePerson=\(same), bank1=\(b1), bank2=\(b2)")
-        return same
+        guard !b1.isEmpty, !b2.isEmpty, b1 != b2 else { return false }
+        return isLikelySamePerson(p1.name, p2.name)
     }
 }
 
@@ -42,10 +30,8 @@ private extension SlipSelfTransferGuard {
 
     static func extractPartiesByLineScan(from lines: [String]) -> [Party] {
         guard lines.count >= 3 else { return [] }
-
         var result: [Party] = []
 
-        // scan window i, i+1, i+2
         for i in 0..<(lines.count - 2) {
             let l1 = lines[i]
             let l2 = lines[i + 1]
@@ -58,7 +44,7 @@ private extension SlipSelfTransferGuard {
             }
         }
 
-        // ลบซ้ำติดกันจาก OCR 2-pass
+        // dedup
         var dedup: [Party] = []
         for p in result {
             if let last = dedup.last,
@@ -69,28 +55,15 @@ private extension SlipSelfTransferGuard {
             }
             dedup.append(p)
         }
-
         return dedup
     }
 
     static func isLikelyNameLine(_ s: String) -> Bool {
-        let t = compact(s)
-
-        // ห้ามเป็นคำระบบ
-        let blocked = [
-            "โอนเงินสำเร็จ", "เลขที่รายการ", "จำนวน", "ค่าธรรมเนียม",
-            "วันที่ทำรายการ", "สแกนตรวจสอบสลิป", "จาก", "ไปยัง"
-        ]
+        let blocked = ["โอนเงินสำเร็จ", "เลขที่รายการ", "จำนวน", "ค่าธรรมเนียม", "วันที่ทำรายการ", "สแกนตรวจสอบสลิป", "จาก", "ไปยัง"]
         if blocked.contains(where: { s.contains($0) }) { return false }
-
-        // ห้ามเป็นธนาคาร
         if !normalizeBank(s).isEmpty { return false }
-
-        // ต้องไม่มีเลข
-        if t.range(of: #"\d"#, options: .regularExpression) != nil { return false }
-
-        // ต้องมีอักษรไทย/อังกฤษยาวพอ
-        return t.count >= 4
+        if compact(s).range(of: #"\d"#, options: .regularExpression) != nil { return false }
+        return compact(s).count >= 4
     }
 
     static func isBankLine(_ s: String) -> Bool {
@@ -99,17 +72,14 @@ private extension SlipSelfTransferGuard {
 
     static func isMaskedAccountLine(_ s: String) -> Bool {
         let t = compact(s)
-        // รองรับ xxx-X-X9592-x และแบบมีช่องว่าง
         guard t.count >= 8 else { return false }
         guard t.contains("x") else { return false }
         guard t.range(of: #"\d"#, options: .regularExpression) != nil else { return false }
-        guard t.range(of: #"^[x0-9\-]+$"#, options: .regularExpression) != nil else { return false }
-        return true
+        return t.range(of: #"^[x0-9\-]+$"#, options: .regularExpression) != nil
     }
 
     static func normalizeBank(_ raw: String) -> String {
         let t = compact(raw)
-
         if t.contains("ออมสิน") || t.contains("gsb") || t.contains("mymo") { return "GSB" }
         if t.contains("กสิกร") || t.contains("kbank") || t.contains("kplus") || t.contains("k-plus") || t.contains("ธกสิกรไทย") { return "KBANK" }
         if t.contains("ไทยพาณิชย์") || t.contains("scb") || t.contains("scbeasy") { return "SCB" }
@@ -119,7 +89,6 @@ private extension SlipSelfTransferGuard {
         if t.contains("ทีทีบี") || t.contains("ttb") || t.contains("tmbthanachart") || t.contains("ttbtouch") { return "TTB" }
         if t.contains("เกียรตินาคินภัทร") || t.contains("kkp") { return "KKP" }
         if t.contains("พร้อมเพย์") || t.contains("promptpay") { return "PROMPTPAY" }
-
         return ""
     }
 
@@ -139,51 +108,37 @@ private extension SlipSelfTransferGuard {
     static func isLikelySamePerson(_ lhs: String, _ rhs: String) -> Bool {
         let a = normalizeName(lhs)
         let b = normalizeName(rhs)
-
         guard !a.isEmpty, !b.isEmpty else { return false }
         if a == b { return true }
-
-        // 1) common prefix เดิม
         if commonPrefixLength(a, b) >= 6 { return true }
 
-        // 2) ✅ ใหม่: เทียบ "ชื่อจริง" token แรก
-        // ตัวอย่าง: "นาย ชินวงศ์ ม" กับ "นาย ชินวงศ์ มูลครบุรี" -> token แรก = "ชินวงศ์"
         let ta = firstNameToken(from: lhs)
         let tb = firstNameToken(from: rhs)
         if let ta, let tb, ta.count >= 4, tb.count >= 4, ta == tb {
             return true
         }
-
         return false
     }
 
     static func firstNameToken(from raw: String) -> String? {
-        // ลบคำนำหน้าไทยทั่วไปก่อน
         let cleaned = raw
             .replacingOccurrences(of: ".", with: " ")
             .replacingOccurrences(of: "*", with: " ")
             .trimmingCharacters(in: .whitespacesAndNewlines)
 
-        let rawTokens = cleaned
-            .components(separatedBy: .whitespaces)
-            .filter { !$0.isEmpty }
-
-        // ตัดคำนำหน้า
         let prefixes: Set<String> = ["นาย", "นาง", "นางสาว", "ด.ช", "ดช", "ด.ญ", "ดญ", "mr", "mrs", "ms"]
-        let tokens = rawTokens.filter { !prefixes.contains($0.lowercased()) }
+        let tokens = cleaned.components(separatedBy: .whitespaces)
+            .filter { !$0.isEmpty }
+            .filter { !prefixes.contains($0.lowercased()) }
 
         guard let first = tokens.first else { return nil }
-
-        // normalize เฉพาะ token
         let normalized = first.lowercased()
             .replacingOccurrences(of: #"[^a-zA-Zก-๙0-9]"#, with: "", options: .regularExpression)
-
         return normalized.isEmpty ? nil : normalized
     }
 
     static func commonPrefixLength(_ a: String, _ b: String) -> Int {
-        let aa = Array(a)
-        let bb = Array(b)
+        let aa = Array(a), bb = Array(b)
         let n = min(aa.count, bb.count)
         var i = 0
         while i < n, aa[i] == bb[i] { i += 1 }
