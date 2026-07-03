@@ -7,7 +7,7 @@ import SwiftUI
 @Observable
 final class AlbumDetailViewModel {
     private let photoService: PhotoService
-    private var coordinator = SlipScanCoordinator()
+    private let imageProvider = PhotoImageProvider()
     
     var assets: [PHAsset] = []
     var isBatchScanning = false
@@ -40,6 +40,30 @@ final class AlbumDetailViewModel {
         guard !assets.isEmpty, !isBatchScanning else { return }
         
         isBatchScanning = true
+        resetCounters()
+        
+        let assetsToScan = assets
+        let container = context.container
+        
+        Task(priority: .userInitiated) {
+            let worker = SlipScanWorker(modelContainer: container)
+            
+            // 📍 1. ปล่อยหลังบ้านรันยาวๆ หน้าจอจะโชว์ลูกข่างหมุนชิลๆ ไม่แลคแน่นอน
+            await worker.batchScan(assets: assetsToScan, imageProvider: imageProvider) { result in
+                Task { @MainActor in
+                    self.scannedCount += 1
+                    self.consume(result)
+                }
+            }
+            
+            // 📍 2. อัปเดตสถานะเมื่อเสร็จสิ้น
+            await MainActor.run {
+                self.isBatchScanning = false
+                print("✅ scan done | บันทึก: \(self.savedCount) ซ้ำ: \(self.skippedDuplicateCount)")
+            }
+        }
+    }
+    private func resetCounters() {
         scannedCount = 0
         savedCount = 0
         skippedDuplicateCount = 0
@@ -47,50 +71,6 @@ final class AlbumDetailViewModel {
         skippedNoAmountCount = 0
         skippedNoOCRCount = 0
         failedCount = 0
-        
-        // capture บน MainActor ก่อนเข้า detached
-        let assetsToScan = assets
-        let coordinator = self.coordinator
-        
-        Task.detached(priority: .userInitiated) { [weak self] in
-            guard let self else { return }
-            
-            let manager = PHImageManager.default()
-            let options = PHImageRequestOptions()
-            options.deliveryMode = .highQualityFormat
-            options.isNetworkAccessAllowed = true
-            options.isSynchronous = true
-            
-            for asset in assetsToScan {
-                manager.requestImage(
-                    for: asset,
-                    targetSize: CGSize(width: 900, height: 900),
-                    contentMode: .aspectFit,
-                    options: options
-                ) { [weak self] image, _ in
-                    guard let self, let image else { return }
-                    
-                    let result = coordinator.scanAndStore(
-                        asset: asset,
-                        image: image,
-                        context: context
-                    )
-                    
-                    Task { @MainActor in
-                        self.consume(result)
-                    }
-                }
-                
-                await MainActor.run {
-                    self.scannedCount += 1
-                }
-            }
-            
-            await MainActor.run {
-                self.isBatchScanning = false
-                print("✅ scan done | \(self.summaryText)")
-            }
-        }
     }
     
     private func consume(_ result: SlipScanResult) {
@@ -110,3 +90,4 @@ final class AlbumDetailViewModel {
         }
     }
 }
+

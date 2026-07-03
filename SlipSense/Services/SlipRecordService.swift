@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-@Observable
-class SlipRecordService {
+
+struct SlipRecordService {
     /// throw เฉพาะ save ผิดพลาด
     func processScannedSlip(
         amount: Double,
@@ -24,10 +24,6 @@ class SlipRecordService {
             return .skippedDuplicate
         }
         
-        // ด่านกัน self-transfer อีกชั้น (defense in depth)
-        if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: memo) {
-            return .skippedSelfTransferCrossBank
-        }
         
         let newSlip = SlipRecord(
             amount: amount,
@@ -43,3 +39,4 @@ class SlipRecordService {
         return .saved
     }
 }
+

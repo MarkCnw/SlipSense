@@ -22,7 +22,7 @@ final class OCRService: Sendable {
         let request = VNRecognizeTextRequest { request, _ in
             guard let observations = request.results as? [VNRecognizedTextObservation] else { return }
             let strings = observations.compactMap { $0.topCandidates(1).first?.string }
-            combinedText += strings.joined(separator: " ") + " "
+            combinedText += strings.joined(separator: "\n") + "\n"
         }
         request.recognitionLanguages = ["th-TH", "en-US"]
         request.recognitionLevel = .accurate

@@ -1,25 +1,21 @@
 import SwiftUI
-import Photos
 
 struct SlipImageDetailView: View {
     let slip: SlipRecord
-    
-    @State private var image: UIImage?
-    @State private var isLoading = true
+    @State private var viewModel = SlipImageDetailViewModel()
     
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // ส่วนแสดงรูปภาพสลิป
                 Group {
-                    if let image = image {
+                    if let image = viewModel.image {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFit()
                             .cornerRadius(16)
                             .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
                             .padding(.horizontal)
-                    } else if isLoading {
+                    } else if viewModel.isLoading {
                         VStack(spacing: 16) {
                             ProgressView()
                                 .scaleEffect(1.5)
@@ -40,7 +36,6 @@ struct SlipImageDetailView: View {
                 }
                 .padding(.top)
                 
-                // การ์ดแสดงรายละเอียด
                 VStack(spacing: 16) {
                     DetailRow(title: "ธนาคาร", value: slip.bankName)
                     Divider()
@@ -58,50 +53,10 @@ struct SlipImageDetailView: View {
         .navigationTitle("รายละเอียดสลิป")
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemGroupedBackground))
-        .onAppear {
-            loadImageFromDevice()
-        }
-    }
-    
-    // ฟังก์ชันดึงรูปภาพจาก Photos ด้วย assetIdentifier
-    private func loadImageFromDevice() {
-        let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [slip.assetIdentifier], options: nil)
-        
-        guard let asset = fetchResult.firstObject else {
-            isLoading = false
-            return
-        }
-        
-        let manager = PHImageManager.default()
-        let options = PHImageRequestOptions()
-        options.deliveryMode = .highQualityFormat
-        options.isNetworkAccessAllowed = true
-        
-        // ดึงรูปขนาดเต็ม (MaximumSize) เพื่อให้เห็นตัวหนังสือชัดเจน
-        manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: options) { result, _ in
-            DispatchQueue.main.async {
-                self.image = result
-                self.isLoading = false
-            }
+        .task {
+            viewModel.loadImage(assetIdentifier: slip.assetIdentifier)
         }
     }
 }
 
-// คอมโพเนนต์ช่วยวาดแถวรายละเอียดให้สวยงาม
-struct DetailRow: View {
-    let title: String
-    let value: String
-    var isHighlight: Bool = false
-    
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundStyle(.secondary)
-            Spacer()
-            Text(value)
-                .fontWeight(isHighlight ? .bold : .medium)
-                .foregroundStyle(isHighlight ? .primary : .primary)
-                .font(isHighlight ? .title3 : .body)
-        }
-    }
-}
+

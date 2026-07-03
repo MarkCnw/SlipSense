@@ -2,15 +2,88 @@ import SwiftUI
 import SwiftData
 import Charts
 
-// MARK: - Main View
 struct DashboardView: View {
-    @Environment(\.modelContext) private var context
-    @Query(sort: \SlipRecord.scanDate, order: .reverse) private var slips: [SlipRecord]
+    // 📍 1. ดึง ModelContext สำหรับเซฟข้อมูลลงฐานข้อมูล
+    @Environment(\.modelContext) private var modelContext
     
-    // 💡 เรียกใช้งาน ViewModel ตรงนี้ที่เดียว
+    @Query(sort: \SlipRecord.scanDate, order: .reverse) private var slips: [SlipRecord]
     @State private var viewModel = DashboardViewModel()
     
-    // MARK: - Constants
+    // 📍 2. ประกาศตัวแปร Services สำหรับทำ Auto-Sync เบื้องหลัง
+    @State private var photoProvider = PhotoImageProvider()
+    @State private var photoService = PhotoService()
+
+    
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                let periodSlips = viewModel.filteredSlips(from: slips)
+                
+                VStack(spacing: 25) {
+                    TimeFramePickerSection(viewModel: viewModel)
+                    DonutChartSection(
+                        viewModel: viewModel,
+                        currentPeriodTotal: viewModel.totalAmount(from: periodSlips),
+                        bankSpendData: viewModel.bankSpendData(from: periodSlips)
+                    )
+                    DailyTrendChartSection(
+                        viewModel: viewModel,
+                        chartData: viewModel.chartData(from: periodSlips)
+                    )
+                    TimeSpendChartSection(
+                        timeSpendData: viewModel.timeSpendData(from: periodSlips)
+                    )
+                    
+                }
+                .padding(.bottom, 30)
+            }
+            .navigationTitle("แดชบอร์ด")
+            .background(Color(.systemGroupedBackground))
+            
+            // 📍 3. สั่งให้ AI วิ่งไปหาสลิปใหม่ทันทีที่หน้าแดชบอร์ดเปิดขึ้นมา
+            .task {
+                await viewModel.autoSyncBankSlips(
+                    context: modelContext,
+                    photoProvider: photoProvider,
+                    photoService: photoService,
+                  
+                )
+            }
+            
+            .onChange(of: viewModel.selectedTimeframe) { _, newValue in
+                if newValue == .custom {
+                    viewModel.showDatePickerSheet = true
+                }
+            }
+            .sheet(isPresented: $viewModel.showDatePickerSheet) {
+                DatePickerSheet(viewModel: viewModel)
+            }
+        }
+    }
+}
+
+// MARK: - Subviews
+
+struct TimeFramePickerSection: View {
+    @Bindable var viewModel: DashboardViewModel
+    
+    var body: some View {
+        Picker("ช่วงเวลา", selection: $viewModel.selectedTimeframe) {
+            ForEach(DashboardTimeframe.allCases, id: \.self) { timeframe in
+                Text(LocalizedStringKey(timeframe.rawValue)).tag(timeframe)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding(.horizontal)
+        .padding(.top, 10)
+    }
+}
+
+struct DonutChartSection: View {
+    let viewModel: DashboardViewModel
+    let currentPeriodTotal: Double
+    let bankSpendData: [BankSpendData]
+    
     private let bankColors: KeyValuePairs<String, Color> = [
         "กสิกร": .green,
         "ไทยพาณิชย์": .purple,
@@ -22,60 +95,12 @@ struct DashboardView: View {
         "ไม่ระบุ": .gray
     ]
     
-    private let dailyChartGradient = LinearGradient(colors: [Color.indigo.opacity(0.8), Color.blue.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-    private let timeSpendGradient = LinearGradient(colors: [Color.indigo.opacity(0.8), Color.purple.opacity(0.5)], startPoint: .leading, endPoint: .trailing)
-    
-    // MARK: - Body
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 25) {
-                    timeFramePickerSection
-                    donutChartSection
-                    dailyTrendChartSection
-                    timeSpendChartSection
-                    recentHistorySection
-                }
-                .padding(.bottom, 30)
-            }
-            .navigationTitle("แดชบอร์ด")
-            .background(Color(.systemGroupedBackground))
-            .onChange(of: viewModel.selectedTimeframe) { oldValue, newValue in
-                if newValue == .custom {
-                    viewModel.showDatePickerSheet = true
-                }
-            }
-            .sheet(isPresented: $viewModel.showDatePickerSheet) {
-                datePickerSheet
-            }
-        }
-    }
-}
-
-// MARK: - 🧩 ชิ้นส่วน UI (Subviews)
-extension DashboardView {
-    
-    private var timeFramePickerSection: some View {
-        Picker("ช่วงเวลา", selection: $viewModel.selectedTimeframe) {
-            ForEach(DashboardTimeframe.allCases, id: \.self) { timeframe in
-                Text(LocalizedStringKey(timeframe.rawValue)).tag(timeframe)
-            }
-        }
-        .pickerStyle(.segmented)
-        .padding(.horizontal)
-        .padding(.top, 10)
-    }
-    
     private func colorForBank(_ name: String) -> Color {
         bankColors.first(where: { $0.key == name })?.value ?? .gray
     }
     
-    private var donutChartSection: some View {
-        // ดึงข้อมูลผ่าน ViewModel
-        let bankSpendData = viewModel.bankSpendData(from: slips)
-        let currentPeriodTotal = viewModel.totalAmount(from: slips)
-        
-        return VStack(alignment: .leading, spacing: 16) {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("สัดส่วนการโอน")
@@ -87,8 +112,7 @@ extension DashboardView {
                 Spacer()
                 
                 if let top = bankSpendData.first {
-                    // ใช้ bank.rawValue เพื่อดึงค่า String กลับมา
-                    Text("สูงสุด: \(thaiBankShortName(for: top.bank.rawValue))")
+                    Text("สูงสุด: \(viewModel.displayBankName(fromCode: top.bank.rawValue))")
                         .font(.caption.weight(.semibold))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
@@ -99,7 +123,6 @@ extension DashboardView {
 
             if currentPeriodTotal > 0 {
                 HStack(spacing: 16) {
-                    // MARK: Donut chart
                     Chart(bankSpendData) { item in
                         SectorMark(
                             angle: .value("ยอดเงิน", item.amount),
@@ -107,7 +130,7 @@ extension DashboardView {
                             angularInset: 2
                         )
                         .cornerRadius(6)
-                        .foregroundStyle(by: .value("ธนาคาร", thaiBankShortName(for: item.bank.rawValue)))
+                        .foregroundStyle(by: .value("ธนาคาร", viewModel.displayBankName(fromCode: item.bank.rawValue)))
                         .opacity(0.95)
                     }
                     .frame(width: 210, height: 210)
@@ -138,11 +161,11 @@ extension DashboardView {
                             .padding(24)
                     )
 
-                    // MARK: Custom legend
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(bankSpendData.prefix(5)) { item in
-                            let name = thaiBankShortName(for: item.bank.rawValue)
+                            let name = viewModel.displayBankName(fromCode: item.bank.rawValue)
                             let percent = (item.amount / currentPeriodTotal) * 100
+                            
                             HStack(spacing: 8) {
                                 Circle()
                                     .fill(colorForBank(name))
@@ -196,14 +219,24 @@ extension DashboardView {
         )
         .padding(.horizontal)
     }
+}
+
+struct DailyTrendChartSection: View {
+    let viewModel: DashboardViewModel
+    let chartData: [DailyExpense]
     
-    private var dailyTrendChartSection: some View {
+    private let dailyChartGradient = LinearGradient(
+        colors: [Color.indigo.opacity(0.8), Color.blue.opacity(0.5)],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("แนวโน้มการใช้จ่าย \(viewModel.daysInPeriod) วัน")
                 .font(.headline)
             
-            // ดึงข้อมูลผ่าน ViewModel
-            Chart(viewModel.chartData(from: slips)) { item in
+            Chart(chartData) { item in
                 BarMark(
                     x: .value("วันที่", item.date, unit: .day),
                     y: .value("ยอดเงิน", item.amount)
@@ -230,14 +263,23 @@ extension DashboardView {
         .cornerRadius(16)
         .padding(.horizontal)
     }
+}
+
+struct TimeSpendChartSection: View {
+    let timeSpendData: [TimeSpendData]
     
-    private var timeSpendChartSection: some View {
+    private let timeSpendGradient = LinearGradient(
+        colors: [Color.indigo.opacity(0.8), Color.purple.opacity(0.5)],
+        startPoint: .leading,
+        endPoint: .trailing
+    )
+    
+    var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text("ช่วงเวลาที่เสียเงินเยอะที่สุด")
                 .font(.headline)
             
-            // ดึงข้อมูลผ่าน ViewModel
-            Chart(viewModel.timeSpendData(from: slips)) { item in
+            Chart(timeSpendData) { item in
                 BarMark(
                     x: .value("ยอดเงิน", item.amount),
                     y: .value("ช่วงเวลา", item.period)
@@ -260,57 +302,14 @@ extension DashboardView {
         .cornerRadius(16)
         .padding(.horizontal)
     }
+}
+
+
+
+struct DatePickerSheet: View {
+    @Bindable var viewModel: DashboardViewModel
     
-    private var recentHistorySection: some View {
-        VStack(alignment: .leading) {
-            Text("ประวัติการใช้จ่ายล่าสุด")
-                .font(.headline)
-                .padding(.horizontal)
-            
-            if slips.isEmpty {
-                Text("ยังไม่มีข้อมูลสแกนรายจ่าย")
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding()
-            } else {
-                VStack(spacing: 0) {
-                    ForEach(slips.prefix(10)) { slip in
-                        HStack(spacing: 16) {
-                            Image(systemName: "creditcard.fill")
-                                .foregroundStyle(Color.indigo)
-                                .font(.title2)
-                                .frame(width: 44, height: 44)
-                                .background(Color.indigo.opacity(0.15))
-                                .clipShape(Circle())
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(slip.bankName == "ไม่ระบุ" ? "รายการใช้จ่าย" : "โอนจาก \(thaiBankShortName(for: slip.bankName))")
-                                    .font(.system(size: 16, weight: .semibold))
-                                
-                                Text(slip.scanDate.formatted(date: .abbreviated, time: .shortened))
-                                    .font(.system(size: 13))
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            
-                            Text("- \(slip.amount, format: .number.precision(.fractionLength(2)))")
-                                .font(.system(size: 16, weight: .bold))
-                        }
-                        .padding()
-                        
-                        if slip.id != slips.prefix(10).last?.id {
-                            Divider().padding(.leading, 70)
-                        }
-                    }
-                }
-                .background(Color(.secondarySystemGroupedBackground))
-                .cornerRadius(16)
-                .padding(.horizontal)
-            }
-        }
-    }
-    
-    private var datePickerSheet: some View {
+    var body: some View {
         NavigationStack {
             Form {
                 DatePicker("วันเริ่มต้น", selection: $viewModel.customStartDate, displayedComponents: .date)
@@ -326,20 +325,6 @@ extension DashboardView {
                 }
             }
             .presentationDetents([.height(300)])
-        }
-    }
-    
-    // ฟังก์ชันแปลงชื่อธนาคาร ยังคงเก็บไว้ใน View เพื่อใช้แสดงผล UI
-    private func thaiBankShortName(for code: String) -> String {
-        switch code {
-        case "KBANK": return "กสิกร"
-        case "SCB": return "ไทยพาณิชย์"
-        case "BBL": return "กรุงเทพ"
-        case "KTB": return "กรุงไทย"
-        case "BAY": return "กรุงศรี"
-        case "TTB": return "TTB"
-        case "ออมสิน": return "ออมสิน"
-        default: return "ไม่ระบุ"
         }
     }
 }

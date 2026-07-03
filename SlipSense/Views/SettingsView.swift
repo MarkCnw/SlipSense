@@ -3,89 +3,90 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
-    
-    // ดึงค่าการตั้งค่าจาก AppStorage ให้ตรงกับไฟล์ App หลัก
-    @AppStorage("appTheme") private var appTheme: Int = 0
-   
-    
-    @State private var showingDeleteAlert = false
-    
-    // ดึงเวอร์ชันของแอปจาก Xcode
-    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    @State private var viewModel = SettingsViewModel()
+    @AppStorage("userRealName") private var userRealName: String = ""
     
     var body: some View {
         NavigationStack {
-            List {
-                // --- ส่วนการปรากฏ (Theme & Language) ---
-                Section(header: Text("การปรากฏ")) {
-                    // เลือกธีม
+            // 📍 ใช้ Form ครอบทุก Section เพื่อให้เป็นไปตามมาตรฐานหน้า Settings ของ iOS
+            Form {
+                
+                // MARK: - Filter Settings
+                Section {
                     HStack {
-                        Image(systemName: appTheme == 1 ? "sun.max.fill" : (appTheme == 2 ? "moon.fill" : "circle.lefthalf.filled"))
-                            .foregroundStyle(.orange)
-                        Text("ธีม")
-                        Spacer()
-                        Picker("", selection: $appTheme) {
-                            Text("ระบบ").tag(0)
-                            Text("สว่าง").tag(1)
-                            Text("มืด").tag(2)
-                        }
-                        .pickerStyle(.segmented)
-                        .frame(width: 180)
+                        Image(systemName: "person.text.rectangle")
+                            .foregroundStyle(.blue)
+                            .frame(width: 28) // ล็อคความกว้างไอคอนให้ตรงกันทุกบรรทัด
+                        TextField("เช่น: สมหมาย ใจดี sommai jaidee", text: $userRealName)
                     }
-                    
-                   
-                    
+                } header: {
+                    Text("ชื่อจริงของคุณ (ไทยและอังกฤษ)")
+                } footer: {
+                    Text("พิมพ์เฉพาะ 'ชื่อจริง' ของคุณ เว้นวรรคด้วยภาษาไทยและอังกฤษ เพื่อให้แอปข้ามการบันทึก 'สลิปโอนเงินให้ตัวเอง' อัตโนมัติ")
                 }
                 
-                // --- โซนอันตราย ---
-                Section(header: Text("โซนอันตราย").foregroundStyle(.red)) {
-                    Button(action: { showingDeleteAlert = true }) {
-                        HStack {
-                            Image(systemName: "trash")
-                            Text("ล้างประวัติการสแกนทั้งหมด")
-                        }
-                        .foregroundStyle(.red)
-                    }
-                }
                 
-                // --- ข้อมูลแอป ---
-                Section(header: Text("เกี่ยวกับแอป")) {
+                
+                // MARK: - About App
+                Section {
                     HStack {
+                        Image(systemName: "info.circle.fill")
+                            .foregroundStyle(.gray)
+                            .frame(width: 28)
                         Text("เวอร์ชัน")
                         Spacer()
-                        Text(appVersion)
+                        Text(viewModel.appVersion)
                             .foregroundStyle(.secondary)
                     }
+                    
                     HStack {
+                        Image(systemName: "hammer.fill")
+                            .foregroundStyle(.gray)
+                            .frame(width: 28)
                         Text("ผู้พัฒนา")
                         Spacer()
                         Text("MarkCnw")
                             .foregroundStyle(.secondary)
                     }
+                } header: {
+                    Text("เกี่ยวกับแอป")
+                }
+                
+                // MARK: - Danger Zone
+                Section {
+                    // 📍 ใช้ role: .destructive ระบบจะทำตัวอักษรให้เป็นสีแดงตามมาตรฐาน HIG อัตโนมัติ
+                    Button(role: .destructive) {
+                        viewModel.showingDeleteAlert = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash.fill")
+                                .frame(width: 28)
+                            Text("ล้างประวัติการสแกนทั้งหมด")
+                        }
+                    }
+                } header: {
+                    Text("โซนอันตราย")
                 }
             }
-            // 💡 ข้อความทั้งหมดนี้ระบบจะนำไปแปลภาษาผ่าน Localizable.xcstrings ให้อัตโนมัติ
             .navigationTitle("การตั้งค่า")
-            .alert("ยืนยันการล้างข้อมูล?", isPresented: $showingDeleteAlert) {
+            .alert("ยืนยันการล้างข้อมูล?", isPresented: $viewModel.showingDeleteAlert) {
                 Button("ยกเลิก", role: .cancel) { }
                 Button("ลบทิ้งทั้งหมด", role: .destructive) {
-                    deleteAllData()
+                    viewModel.deleteAllData(context: context)
                 }
             } message: {
                 Text("ประวัติรายจ่ายทั้งหมดจะถูกลบ (รูปสลิปในเครื่องยังอยู่)")
             }
-        }
-    }
-    
-    // MARK: - ฟังก์ชันล้างข้อมูลประวัติทั้งหมด
-    private func deleteAllData() {
-        do {
-            // ลบข้อมูล SlipRecord ทั้งหมดในฐานข้อมูล
-            try context.delete(model: SlipRecord.self)
-            try context.save()
-            print("ล้างข้อมูลสำเร็จ!")
-        } catch {
-            print("เกิดข้อผิดพลาดในการลบข้อมูล: \(error.localizedDescription)")
+            .alert("ผิดพลาด", isPresented: Binding(
+                get: { viewModel.errorMessage != nil },
+                set: { if !$0 { viewModel.errorMessage = nil } }
+            )) {
+                Button("ตกลง", role: .cancel) {
+                    viewModel.errorMessage = nil
+                }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
 }

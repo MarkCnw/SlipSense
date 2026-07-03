@@ -1,7 +1,7 @@
 import Foundation
 
-@Observable
-class SlipParserService {
+
+struct SlipParserService {
     
     // MARK: - 👔 ฟังก์ชันหัวหน้างาน (รับข้อความ แล้วจ่ายงานให้ลูกน้อง)
     func parseSlipData(from text: String) -> (amount: Double?, bank: String) {
