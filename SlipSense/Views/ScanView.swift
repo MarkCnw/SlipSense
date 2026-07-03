@@ -1,38 +1,42 @@
 import SwiftUI
 
 struct ScanView: View {
-    // 💡 สังเกตว่าเราไม่ต้องมีคำว่า private ก็ได้ และตอนเรียกใช้จะไม่ใส่ $
-    
-    @State private var photoService = PhotoService()
-    @State private var slipParserService = SlipParserService()
-    @State private var slipRecordService = SlipRecordService()
+    @State private var viewModel = ScanViewModel()
     
     var body: some View {
         NavigationStack {
             Group {
-                
-                if photoService.hasPermission {
-                    
-                    List(photoService.albums) { album in
-                        // 💡 เอา NavigationLink มาครอบตรงนี้! เพื่อเชื่อมไปหน้า AlbumDetailView
-                        NavigationLink(destination: AlbumDetailView(album: album, photoService: photoService)) {
-                            HStack {
-                                Text(album.name).font(.headline)
-                                Spacer()
-                                Text("\(album.photoCount) รูป").foregroundStyle(.secondary)
+                if viewModel.hasPermission {
+                    List {
+                        // 💡 AlbumInfo เป็น Identifiable อยู่แล้ว เลยใช้แค่นี้ได้เลยครับ
+                        ForEach(viewModel.albums) { album in
+                            NavigationLink(destination: AlbumDetailView(album: album, photoService: viewModel.getService())) {
+                                HStack {
+                                    Text(album.name).font(.headline)
+                                    Spacer()
+                                    // 💡 แก้ตัวการที่ทำให้แอปแครชตรงนี้ครับ (photoCount)
+                                    Text("\(album.photoCount) รูป").foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
+                    .listStyle(.insetGrouped)
                 } else {
                     VStack(spacing: 20) {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 60))
-                            .foregroundStyle(.gray)
-                        Text("กรุณาอนุญาตการเข้าถึงรูปภาพ")
-                            .font(.headline)
+                            .foregroundStyle(.tertiary)
+                        Text("ต้องการสิทธิ์เข้าถึงรูปภาพ")
+                            .font(.title2.bold())
+                        Text("แอปจำเป็นต้องเข้าถึงอัลบั้มรูปภาพของคุณ เพื่อทำการสแกนสลิปโอนเงิน")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal)
                         
-                        Button("ขออนุญาตอีกครั้ง") {
-                            Task { await photoService.requestPermission() }
+                        Button("อนุญาตเข้าถึงรูปภาพ") {
+                            Task {
+                                await viewModel.requestPermission()
+                            }
                         }
                         .buttonStyle(.borderedProminent)
                     }
@@ -40,12 +44,8 @@ struct ScanView: View {
             }
             .navigationTitle("ค้นหาอัลบั้มสลิป")
             .task {
-                await photoService.requestPermission()
+                await viewModel.requestPermission()
             }
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

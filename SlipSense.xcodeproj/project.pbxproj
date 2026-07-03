@@ -6,8 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		F2887FB42F9DD4C8000FF09F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F28393542F798A1100ABA3D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F283935B2F798A1100ABA3D8;
+			remoteInfo = SlipSense;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		F283935C2F798A1100ABA3D8 /* SlipSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlipSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlipSenseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +27,22 @@
 			path = SlipSense;
 			sourceTree = "<group>";
 		};
+		F2887FB12F9DD4C8000FF09F /* SlipSenseTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SlipSenseTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F28393592F798A1100ABA3D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2887FAD2F9DD4C8000FF09F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				F283935E2F798A1100ABA3D8 /* SlipSense */,
+				F2887FB12F9DD4C8000FF09F /* SlipSenseTests */,
 				F283935D2F798A1100ABA3D8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				F283935C2F798A1100ABA3D8 /* SlipSense.app */,
+				F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +95,29 @@
 			productReference = F283935C2F798A1100ABA3D8 /* SlipSense.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F2887FAF2F9DD4C8000FF09F /* SlipSenseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2887FB82F9DD4C8000FF09F /* Build configuration list for PBXNativeTarget "SlipSenseTests" */;
+			buildPhases = (
+				F2887FAC2F9DD4C8000FF09F /* Sources */,
+				F2887FAD2F9DD4C8000FF09F /* Frameworks */,
+				F2887FAE2F9DD4C8000FF09F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2887FB52F9DD4C8000FF09F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				F2887FB12F9DD4C8000FF09F /* SlipSenseTests */,
+			);
+			name = SlipSenseTests;
+			packageProductDependencies = (
+			);
+			productName = SlipSenseTests;
+			productReference = F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -77,11 +125,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2640;
+				LastSwiftUpdateCheck = 2640;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					F283935B2F798A1100ABA3D8 = {
 						CreatedOnToolsVersion = 26.3;
+					};
+					F2887FAF2F9DD4C8000FF09F = {
+						CreatedOnToolsVersion = 26.4.1;
+						TestTargetID = F283935B2F798A1100ABA3D8;
 					};
 				};
 			};
@@ -101,12 +153,20 @@
 			projectRoot = "";
 			targets = (
 				F283935B2F798A1100ABA3D8 /* SlipSense */,
+				F2887FAF2F9DD4C8000FF09F /* SlipSenseTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F283935A2F798A1100ABA3D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2887FAE2F9DD4C8000FF09F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -123,7 +183,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2887FAC2F9DD4C8000FF09F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F2887FB52F9DD4C8000FF09F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F283935B2F798A1100ABA3D8 /* SlipSense */;
+			targetProxy = F2887FB42F9DD4C8000FF09F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F28393652F798A1100ABA3D8 /* Debug */ = {
@@ -131,6 +206,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -197,6 +273,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -319,6 +396,48 @@
 			};
 			name = Release;
 		};
+		F2887FB62F9DD4C8000FF09F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSenseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlipSense.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SlipSense";
+			};
+			name = Debug;
+		};
+		F2887FB72F9DD4C8000FF09F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSenseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlipSense.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SlipSense";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -336,6 +455,15 @@
 			buildConfigurations = (
 				F28393682F798A1100ABA3D8 /* Debug */,
 				F28393692F798A1100ABA3D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2887FB82F9DD4C8000FF09F /* Build configuration list for PBXNativeTarget "SlipSenseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2887FB62F9DD4C8000FF09F /* Debug */,
+				F2887FB72F9DD4C8000FF09F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
