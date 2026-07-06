@@ -7,11 +7,11 @@
 </h1>
 
 <p align="center">
-  <strong>An iOS application that automatically transforms bank transfer receipts into structured expense records using OCR technology.</strong>
+  <strong>แอปพลิเคชัน iOS ที่ช่วยแปลงสลิปโอนเงินให้เป็นข้อมูลรายจ่ายโดยอัตโนมัติด้วยเทคโนโลยี OCR</strong>
 </p>
 
 <p align="center">
-  Designed with a <strong>Privacy-First</strong> approach, all receipt processing and financial data remain <strong>100% on-device</strong>, with no images or financial information ever sent to external servers.
+  ออกแบบภายใต้แนวคิด <strong>Privacy-First</strong> โดยประมวลผลและจัดเก็บข้อมูลทั้งหมดภายในอุปกรณ์ (<strong>100% On-Device</strong>) ไม่มีการส่งรูปภาพหรือข้อมูลทางการเงินไปยังเซิร์ฟเวอร์ภายนอก
 </p>
 
 <p align="center">
@@ -28,35 +28,35 @@
 
 ---
 
-# 📖 Overview
+# 📖 ภาพรวมโปรเจกต์
 
-SlipSense is a native iOS application built with **Swift** and **SwiftUI** that automatically converts bank transfer receipts into structured expense records.
+SlipSense เป็นแอปพลิเคชัน iOS แบบ Native ที่พัฒนาด้วย **Swift** และ **SwiftUI** เพื่อช่วยให้การบันทึกรายจ่ายจากสลิปโอนเงินเป็นเรื่องอัตโนมัติ ลดการกรอกข้อมูลด้วยตนเอง และช่วยให้ผู้ใช้ติดตามพฤติกรรมการใช้จ่ายได้สะดวกยิ่งขึ้น
 
-Powered by Apple's **Vision Framework**, the application extracts text from receipt images using OCR, identifies the issuing financial institution, parses transaction details, and stores the processed data locally with **SwiftData**. Users can then visualize their spending through an interactive analytics dashboard.
+ระบบใช้ **Vision Framework** ของ Apple ในการอ่านข้อมูลจากรูปภาพสลิปด้วยเทคโนโลยี OCR จากนั้นวิเคราะห์ข้อมูล ระบุธนาคาร ดึงรายละเอียดของธุรกรรม และบันทึกลง **SwiftData** ก่อนนำข้อมูลมาแสดงผลผ่าน Dashboard แบบ Interactive
 
-All receipt processing is performed entirely on the device, ensuring complete privacy without uploading images or financial data to external servers.
-
----
-
-# ✨ Key Highlights
-
-- 📸 Automatically scans bank transfer receipts from the Photos library
-- 🔍 OCR-powered text recognition using Apple's Vision Framework
-- 🏦 Automatic bank identification and transaction parsing
-- 📊 Interactive dashboard with real-time spending analytics
-- 🎙️ Siri & App Intents integration
-- 🔎 Full-text transaction search
-- 🔒 100% on-device processing with no cloud dependency
+ข้อมูลทั้งหมดถูกประมวลผลและจัดเก็บภายในอุปกรณ์ (On-Device Processing) โดยไม่มีการอัปโหลดรูปภาพหรือข้อมูลทางการเงินไปยังเซิร์ฟเวอร์ภายนอก เพื่อรักษาความเป็นส่วนตัวของผู้ใช้อย่างสูงสุด
 
 ---
 
-# 🚀 App Showcase
+# ✨ ความสามารถหลัก
+
+- 📸 สแกนสลิปโอนเงินจากคลังภาพโดยอัตโนมัติ
+- 🔍 อ่านข้อความด้วย OCR ผ่าน Vision Framework
+- 🏦 ตรวจจับและจำแนกธนาคารอัตโนมัติ
+- 📊 Dashboard วิเคราะห์ข้อมูลการใช้จ่ายแบบ Real-time
+- 🎙️ รองรับ Siri และ App Intents
+- 🔎 ค้นหาประวัติธุรกรรมแบบ Full-Text Search
+- 🔒 ประมวลผลข้อมูลทั้งหมดภายในอุปกรณ์ (100% On-Device)
+
+---
+
+# 🚀 ตัวอย่างการทำงานของแอป
 
 ## 📸 Smart Auto-Scan
 
-On the first launch, SlipSense automatically scans all existing bank transfer receipts stored in the user's Photos library.
+เมื่อเปิดใช้งานครั้งแรก แอปจะค้นหาและสแกนสลิปโอนเงินทั้งหมดจากอัลบั้มรูปภาพโดยอัตโนมัติ
 
-After the initial scan, the OCR pipeline continuously detects and processes newly added receipts in the background, eliminating the need for manual expense logging.
+หลังจากการสแกนครั้งแรก ระบบ OCR จะทำงานเบื้องหลังเพื่อตรวจจับและประมวลผลสลิปใหม่ที่ถูกเพิ่มเข้ามา ทำให้ผู้ใช้ไม่จำเป็นต้องบันทึกรายจ่ายด้วยตนเองอีกต่อไป
 
 https://github.com/user-attachments/assets/6f87294f-9fc3-4fcc-a17a-1b7850d7d758
 
@@ -64,28 +64,28 @@ https://github.com/user-attachments/assets/6f87294f-9fc3-4fcc-a17a-1b7850d7d758
 
 ## 📊 Interactive Dashboard
 
-Visualize spending habits through an interactive dashboard featuring:
+Dashboard แสดงภาพรวมการใช้จ่ายผ่านกราฟแบบ Interactive พร้อมรองรับ
 
-- Daily Spending
-- Weekly Summary
-- Monthly Analytics
-- Custom Date Range
-- Bank Distribution
-- Time-of-Day Spending Analysis
+- รายจ่ายประจำวัน
+- สรุปรายสัปดาห์
+- สรุปรายเดือน
+- เลือกช่วงเวลาเอง (Custom Date Range)
+- สัดส่วนค่าใช้จ่ายแยกตามธนาคาร
+- วิเคราะห์ช่วงเวลาที่มีการใช้จ่ายมากที่สุด
 
 https://github.com/user-attachments/assets/4974909c-a22b-496b-8e8b-b6349f84da4b
 
 ---
 
-## 🎙️ Siri & Apple Intelligence
+## 🎙️ Siri และ Apple Intelligence
 
-SlipSense integrates with **App Intents** to support Siri and Apple Intelligence.
+SlipSense รองรับ **App Intents** เพื่อให้สามารถใช้งานร่วมกับ Siri และ Apple Intelligence ได้
 
-Users can ask Siri questions such as:
+ผู้ใช้สามารถถาม Siri ได้ เช่น
 
-> "How much did I spend today in SlipSense?"
+> "วันนี้ฉันใช้เงินไปเท่าไหร่ใน SlipSense"
 
-or search directly from Spotlight without opening the application.
+หรือค้นหาข้อมูลผ่าน Spotlight ได้ทันทีโดยไม่ต้องเปิดแอป
 
 https://github.com/user-attachments/assets/6a72e70c-7e27-43b3-adca-e7d2497794b2
 
@@ -93,39 +93,39 @@ https://github.com/user-attachments/assets/cb4e5a16-3606-4a24-b333-d5a70bcbf7fd
 
 ---
 
-# 🌟 Features
+# 🌟 ฟีเจอร์หลัก
 
-| Feature | Description |
+| ฟีเจอร์ | รายละเอียด |
 |----------|-------------|
-| 📸 Smart Auto Scan | Automatically detects and scans newly added bank transfer receipts |
-| 🧠 Self Transfer Guard | Prevents duplicate expense records by identifying transfers between the user's own bank accounts |
-| 📊 Dashboard Analytics | Interactive charts for spending insights and financial trends |
-| 🔍 Full-Text Search | Search transactions using any recognized text from receipts |
-| 🏦 Bank Detection | Automatically identifies supported financial institutions |
-| 🎙️ Siri Integration | Access spending information through Siri and App Intents |
-| 🔒 On-Device Processing | All receipt processing and financial data remain on the device |
+| 📸 Smart Auto Scan | ตรวจจับและสแกนสลิปโอนเงินใหม่จากคลังภาพโดยอัตโนมัติ |
+| 🧠 Self Transfer Guard | ป้องกันการบันทึกข้อมูลซ้ำจากการโอนเงินระหว่างบัญชีของผู้ใช้ |
+| 📊 Dashboard Analytics | วิเคราะห์ข้อมูลการใช้จ่ายผ่านกราฟและสถิติแบบ Interactive |
+| 🔍 Full-Text Search | ค้นหาธุรกรรมจากข้อความทั้งหมดที่ OCR อ่านได้ |
+| 🏦 Bank Detection | ตรวจจับและจำแนกธนาคารอัตโนมัติ |
+| 🎙️ Siri Integration | เรียกดูข้อมูลผ่าน Siri และ App Intents |
+| 🔒 On-Device Processing | ข้อมูลทั้งหมดถูกประมวลผลและจัดเก็บภายในอุปกรณ์ |
 
 ---
 
-# 🛠 Tech Stack
+# 🛠 เทคโนโลยีที่ใช้
 
-| Category | Technology |
-|----------|------------|
-| Language | Swift |
+| หมวดหมู่ | เทคโนโลยี |
+|----------|-----------|
+| ภาษา | Swift |
 | UI Framework | SwiftUI |
-| Architecture | MVVM |
-| Database | SwiftData |
+| สถาปัตยกรรม | MVVM |
+| ฐานข้อมูล | SwiftData |
 | OCR | Vision Framework |
-| Charts | Swift Charts |
-| Photo Library | PhotoKit |
-| Siri Integration | App Intents |
+| กราฟ | Swift Charts |
+| คลังรูปภาพ | PhotoKit |
+| Siri | App Intents |
 | Localization | String Catalog |
 
 ---
 
-# 🏛 Architecture
+# 🏛️ สถาปัตยกรรมของระบบ
 
-SlipSense follows the **MVVM (Model–View–ViewModel)** architecture to clearly separate presentation, business logic, and data management, resulting in a codebase that is maintainable, scalable, and easy to test.
+SlipSense ถูกออกแบบภายใต้สถาปัตยกรรม **MVVM (Model–View–ViewModel)** เพื่อแยกส่วนของ Presentation, Business Logic และ Data Layer ออกจากกันอย่างชัดเจน ทำให้โค้ดสามารถดูแลรักษา ขยายระบบ และทดสอบได้ง่าย
 
 ```text
                  SwiftUI Views
@@ -147,7 +147,7 @@ SlipSense follows the **MVVM (Model–View–ViewModel)** architecture to clearl
 
 ---
 
-# 📂 Project Structure
+# 📂 โครงสร้างโปรเจกต์
 
 ```text
 SlipSense
@@ -162,25 +162,25 @@ SlipSense
 └── Assets
 ```
 
-| Folder | Responsibility |
-|----------|---------------|
-| Models | Domain models and SwiftData schemas |
-| Views | SwiftUI user interface |
-| ViewModels | UI state management and presentation logic |
-| Services | OCR, image processing, parsing, and business logic |
-| Intents | Siri and App Intents integration |
-| Utilities | Shared helpers and extensions |
-| Resources | Localization files and application resources |
+| โฟลเดอร์ | หน้าที่ |
+|----------|----------|
+| Models | โมเดลข้อมูลและ SwiftData Schema |
+| Views | ส่วนติดต่อผู้ใช้ด้วย SwiftUI |
+| ViewModels | จัดการ State และ Presentation Logic |
+| Services | OCR, การประมวลผลรูปภาพ, Parser และ Business Logic |
+| Intents | รองรับ Siri และ App Intents |
+| Utilities | Helper และ Extension ที่ใช้ร่วมกัน |
+| Resources | ไฟล์ Localization และทรัพยากรของแอป |
 
 ---
 
-# 🔄 OCR Processing Pipeline
+# 🔄 กระบวนการประมวลผล OCR
 
 ```text
 📷 PhotoKit
       │
       ▼
-🖼 Image Pre-processing
+🖼 ปรับคุณภาพรูปภาพ
       │
       ▼
 🔍 Vision OCR
@@ -198,31 +198,31 @@ SlipSense
 📊 Dashboard
 ```
 
-### Processing Flow
+### ขั้นตอนการทำงาน
 
-1. Retrieve newly added receipt images from the Photos library.
-2. Enhance image quality to improve OCR accuracy.
-3. Extract Thai and English text using Vision Framework.
-4. Parse transaction details and identify the issuing financial institution.
-5. Detect and ignore transfers between the user's own bank accounts.
-6. Store validated transaction records in SwiftData.
-7. Refresh dashboard analytics in real time.
-
----
-
-# ⚙️ Engineering Challenges
-
-| Challenge | Solution | Result |
-|-----------|----------|--------|
-| OCR inaccuracies on Thai receipts | Two-pass OCR pipeline | Improved text recognition accuracy |
-| Different receipt layouts across banks | Bank-specific parsing strategy | Reliable extraction across multiple banks |
-| Duplicate records from self-transfers | Self Transfer Guard | Prevented duplicate expense entries |
-| Processing large numbers of receipts | Background batch scanning | Smooth performance with minimal UI impact |
-| Protecting user privacy | 100% on-device processing | No financial data leaves the device |
+1. ดึงรูปสลิปใหม่จากคลังภาพผ่าน PhotoKit
+2. ปรับคุณภาพของรูปภาพเพื่อเพิ่มความแม่นยำของ OCR
+3. อ่านข้อความภาษาไทยและภาษาอังกฤษด้วย Vision Framework
+4. วิเคราะห์ข้อมูลธุรกรรมและตรวจจับธนาคาร
+5. ตรวจสอบและกรองรายการที่เป็นการโอนเงินระหว่างบัญชีของผู้ใช้
+6. บันทึกข้อมูลที่ผ่านการตรวจสอบลง SwiftData
+7. อัปเดต Dashboard และสถิติการใช้จ่ายแบบ Real-time
 
 ---
 
-# 🚀 Getting Started
+# ⚙️ ความท้าทายในการพัฒนา
+
+| ความท้าทาย | วิธีแก้ไข | ผลลัพธ์ |
+|------------|-----------|----------|
+| OCR อ่านสลิปภาษาไทยคลาดเคลื่อน | Two-Pass OCR Pipeline | เพิ่มความแม่นยำในการอ่านข้อความ |
+| รูปแบบสลิปของแต่ละธนาคารแตกต่างกัน | Bank-Specific Parsing | รองรับหลายธนาคารได้อย่างถูกต้อง |
+| ธุรกรรมโอนเงินระหว่างบัญชีเดียวกัน | Self Transfer Guard | ป้องกันการบันทึกข้อมูลซ้ำ |
+| การประมวลผลรูปภาพจำนวนมาก | Background Batch Scanning | ลดผลกระทบต่อประสิทธิภาพของ UI |
+| ความเป็นส่วนตัวของข้อมูล | 100% On-Device Processing | ไม่มีข้อมูลทางการเงินออกจากอุปกรณ์ |
+
+---
+
+# 🚀 การติดตั้ง
 
 ```bash
 git clone https://github.com/MarkCnw/SlipSense.git
