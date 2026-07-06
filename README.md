@@ -38,7 +38,6 @@ Using Apple's **Vision Framework**, the application recognizes receipt content, 
 - 📊 Interactive spending dashboard with real-time analytics
 - 🎙️ Siri & App Intents integration
 - 🔎 Full-text transaction search
-- 🌓 Adaptive Light & Dark Mode
 - 🔒 100% On-device processing with no external servers
 
 ---
@@ -96,7 +95,6 @@ https://github.com/user-attachments/assets/cb4e5a16-3606-4a24-b333-d5a70bcbf7fd
 | 🔍 Full-text Search | Search transactions using any recognized receipt content |
 | 🏦 Bank Detection | Automatically identifies supported financial institutions |
 | 🎙️ Siri Integration | Query spending information through Siri and App Intents |
-| 🌓 Adaptive UI | Fully supports Light Mode and Dark Mode |
 | 🔒 On-device Processing | No cloud storage or external server communication |
 
 ---
@@ -227,18 +225,4 @@ cd SlipSense
 open SlipSense.xcodeproj
 ```
 
-### Requirements
 
-- Xcode 26 or later
-- iOS 26+
-- Swift 6
-
----
-
-# 👨‍💻 Author
-
-**Mark CNW**
-
-Computer Science Student
-
-Mobile Developer • Swift • Flutter
