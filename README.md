@@ -13,6 +13,9 @@ https://github.com/user-attachments/assets/4974909c-a22b-496b-8e8b-b6349f84da4b
 
 
 
+
+
+
 สามารถเช็คการใช้จ่ายวันนี้ผ่านSiri ai โดยพิมพ์ค้นหาในหน้าhome ว่า ยอดใช้จ่ายวันนี้จากนั้นsiri จะรายงานการใช้จ่ายของคุณ
 
 https://github.com/user-attachments/assets/6a72e70c-7e27-43b3-adca-e7d2497794b2
