@@ -10,7 +10,7 @@ Designed with privacy-first principles, all receipt processing and financial dat
 
 <p align="center">
 
-![Platform](https://img.shields.io/badge/iOS-26+-black?logo=apple)
+![Platform](https://img.shields.io/badge/iOS-17.0+-black?logo=apple)
 ![Swift](https://img.shields.io/badge/Swift-6-orange?logo=swift)
 ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-blue)
 ![Architecture](https://img.shields.io/badge/Architecture-MVVM-success)
