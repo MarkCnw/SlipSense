@@ -8,7 +8,11 @@
 
 
  เมื่อเข้าเเอปมมครั้งเเรกจะมีปุ่มให้สเเกนสลิปครั้งต่อไปไม่ต้องกดสเเกนเพราะocrจะเข้าไปอ่านสลิปอัตโนมัติทันทีเมื่อสเเกนจ่ายผ่านธนาคาร
-https://github.com/user-attachments/assets/05c1fb22-7441-446d-a35f-f10966921b73
+
+
+https://github.com/user-attachments/assets/6f87294f-9fc3-4fcc-a17a-1b7850d7d758
+
+
 
 
 
