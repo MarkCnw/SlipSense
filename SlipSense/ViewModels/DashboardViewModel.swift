@@ -6,6 +6,7 @@ import Photos
 @Observable
 final class DashboardViewModel {
     
+    
     var selectedTimeframe: DashboardTimeframe = .week
     var customStartDate: Date = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
     var customEndDate: Date = Date()

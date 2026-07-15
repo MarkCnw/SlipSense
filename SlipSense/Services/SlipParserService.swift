@@ -65,22 +65,31 @@ struct SlipParserService {
         if lowerText.contains("scbeasy") { return "SCB" }
         if lowerText.contains("krungthainext") { return "KTB" }
         if lowerText.contains("kma") || lowerText.contains("krungsriapp") { return "BAY" }
-        if lowerText.contains("bualuang") || lowerText.contains("mBanking") { return "BBL" }
+        if lowerText.contains("bualuang") || lowerText.contains("mbanking") { return "BBL" }
         if lowerText.contains("ttbtouch") { return "TTB" }
+        if lowerText.contains("paotang") || lowerText.contains("เป๋าตัง") { return "KTB" }
         
         // 🚀 สเต็ปที่ 2: ถ้าไม่เจอชื่อแอป ให้หาจาก "ชื่อธนาคาร"
-        // 💡 เลื่อนออมสินขึ้นมาเช็คก่อน ป้องกันโดนธนาคารปลายทางแย่ง
+        // ─── ธนาคารหลัก (Big 7) ───
         if lowerText.contains("ออมสิน") || lowerText.contains("gsb") { return "ออมสิน" }
+        if lowerText.contains("kbank") || lowerText.contains("กสิกร") || lowerText.contains("kasikorn") { return "KBANK" }
+        if lowerText.contains("scb") || lowerText.contains("ไทยพาณิชย์") || lowerText.contains("ไทยพาณิช") { return "SCB" }
+        if lowerText.contains("bbl") || lowerText.contains("กรุงเทพ") || lowerText.contains("bangkokbank") { return "BBL" }
+        if lowerText.contains("ktb") || lowerText.contains("กรุงไทย") || lowerText.contains("krungthai") { return "KTB" }
+        if lowerText.contains("krungsri") || lowerText.contains("กรุงศรี") || lowerText.contains("ayudhya") || lowerText.contains("อยุธยา") { return "BAY" }
+        if lowerText.contains("ttb") || lowerText.contains("tto") || lowerText.contains("ทหารไทย") || lowerText.contains("ธนชาต") || lowerText.contains("ทีทีบี") || lowerText.contains("tmb") || lowerText.contains("thanachart") { return "TTB" }
         
-        if lowerText.contains("kbank") || lowerText.contains("กสิกร") { return "KBANK" }
-        if lowerText.contains("scb") || lowerText.contains("ไทยพาณิชย์") { return "SCB" }
-        if lowerText.contains("bbl") || lowerText.contains("กรุงเทพ") { return "BBL" }
-        if lowerText.contains("ktb") || lowerText.contains("กรุงไทย") { return "KTB" }
-        
-        // 💡 ลบคำว่า "bay" ทิ้งไปเลยครับ เพราะมันสั้นเกินไป เสี่ยงบั๊กสูง! ใช้คำยาวๆ ชัวร์กว่า
-        if lowerText.contains("krungsri") || lowerText.contains("กรุงศรี") || lowerText.contains("ayudhya") { return "BAY" }
-        
-        if lowerText.contains("ttb") || lowerText.contains("ทหารไทยธนชาต") { return "TTB" }
+        // ─── ธนาคารรอง ───
+        if lowerText.contains("เกียรตินาคิน") || lowerText.contains("kkp") { return "KKP" }
+        if lowerText.contains("ธ.ก.ส") || lowerText.contains("ธกส") || lowerText.contains("baac") || lowerText.contains("การเกษตร") { return "BAAC" }
+        if lowerText.contains("อาคารสงเคราะห์") || lowerText.contains("ธอส") || lowerText.contains("ghb") { return "GHB" }
+        if lowerText.contains("ซีไอเอ็มบี") || lowerText.contains("cimb") { return "CIMB" }
+        if lowerText.contains("ยูโอบี") || lowerText.contains("uob") { return "UOB" }
+        if lowerText.contains("ทิสโก้") || lowerText.contains("ทิสโก") || lowerText.contains("tisco") { return "TISCO" }
+        if lowerText.contains("แลนด์แอนด์เฮ้าส์") || lowerText.contains("lhbank") || lowerText.contains("แลนด์") { return "LH Bank" }
+        if lowerText.contains("ไอซีบีซี") || lowerText.contains("icbc") { return "ICBC" }
+        if lowerText.contains("ไทยเครดิต") || lowerText.contains("thaicredit") { return "ไทยเครดิต" }
+        if lowerText.contains("พร้อมเพย์") || lowerText.contains("promptpay") { return "PromptPay" }
         
         return "ไม่ระบุ"
     }

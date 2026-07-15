@@ -5,15 +5,15 @@ import UIKit
 
 /// ดินแดนเบื้องหลัง 100% สำหรับสแกนสลิปโดยเฉพาะ ไม่กวนหน้าจอหลัก
 actor SlipScanWorker {
-    private var parser = SlipParserService()
-    private var recordService = SlipRecordService()
-    
-    // สร้าง ModelContainer แยกไว้สำหรับหลังบ้าน
-    private let modelContainer: ModelContainer
-    
-    init(modelContainer: ModelContainer) {
-        self.modelContainer = modelContainer
-    }
+    private let parser: SlipParserService
+        private let recordService: SlipRecordService
+        private let modelContainer: ModelContainer
+        
+        init(modelContainer: ModelContainer) {
+            self.modelContainer = modelContainer
+            self.parser = SlipParserService()
+            self.recordService = SlipRecordService()
+        }
     
     /// ฟังก์ชันวนลูปสแกนรูปทั้งหมดที่เบื้องหลัง
     func batchScan(

@@ -14,9 +14,13 @@ struct HistoryView: View {
                 if displaySlips.isEmpty {
                     // กรณีไม่มีข้อมูล
                     VStack(spacing: 16) {
-                        Image(systemName: "doc.text.magnifyingglass")
-                            .font(.system(size: 60))
-                            .foregroundStyle(.tertiary)
+                        Image("Analyze-Data-2--Streamline-Manila")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150, height: 150)
+                            .grayscale(1.0) // 💡 ดูดสีออก 100% กลายเป็นภาพขาวดำ
+                            .opacity(0.6)   // 💡 ลดความเข้มลงนิดหน่อยให้ดูละมุนขึ้น
+                        
                         Text(viewModel.searchText.isEmpty ? "ยังไม่มีประวัติการสแกน" : "ไม่พบข้อมูลที่ค้นหา")
                             .font(.headline)
                             .foregroundStyle(.secondary)

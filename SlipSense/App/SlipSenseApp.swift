@@ -8,12 +8,12 @@ struct SlipSenseApp: App {
     
     var body: some Scene {
         WindowGroup {
-                    // 💡 เปลี่ยนจาก MainTabView() เป็น ContentView() ตรงนี้นะครับ!
-                    ContentView()
-                        
-                        .preferredColorScheme(appTheme == 0 ? nil : (appTheme == 1 ? .light : .dark))
-                       
-                }
+            // 💡 เปลี่ยนจาก MainTabView() เป็น ContentView() ตรงนี้นะครับ!
+            ContentView()
+            
+                .preferredColorScheme(.light)
+            
+        }
         .modelContainer(for: SlipRecord.self)
     }
 }

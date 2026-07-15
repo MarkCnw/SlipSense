@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import Charts
 
+
 struct DashboardView: View {
     // 📍 1. ดึง ModelContext สำหรับเซฟข้อมูลลงฐานข้อมูล
     @Environment(\.modelContext) private var modelContext
@@ -13,17 +14,23 @@ struct DashboardView: View {
     @State private var photoProvider = PhotoImageProvider()
     @State private var photoService = PhotoService()
 
+    // 💡 ลบ @AppStorage("dailyLimit") ออกจากตรงนี้ แล้วย้ายไปไว้ใน DailyLimitSection แทน
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 let periodSlips = viewModel.filteredSlips(from: slips)
+                let currentPeriodTotal = viewModel.totalAmount(from: periodSlips) // คำนวณยอดรวมเตรียมไว้
                 
                 VStack(spacing: 25) {
+                    
+                    // 🌟 [แก้ไขใหม่] เรียกใช้คอมโพเนนต์โดยส่งแค่ currentTotal ไป
+                   
+                    
                     TimeFramePickerSection(viewModel: viewModel)
                     DonutChartSection(
                         viewModel: viewModel,
-                        currentPeriodTotal: viewModel.totalAmount(from: periodSlips),
+                        currentPeriodTotal: currentPeriodTotal,
                         bankSpendData: viewModel.bankSpendData(from: periodSlips)
                     )
                     DailyTrendChartSection(
@@ -45,10 +52,11 @@ struct DashboardView: View {
                 await viewModel.autoSyncBankSlips(
                     context: modelContext,
                     photoProvider: photoProvider,
-                    photoService: photoService,
-                  
+                    photoService: photoService
                 )
             }
+            
+           
             
             .onChange(of: viewModel.selectedTimeframe) { _, newValue in
                 if newValue == .custom {
@@ -62,7 +70,8 @@ struct DashboardView: View {
     }
 }
 
-// MARK: - Subviews
+
+// MARK: - Subviews เดิม
 
 struct TimeFramePickerSection: View {
     @Bindable var viewModel: DashboardViewModel
@@ -197,9 +206,14 @@ struct DonutChartSection: View {
                 }
             } else {
                 VStack(spacing: 12) {
-                    Image(systemName: "chart.pie.fill")
-                        .font(.system(size: 50))
-                        .foregroundStyle(Color(.systemGray4))
+                    Image("Competitor-Analysis--Streamline-Manila")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150, height: 150)
+                        
+                        .grayscale(1.0)
+                        .opacity(0.6)
+                    
                     Text("ไม่มีข้อมูลการใช้จ่ายในช่วงเวลานี้")
                         .foregroundStyle(.secondary)
                 }
@@ -303,8 +317,6 @@ struct TimeSpendChartSection: View {
         .padding(.horizontal)
     }
 }
-
-
 
 struct DatePickerSheet: View {
     @Bindable var viewModel: DashboardViewModel

@@ -4,28 +4,41 @@ import SwiftData
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
     @State private var viewModel = SettingsViewModel()
+    
+    // 💡 ตัวแปรหลักที่เชื่อมกับระบบหลังบ้าน
     @AppStorage("userRealName") private var userRealName: String = ""
+    
+    // 💡 ตัวแปรสำหรับรับค่าแยกช่องบนหน้าจอ
+    @State private var thaiName: String = ""
+    @State private var englishName: String = ""
     
     var body: some View {
         NavigationStack {
-            // 📍 ใช้ Form ครอบทุก Section เพื่อให้เป็นไปตามมาตรฐานหน้า Settings ของ iOS
             Form {
-                
                 // MARK: - Filter Settings
                 Section {
                     HStack {
-                        Image(systemName: "person.text.rectangle")
+                        Image(systemName: "character.book.closed.fill")
                             .foregroundStyle(.blue)
-                            .frame(width: 28) // ล็อคความกว้างไอคอนให้ตรงกันทุกบรรทัด
-                        TextField("เช่น: สมหมาย ใจดี sommai jaidee", text: $userRealName)
+                            .frame(width: 28)
+                        TextField("สมหมาย ใจดี", text: $thaiName)
+                            .submitLabel(.done)
+                            .onChange(of: thaiName) { _, _ in updateRealName() }
+                    }
+                    
+                    HStack {
+                        Image(systemName: "textformat.abc")
+                            .foregroundStyle(.blue)
+                            .frame(width: 28)
+                        TextField("Sommai jaidee", text: $englishName)
+                            .submitLabel(.done)
+                            .onChange(of: englishName) { _, _ in updateRealName() }
                     }
                 } header: {
-                    Text("ชื่อจริงของคุณ (ไทยและอังกฤษ)")
+                    Text("ชื่อจริงของคุณ (สำหรับดักจับยอดโอนตัวเอง)")
                 } footer: {
-                    Text("พิมพ์เฉพาะ 'ชื่อจริง' ของคุณ เว้นวรรคด้วยภาษาไทยและอังกฤษ เพื่อให้แอปข้ามการบันทึก 'สลิปโอนเงินให้ตัวเอง' อัตโนมัติ")
+                    Text("ใส่ชื่อจริงเเละนามสกุล ระบบจะใช้ข้อมูลนี้เพื่อตรวจสอบและข้ามการคำนวณสลิปที่คุณโอนเงินระหว่างบัญชีของตัวเอง")
                 }
-                
-                
                 
                 // MARK: - About App
                 Section {
@@ -54,7 +67,6 @@ struct SettingsView: View {
                 
                 // MARK: - Danger Zone
                 Section {
-                    // 📍 ใช้ role: .destructive ระบบจะทำตัวอักษรให้เป็นสีแดงตามมาตรฐาน HIG อัตโนมัติ
                     Button(role: .destructive) {
                         viewModel.showingDeleteAlert = true
                     } label: {
@@ -69,6 +81,10 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("การตั้งค่า")
+            // 💡 โหลดข้อมูลเดิมมาแยกใส่ 2 ช่องตอนเปิดหน้าจอ
+            .onAppear {
+                loadNamesToFields()
+            }
             .alert("ยืนยันการล้างข้อมูล?", isPresented: $viewModel.showingDeleteAlert) {
                 Button("ยกเลิก", role: .cancel) { }
                 Button("ลบทิ้งทั้งหมด", role: .destructive) {
@@ -89,4 +105,49 @@ struct SettingsView: View {
             }
         }
     }
+    
+    // MARK: - Helper Functions
+    
+    /// ฟังก์ชันจับชื่อจาก 2 ช่องมารวมกันแล้วบันทึกลงระบบหลัก
+    private func updateRealName() {
+        let tName = thaiName.trimmingCharacters(in: .whitespaces)
+        let eName = englishName.trimmingCharacters(in: .whitespaces)
+        
+        // ใช้ | เป็นตัวแบ่ง เพื่อป้องกันปัญหานามสกุล (ที่มีช่องว่าง) โดนตัดไปอยู่อีกช่อง
+        userRealName = "\(tName)|\(eName)"
+    }
+    
+    /// ฟังก์ชันอ่านค่าจากระบบหลัก มาแยกเป็นไทยและอังกฤษเพื่อแสดงในช่อง
+    private func loadNamesToFields() {
+        if userRealName.contains("|") {
+            let components = userRealName.components(separatedBy: "|")
+            if components.count >= 2 {
+                thaiName = components[0]
+                englishName = components[1]
+            }
+        } else {
+            // กรณีข้อมูลเก่าที่ยังไม่มี |
+            let hasEnglish = userRealName.range(of: "[a-zA-Z]", options: .regularExpression) != nil
+            let components = userRealName.components(separatedBy: " ").filter { !$0.isEmpty }
+            
+            // ถ้าข้อมูลเก่ามี 2 คำขึ้นไปและไม่มีภาษาอังกฤษเลย ให้ถือว่าเป็นชื่อ-นามสกุลภาษาไทย
+            if components.count >= 2 && !hasEnglish {
+                thaiName = userRealName
+            } else if components.count >= 2 && hasEnglish {
+                // ถ้ามีภาษาอังกฤษผสม เดาว่าคำแรกไทย คำสองอังกฤษ (แบบดั้งเดิม)
+                thaiName = components[0]
+                englishName = components[1...].joined(separator: " ")
+            } else if let name = components.first {
+                if hasEnglish {
+                    englishName = name
+                } else {
+                    thaiName = name
+                }
+            }
+        }
+    }
+}
+
+#Preview {
+    SettingsView()
 }

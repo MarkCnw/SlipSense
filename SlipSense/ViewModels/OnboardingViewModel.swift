@@ -16,19 +16,22 @@ final class OnboardingViewModel {
     
     let pages: [OnboardingPage] = [
         OnboardingPage(
-            image: "text.viewfinder",
+            // ✅ เปลี่ยนชื่อให้ตรงกับในรูป ภาพ.jpg
+            image: "Blockchain-Network--Streamline-Manila",
             title: "สแกนสลิปอัตโนมัติ",
-            description: "ไม่ต้องเหนื่อยพิมพ์เอง! แค่บันทึกสลิปโอนเงิน ระบบ AI จะดึงยอดเงินและชื่อธนาคารให้ทันที",
+            description: "บอกลาการจดเเบบเดิม ทุกครั้งที่คุณโอนเงินเสร็จ ระบบจะอ่านสลิปและสรุปยอดให้ทันที",
             color: .blue
         ),
         OnboardingPage(
-            image: "chart.bar.xaxis",
+            // ✅ เปลี่ยนชื่อให้ตรงกับในรูป ภาพ.jpg (ใช้รูป Approval แทนจะได้ไม่ซ้ำกันครับ)
+            image: "Boasting--Streamline-Manila",
             title: "วิเคราะห์พฤติกรรม",
             description: "รู้ทันทุกการใช้จ่าย ด้วยแดชบอร์ดสรุปยอดเงินและช่วงเวลาที่คุณเสียเงินมากที่สุด",
             color: .orange
         ),
         OnboardingPage(
-            image: "lock.shield.fill",
+            // ✅ เปลี่ยนชื่อให้ตรงกับในรูป ภาพ.jpg
+            image: "Protect-Privacy-1--Streamline-Manila",
             title: "ปลอดภัย ข้อมูลไม่รั่วไหล",
             description: "ข้อมูลทุกอย่างประมวลผลและเก็บไว้ในเครื่องของคุณเท่านั้น ไม่มีการส่งขึ้นเซิร์ฟเวอร์",
             color: .green
