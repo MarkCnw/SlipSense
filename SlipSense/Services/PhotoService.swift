@@ -62,9 +62,13 @@ class PhotoService {
             let count = assetsFetchResult.count
             
             if count > 0 {
-                let albumName = collection.localizedTitle ?? "ไม่ทราบชื่อ"
-                let newAlbum = AlbumInfo(name: albumName, photoCount: count, collection: collection)
-                tempAlbums.append(newAlbum)
+                let albumName = collection.localizedTitle ?? ""
+                
+                // 💡 เพิ่มการตรวจสอบว่าชื่ออัลบั้มอยู่ใน targetBankAlbums หรือไม่
+                if self.targetBankAlbums.contains(albumName) {
+                    let newAlbum = AlbumInfo(name: albumName, photoCount: count, collection: collection)
+                    tempAlbums.append(newAlbum)
+                }
             }
         }
         
