@@ -98,18 +98,45 @@ struct InitialScanView: View {
                         .rotationEffect(.degrees(-90))
                         .animation(.linear(duration: 0.2), value: viewModel.progress)
                     
-                    VStack(spacing: 8) {
-                        Text("\(Int(viewModel.progress * 100))%")
-                            .font(.system(.largeTitle, design: .rounded).weight(.bold))
-                            .contentTransition(.numericText()) // ✨ แอนิเมชันสลับตัวเลขแบบ Apple
-                        
-                        Text("\(viewModel.scannedPhotos) / \(viewModel.totalPhotos)")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                            .contentTransition(.numericText())
+                    // เนื้อหาด้านในวงกลม
+                    ZStack {
+                        if viewModel.scanState == .complete {
+                            VStack(spacing: 16) {
+                                Image("allgood")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 120, height: 120)
+                                    .foregroundStyle(Color.green)
+                                
+                                Text("สำเร็จ!")
+                                    .font(.system(.title2, design: .rounded).weight(.heavy))
+                                    .foregroundStyle(.primary)
+                            }
+                            .transition(.scale(scale: 0.5).combined(with: .opacity))
+                        } else {
+                            VStack(spacing: 12) {
+                                Image("Update--Streamline-Manila")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 110, height: 110)
+                                
+                                VStack(spacing: 4) {
+                                    Text("\(Int(viewModel.progress * 100))%")
+                                        .font(.system(.largeTitle, design: .rounded).weight(.bold))
+                                        .contentTransition(.numericText()) // ✨ แอนิเมชันสลับตัวเลขแบบ Apple
+                                    
+                                    Text("\(viewModel.scannedPhotos) / \(viewModel.totalPhotos)")
+                                        .font(.headline.monospacedDigit().bold())
+                                        .foregroundStyle(.secondary)
+                                        .contentTransition(.numericText())
+                                }
+                            }
+                            .transition(.scale(scale: 0.8).combined(with: .opacity))
+                        }
                     }
+                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: viewModel.scanState)
                 }
-                .frame(maxWidth: 240, maxHeight: 240) // ใช้ขนาดแบบยืดหยุ่น
+                .frame(maxWidth: 280, maxHeight: 280) // 🌟 ปรับขนาดให้เท่ากับ AlbumDetailView (280)
                 .padding()
                 // 🔊 รวมกลุ่มให้ VoiceOver อ่านรวดเดียว
                 .accessibilityElement(children: .ignore)

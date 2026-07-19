@@ -26,6 +26,12 @@ actor SlipScanWorker {
         let backgroundContext = ModelContext(modelContainer)
         
         for asset in assets {
+            // 🛑 เช็คว่า Task ถูกยกเลิกหรือยัง
+            if Task.isCancelled {
+                print("🛑 batchScan ถูกยกเลิก — หยุดสแกน")
+                break
+            }
+            
             let assetID = asset.localIdentifier
             
             // 1. เช็คซ้ำในหลังบ้าน

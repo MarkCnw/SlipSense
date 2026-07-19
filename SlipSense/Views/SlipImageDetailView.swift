@@ -39,7 +39,7 @@ struct SlipImageDetailView: View {
                 VStack(spacing: 16) {
                     DetailRow(title: "ธนาคาร", value: slip.bankName)
                     Divider()
-                    DetailRow(title: "วันที่และเวลา", value: slip.scanDate.formatted(date: .abbreviated, time: .shortened))
+                    DetailRow(title: "วันที่และเวลา", value: slip.scanDate.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(Locale(identifier: "th_TH"))))
                     Divider()
                     DetailRow(title: "ยอดเงิน", value: slip.amount.formatted(.currency(code: "THB")), isHighlight: true)
                 }

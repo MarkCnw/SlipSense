@@ -73,7 +73,11 @@ final class InitialScanViewModel {
                 // Update LastBankSyncDate after initial scan is done
                 UserDefaults.standard.set(Date(), forKey: "LastBankSyncDate")
                 self.scanState = .complete
-                onComplete()
+                
+                // หน่วงเวลา 1.5 วินาทีเพื่อให้โชว์รูป "สำเร็จ" ก่อนปิดหน้า
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    onComplete()
+                }
             }
         }.value
     }

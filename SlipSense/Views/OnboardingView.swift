@@ -8,8 +8,9 @@ struct OnboardingView: View {
         // ✅ 1. เพิ่ม ZStack เพื่อปูสี Background ไว้ชั้นล่างสุด
         ZStack {
             // ✅ 2. ใส่สี Background ที่ต้องการ (เช่น .white, .gray.opacity(0.1), หรือ Color("ชื่อสีในAssets"))
-            Color.green.opacity(0.2)
-                .ignoresSafeArea() // สำคัญมาก: สั่งให้สีเทเต็มจอทะลุขอบบนล่าง
+            Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
+               
             
             VStack {
                 TabView(selection: $viewModel.currentPage) {

@@ -24,7 +24,7 @@ final class OnboardingViewModel {
         ),
         OnboardingPage(
             // ✅ เปลี่ยนชื่อให้ตรงกับในรูป ภาพ.jpg (ใช้รูป Approval แทนจะได้ไม่ซ้ำกันครับ)
-            image: "Boasting--Streamline-Manila",
+            image: "Online-Shopping--Streamline-Manila",
             title: "วิเคราะห์พฤติกรรม",
             description: "รู้ทันทุกการใช้จ่าย ด้วยแดชบอร์ดสรุปยอดเงินและช่วงเวลาที่คุณเสียเงินมากที่สุด",
             color: .orange
