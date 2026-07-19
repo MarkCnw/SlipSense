@@ -38,7 +38,7 @@ private extension SlipSelfTransferGuard {
     static func extractPartiesByLineScan(from lines: [String]) -> [Party] {
         var result: [Party] = []
         
-        // 📍 Pre-process: แยกบรรทัดที่มีชื่อธนาคารนำหน้าชื่อคน (เช่น "tto )
+        // 📍 Pre-process: แยกบรรทัดที่มีชื่อธนาคารนำหน้าชื่อคน
         var processedLines: [String] = []
         let knownBankSuffixes = ["next", "touch", "easy", "plus", "bank", "mymo"]
         
@@ -59,7 +59,6 @@ private extension SlipSelfTransferGuard {
         }
         
         var i = 0
-        
         while i < processedLines.count - 1 {
             let l1 = processedLines[i]
             
@@ -67,7 +66,7 @@ private extension SlipSelfTransferGuard {
             if isLikelyNameLine(l1) {
                 let l2 = processedLines[i + 1]
                 
-                // เคสที่ 1: ชื่อธนาคารและเลขบัญชี อยู่ในบรรทัดเดียวกัน (เช่น "กสิกรไทย xxx-1234")
+                // เคสที่ 1: ชื่อธนาคารและเลขบัญชี อยู่ในบรรทัดเดียวกัน
                 if isBankLine(l2) && (l2.lowercased().contains("x") || l2.contains("*")) {
                     result.append(Party(name: l1, bank: l2, account: l2))
                     i += 2
@@ -77,14 +76,14 @@ private extension SlipSelfTransferGuard {
                 if i < processedLines.count - 2 {
                     let l3 = processedLines[i + 2]
                     
-                    // เคสที่ 2: ชื่อ -> ธนาคาร -> เลขบัญชี (เรียงกัน 3 บรรทัดแบบ K+)
+                    // เคสที่ 2: ชื่อ -> ธนาคาร -> เลขบัญชี
                     if isBankLine(l2) && isMaskedAccountLine(l3) {
                         result.append(Party(name: l1, bank: l2, account: l3))
                         i += 3
                         continue
                     }
                     
-                    // เคสที่ 3: ชื่อ -> เลขบัญชี -> ธนาคาร (เรียงแบบ TTB touch)
+                    // เคสที่ 3: ชื่อ -> เลขบัญชี -> ธนาคาร
                     if isMaskedAccountLine(l2) && isBankLine(l3) {
                         result.append(Party(name: l1, bank: l3, account: l2))
                         i += 3
@@ -92,7 +91,7 @@ private extension SlipSelfTransferGuard {
                     }
                 }
                 
-                // 🌟 เพิ่มเคสที่ 4: ชื่อ -> เลขบัญชี (ไม่มีชื่อธนาคาร เช่น สลิป SCB)
+                // เคสที่ 4: ชื่อ -> เลขบัญชี
                 if isMaskedAccountLine(l2) {
                     result.append(Party(name: l1, bank: "", account: l2))
                     i += 2
@@ -130,7 +129,6 @@ private extension SlipSelfTransferGuard {
     static func isMaskedAccountLine(_ s: String) -> Bool {
         let t = compact(s)
         guard t.count >= 6 else { return false }
-        guard t.contains("x") || t.contains("*") else { return false }
         guard t.range(of: #"\d"#, options: .regularExpression) != nil else { return false }
         return t.range(of: #"^[x*0-9\-.]+$"#, options: .regularExpression) != nil
     }
@@ -175,27 +173,23 @@ private extension SlipSelfTransferGuard {
         let a = normalizeName(lhs)
         let b = normalizeName(rhs)
         guard !a.isEmpty, !b.isEmpty else { return false }
-
-        let savedName = UserDefaults.standard.string(forKey: "userRealName") ?? ""
         
+        let savedName = UserDefaults.standard.string(forKey: "userRealName") ?? ""
         let myKeywords = savedName.lowercased()
             .replacingOccurrences(of: "|", with: " ")
             .components(separatedBy: .whitespaces)
             .map { normalizeName($0) }
             .filter { $0.count >= 3 }
-            
+        
         if !myKeywords.isEmpty {
             let senderIsMe = myKeywords.contains { a.contains($0) }
             let receiverIsMe = myKeywords.contains { b.contains($0) }
-            
-            if senderIsMe && receiverIsMe {
-                return true
-            }
+            if senderIsMe && receiverIsMe { return true }
         }
-
+        
         if a == b { return true }
         if commonPrefixLength(a, b) >= 5 { return true }
-
+        
         let ta = firstNameToken(from: lhs)
         let tb = firstNameToken(from: rhs)
         if let ta = ta, let tb = tb, ta.count >= 3, tb.count >= 3, ta == tb {
@@ -216,12 +210,12 @@ private extension SlipSelfTransferGuard {
         }
         
         let cleaned = name
-            .replacingOccurrences(of: #"[^a-zA-Zก-๙\s]"#, with: "", options: .regularExpression)
+            .replacingOccurrences(of: #"[^a-zA-Zก-๙ \s]"#, with: "", options: .regularExpression)
             .trimmingCharacters(in: .whitespacesAndNewlines)
-            
+        
         let tokens = cleaned.components(separatedBy: .whitespaces)
             .filter { !$0.isEmpty }
-            
+        
         guard let first = tokens.first else { return nil }
         return normalizeName(first)
     }

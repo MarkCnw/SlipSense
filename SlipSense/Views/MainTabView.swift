@@ -27,7 +27,7 @@ struct MainTabView: View {
                     Label("ตั้งค่า", systemImage: "gearshape.fill")
                 }
         }
-        .tint(.green) // เปลี่ยนสีไอคอนที่ถูกเลือกเป็นสีเขียว
+        .tint(.purple) // เปลี่ยนสีไอคอนที่ถูกเลือกเป็นสีประจำแอป (ม่วง)
     }
 }
 

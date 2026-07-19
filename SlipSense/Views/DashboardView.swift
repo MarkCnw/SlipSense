@@ -47,6 +47,7 @@ struct DashboardView: View {
             .navigationTitle("แดชบอร์ด")
             .background(Color(.systemGroupedBackground))
             
+            
             // 📍 3. สั่งให้ AI วิ่งไปหาสลิปใหม่ทันทีที่หน้าแดชบอร์ดเปิดขึ้นมา
             .task {
                 await viewModel.autoSyncBankSlips(
@@ -68,7 +69,9 @@ struct DashboardView: View {
             }
         }
     }
+    
 }
+
 
 
 // MARK: - Subviews เดิม

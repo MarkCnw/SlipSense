@@ -35,9 +35,9 @@ struct HistoryView: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(slip.bankName)
                                             .font(.headline)
-                                        Text(slip.scanDate.formatted(date: .abbreviated, time: .shortened))
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
+                                        Text(slip.scanDate.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(Locale(identifier: "th_TH"))))
+                                                    .font(.caption)
+                                                    .foregroundStyle(.secondary)
                                     }
                                     Spacer()
                                     Text(slip.amount.formatted(.currency(code: "THB")))

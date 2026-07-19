@@ -20,6 +20,9 @@ final class AlbumDetailViewModel {
     var skippedNoOCRCount = 0
     var failedCount = 0
     
+    // 🛑 เก็บ Task ไว้เพื่อยกเลิกได้จริง
+    private var scanTask: Task<Void, Never>?
+    
     init(photoService: PhotoService) {
         self.photoService = photoService
     }
@@ -36,6 +39,14 @@ final class AlbumDetailViewModel {
         assets = photoService.fetchPhotos(in: album)
     }
     
+    /// 🛑 ยกเลิกการสแกนจริงๆ (หยุด Task เบื้องหลัง)
+    func cancelScan() {
+        scanTask?.cancel()
+        scanTask = nil
+        isBatchScanning = false
+        print("🛑 สแกนถูกยกเลิกโดยผู้ใช้ | สแกนไป: \(scannedCount) / \(assets.count)")
+    }
+    
     func startBatchScan(context: ModelContext) {
         guard !assets.isEmpty, !isBatchScanning else { return }
         
@@ -45,10 +56,9 @@ final class AlbumDetailViewModel {
         let assetsToScan = assets
         let container = context.container
         
-        Task(priority: .userInitiated) {
+        scanTask = Task(priority: .userInitiated) {
             let worker = SlipScanWorker(modelContainer: container)
             
-            // 📍 1. ปล่อยหลังบ้านรันยาวๆ หน้าจอจะโชว์ลูกข่างหมุนชิลๆ ไม่แลคแน่นอน
             await worker.batchScan(assets: assetsToScan, imageProvider: imageProvider) { result in
                 Task { @MainActor in
                     self.scannedCount += 1
@@ -56,10 +66,12 @@ final class AlbumDetailViewModel {
                 }
             }
             
-            // 📍 2. อัปเดตสถานะเมื่อเสร็จสิ้น
-            await MainActor.run {
-                self.isBatchScanning = false
-                print("✅ scan done | บันทึก: \(self.savedCount) ซ้ำ: \(self.skippedDuplicateCount)")
+            // อัปเดตสถานะเมื่อเสร็จสิ้น (ถ้ายังไม่ถูกยกเลิก)
+            if !Task.isCancelled {
+                await MainActor.run {
+                    self.isBatchScanning = false
+                    print("✅ scan done | บันทึก: \(self.savedCount) ซ้ำ: \(self.skippedDuplicateCount)")
+                }
             }
         }
     }
