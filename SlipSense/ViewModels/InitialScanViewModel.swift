@@ -36,24 +36,24 @@ final class InitialScanViewModel {
         scanState = .scanning
         
         // 1. Get all bank albums
-            let bankCollections = photoService.fetchTargetBankCollections()
-            
+        let bankCollections = photoService.fetchTargetBankCollections()
+        
         // 2. Fetch all photos from these albums (since Date.distantPast)
-            var allAssets: [PHAsset] = []
-            for collection in bankCollections {
-                let assets = photoService.fetchNewPhotos(in: collection, since: .distantPast)
-                allAssets.append(contentsOf: assets)
-            }
-            
+        var allAssets: [PHAsset] = []
+        for collection in bankCollections {
+            let assets = photoService.fetchNewPhotos(in: collection, since: .distantPast)
+            allAssets.append(contentsOf: assets)
+        }
+        
         totalPhotos = allAssets.count
-            
-            if allAssets.isEmpty {
+        
+        if allAssets.isEmpty {
             scanState = .complete
-                    onComplete()
-                return
-            }
-            
-            // 3. Scan all photos in the background
+            onComplete()
+            return
+        }
+        
+        // 3. Scan all photos in the background
         let container = context.container
         
         // We use detached task to prevent blocking the MainActor

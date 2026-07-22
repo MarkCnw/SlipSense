@@ -1,5 +1,5 @@
 import Foundation
-import Photos // 💡 อย่าลืม import Photos นะครับ สำคัญมาก!
+import Photos 
 
 struct AlbumInfo: Identifiable {
     let id = UUID()

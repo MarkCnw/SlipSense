@@ -33,6 +33,7 @@ struct DashboardView: View {
                         currentPeriodTotal: currentPeriodTotal,
                         bankSpendData: viewModel.bankSpendData(from: periodSlips)
                     )
+                    
                     DailyTrendChartSection(
                         viewModel: viewModel,
                         chartData: viewModel.chartData(from: periodSlips)
@@ -40,6 +41,7 @@ struct DashboardView: View {
                     TimeSpendChartSection(
                         timeSpendData: viewModel.timeSpendData(from: periodSlips)
                     )
+                    ExpenseChartView()
                     
                 }
                 .padding(.bottom, 30)
