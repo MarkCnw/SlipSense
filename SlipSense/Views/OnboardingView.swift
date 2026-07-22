@@ -10,8 +10,6 @@ struct OnboardingView: View {
             // ✅ 2. ใส่สี Background ที่ต้องการ (เช่น .white, .gray.opacity(0.1), หรือ Color("ชื่อสีในAssets"))
             Color(.systemGroupedBackground)
                     .ignoresSafeArea()
-               
-            
             VStack {
                 TabView(selection: $viewModel.currentPage) {
                     ForEach(Array(viewModel.pages.enumerated()), id: \.offset) { index, page in

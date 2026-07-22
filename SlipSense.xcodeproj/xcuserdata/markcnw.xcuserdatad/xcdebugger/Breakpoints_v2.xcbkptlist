@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "83B024DD-6C7C-42C4-A109-47A2DEDA4E71"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SlipSense/ViewModels/InitialScanViewModel.swift"
@@ -18,64 +18,6 @@
             endingLineNumber = "71"
             landmarkName = "requestPermissionAndScan(context:photoService:photoProvider:onComplete:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "83B024DD-6C7C-42C4-A109-47A2DEDA4E71 - 4812275889d65c23"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for function signature specialization &lt;Arg[3] = Value Promoted from Box&gt; of closure #1 () async -&gt; () in SlipSense.InitialScanViewModel.requestPermissionAndScan(context: SwiftData.ModelContext, photoService: SlipSense.PhotoService, photoProvider: SlipSense.PhotoImageProvider, onComplete: () -&gt; ()) async -&gt; ()"
-                  moduleName = "SlipSense.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71">
-               </Location>
-               <Location
-                  uuid = "83B024DD-6C7C-42C4-A109-47A2DEDA4E71 - 4ad7d8cf9227c9e3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) await resume partial function for function signature specialization &lt;Arg[3] = Value Promoted from Box&gt; of closure #1 () async -&gt; () in SlipSense.InitialScanViewModel.requestPermissionAndScan(context: SwiftData.ModelContext, photoService: SlipSense.PhotoService, photoProvider: SlipSense.PhotoImageProvider, onComplete: () -&gt; ()) async -&gt; ()"
-                  moduleName = "SlipSense.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71">
-               </Location>
-               <Location
-                  uuid = "83B024DD-6C7C-42C4-A109-47A2DEDA4E71 - 39984afdbc104220"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(6) suspend resume partial function for function signature specialization &lt;Arg[3] = Value Promoted from Box&gt; of closure #1 () async -&gt; () in SlipSense.InitialScanViewModel.requestPermissionAndScan(context: SwiftData.ModelContext, photoService: SlipSense.PhotoService, photoProvider: SlipSense.PhotoImageProvider, onComplete: () -&gt; ()) async -&gt; ()"
-                  moduleName = "SlipSense.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71">
-               </Location>
-               <Location
-                  uuid = "83B024DD-6C7C-42C4-A109-47A2DEDA4E71 - 4bb7cbe2a02be80a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Swift.MainActor @Sendable () -&gt; () in closure #1 () async -&gt; () in SlipSense.InitialScanViewModel.requestPermissionAndScan(context: SwiftData.ModelContext, photoService: SlipSense.PhotoService, photoProvider: SlipSense.PhotoImageProvider, onComplete: () -&gt; ()) async -&gt; ()"
-                  moduleName = "SlipSense.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
