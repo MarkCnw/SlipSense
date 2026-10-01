@@ -39,6 +39,9 @@ struct SlipImageDetailView: View {
                 VStack(spacing: 16) {
                     DetailRow(title: "ธนาคาร", value: slip.bankName)
                     Divider()
+                    // 🌟 เพิ่ม 2 บรรทัดนี้ เพื่อโชว์หมวดหมู่
+                    DetailRow(title: "หมวดหมู่", value: slip.category.isEmpty ? "อื่นๆ" : slip.category)
+                    Divider()
                     DetailRow(title: "วันที่และเวลา", value: slip.scanDate.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(Locale(identifier: "th_TH"))))
                     Divider()
                     DetailRow(title: "ยอดเงิน", value: slip.amount.formatted(.currency(code: "THB")), isHighlight: true)

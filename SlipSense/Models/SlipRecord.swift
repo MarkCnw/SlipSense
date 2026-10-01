@@ -21,6 +21,7 @@ final class SlipRecord {
         transactionID: String = "",
         bankName: String = "ไม่ระบุ",
         memo: String = "",
+        category: String = "อื่นๆ", // 🌟 1. เพิ่มพารามิเตอร์นี้
         isSelfTransfer: Bool = false // 💡 2. เพิ่มเข้ามารับค่าตอนสร้างสลิป
     ) {
         self.amount = amount
@@ -29,6 +30,7 @@ final class SlipRecord {
         self.transactionID = transactionID
         self.bankName = bankName
         self.memo = memo
+        self.category = category
         self.isSelfTransfer = isSelfTransfer // 💡 3. กำหนดค่าลง Database
     }
     

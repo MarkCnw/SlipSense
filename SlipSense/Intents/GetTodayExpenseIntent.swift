@@ -74,7 +74,7 @@ struct GetTodayExpenseIntent: AppIntent {
         // ---------------------------------------------------------
         // 🌟 STEP 5.1: ดึงวงเงินที่ตั้งไว้มาเช็คและแจ้งเตือน
         // ---------------------------------------------------------
-        let dailyLimit = UserDefaults.standard.double(forKey: "dailyLimit")
+      
         
         
         

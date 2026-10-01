@@ -7,6 +7,12 @@ enum DashboardTimeframe: String, CaseIterable {
     case custom = "กำหนดเอง"
 }
 
+enum DashboardTab: String, CaseIterable {
+        case overview = "ภาพรวม"
+        case category = "หมวดหมู่" // 🌟 1. เพิ่มบรรทัดนี้เข้ามา
+        case behavior = "พฤติกรรม"
+}
+
 struct DailyExpense: Identifiable {
     let id = UUID()
     let date: Date
@@ -24,4 +30,10 @@ struct BankSpendData: Identifiable {
     let id = UUID()
     let bank: BankType
     let amount: Double
+}
+
+struct CategoryExpenseSummary: Identifiable {
+    let id = UUID()
+    let categoryName: String
+    let totalAmount: Double
 }

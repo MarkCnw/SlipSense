@@ -11,7 +11,8 @@ struct SlipRecordService {
         assetIdentifier: String,
         bankName: String,
         memo: String,
-        context: ModelContext
+        context: ModelContext,
+       
     ) throws -> SlipScanStatus {
         
         // ด่านกันซ้ำใน service อีกชั้น
@@ -31,7 +32,7 @@ struct SlipRecordService {
             assetIdentifier: assetIdentifier,
             transactionID: transID,
             bankName: bankName,
-            memo: memo
+            memo: memo,
         )
         
         context.insert(newSlip)

@@ -11,6 +11,8 @@ final class DashboardViewModel {
     var customStartDate: Date = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
     var customEndDate: Date = Date()
     var showDatePickerSheet = false
+    var selectedTab: DashboardTab = .overview
+    
     
     var daysInPeriod: Int {
         switch selectedTimeframe {
@@ -25,6 +27,11 @@ final class DashboardViewModel {
             return max(diff + 1, 1)
         }
     }
+    
+    enum DashboardTab: String, CaseIterable {
+            case overview = "ภาพรวม"
+            case behavior = "พฤติกรรม"
+        }
     
     @MainActor
         func autoSyncBankSlips(context: ModelContext, photoProvider: PhotoImageProvider, photoService: PhotoService) async {

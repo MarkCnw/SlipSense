@@ -50,6 +50,12 @@ struct HistoryView: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(slip.bankName)
                                             .font(.headline)
+                                        
+                                        Text(slip.category.isEmpty ? "อื่นๆ" : slip.category)
+                                                                                    .font(.subheadline)
+                                                                                    .foregroundStyle(.blue)
+                                        
+                                        
                                         Text(slip.scanDate.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(Locale(identifier: "th_TH"))))
                                             .font(.caption)
                                             .foregroundStyle(.secondary)

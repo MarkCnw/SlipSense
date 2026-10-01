@@ -1,0 +1,572 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -scheme SlipSense -destination "platform=iOS Simulator,name=iPhone 17" clean build
+
+2026-07-27 20:31:29.327 xcodebuild[5713:234017] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'SlipSense' in project 'SlipSense' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 9b84178e14444793220b4bd23f34c336
+Build description path: /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/XCBuildData/9b84178e14444793220b4bd23f34c336.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk /Users/markcnw/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache
+Base directory status changed. Regenerating...
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense-08f1a48974f0b608349f07da78174dd9-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense-08f1a48974f0b608349f07da78174dd9-VFS-iphonesimulator/all-product-headers.yaml
+
+CreateBuildDirectory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/markcnw/Developer/SlipSense/SlipSense.xcodeproj
+    builtin-create-build-directory /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-project-headers.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-project-headers.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-own-target-headers.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-generated-files.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-generated-files.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/empty-SlipSense.plist (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/empty-SlipSense.plist
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-target-headers.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-non-framework-target-headers.hmap (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibPath-normal-arm64.txt (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyStaticMetadataFileList (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyMetadataFileList (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibInstallName-normal-arm64.txt (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_const_extract_protocols.json (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftConstValuesFileList (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.LinkFileList (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.LinkFileList
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-OutputFileMap.json (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/Entitlements-Simulated.plist (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    write-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/Entitlements-Simulated.plist
+
+MkDir /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /bin/mkdir -p /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app
+
+ProcessProductPackaging "" /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "HJ24GQ285H.com.markcnw.SlipSense";
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent
+
+ProcessProductPackagingDER /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent.der (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /usr/bin/derq query -f xml -i /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent.der --raw
+
+Ld /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/__preview.dylib normal (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.4.1-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -install_name @rpath/SlipSense.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/__preview.dylib
+
+MkDir /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /bin/mkdir -p /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned
+
+MkDir /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/unthinned (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /bin/mkdir -p /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/unthinned
+
+GenerateAssetSymbols /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets --compile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app --output-format human-readable-text --notices --warnings --export-dependency-info /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_dependencies --output-partial-info-plist /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --minimum-deployment-target 17.4.1 --platform iphonesimulator --bundle-identifier com.markcnw.SlipSense --generate-swift-asset-symbols /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CompileAssetCatalogVariant thinned /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets --compile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --compress-pngs --enable-on-demand-resources YES --filter-for-thinning-device-configuration iPhone18,3 --filter-for-device-os-version 27.0 --development-region en --target-device iphone --minimum-deployment-target 17.4.1 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist_thinned
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver SlipSense normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SlipSense -Onone @/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios17.4.1-simulator -g -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache -output-file-map /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_const_extract_protocols.json -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-generated-files.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-own-target-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-target-headers.hmap -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-project-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources-normal/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-Swift.h -working-directory /Users/markcnw/Developer/SlipSense -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/MessageUI-9BJVV7KO458Z0S2O3JYL4DIAP.pcm
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ SlipSense (in target 'SlipSense' from project 'SlipSense')
+
+EmitSwiftModule normal arm64 (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:14:27: warning: call to main actor-isolated initializer 'init()' in a synchronous nonisolated context
+            self.parser = SlipParserService()
+                          ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipParserService.swift:4:8: note: calls to initializer 'init()' from outside of its actor context are implicitly asynchronous
+struct SlipParserService {
+       ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:15:34: warning: call to main actor-isolated initializer 'init()' in a synchronous nonisolated context
+            self.recordService = SlipRecordService()
+                                 ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipRecordService.swift:5:8: note: calls to initializer 'init()' from outside of its actor context are implicitly asynchronous
+struct SlipRecordService {
+       ^
+
+SwiftCompile normal arm64 Compiling\ DashboardViewModel.swift,\ HistoryViewModel.swift,\ InitialScanViewModel.swift,\ NameInputViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/DashboardViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/HistoryViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/NameInputViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/DashboardViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/HistoryViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/InitialScanViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/NameInputViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ SlipImageDetailViewModel.swift,\ AlbumDetailView.swift,\ BankExpenseSummary.swift,\ ContentView.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SlipImageDetailViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/AlbumDetailView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/BankExpenseSummary.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/ContentView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SlipImageDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/AlbumDetailView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/BankExpenseSummary.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/ContentView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ SlipScanResult.swift,\ SlipScanWorker.swift,\ SlipSelfTransferGuard.swift,\ AlbumDetailViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanResult.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipSelfTransferGuard.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/AlbumDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanResult.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:14:27: warning: call to main actor-isolated initializer 'init()' in a synchronous nonisolated context
+            self.parser = SlipParserService()
+                          ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipParserService.swift:4:8: note: calls to initializer 'init()' from outside of its actor context are implicitly asynchronous
+struct SlipParserService {
+       ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:15:34: warning: call to main actor-isolated initializer 'init()' in a synchronous nonisolated context
+            self.recordService = SlipRecordService()
+                                 ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipRecordService.swift:5:8: note: calls to initializer 'init()' from outside of its actor context are implicitly asynchronous
+struct SlipRecordService {
+       ^
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:61:38: warning: main actor-isolated static method 'shouldSkipSelfTransferCrossBank(from:)' cannot be called from outside of the actor; this is an error in the Swift 6 language mode
+            if SlipSelfTransferGuard.shouldSkipSelfTransferCrossBank(from: text) {
+               ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+               await 
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:68:33: warning: main actor-isolated instance method 'parseSlipData(from:)' cannot be called from outside of the actor; this is an error in the Swift 6 language mode
+            let parsed = parser.parseSlipData(from: text)
+                         ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+                         await 
+/Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipScanWorker.swift:78:52: warning: main actor-isolated instance method 'processScannedSlip(amount:date:transID:assetIdentifier:bankName:memo:context:)' cannot be called from outside of the actor; this is an error in the Swift 6 language mode
+                let saveStatus = try recordService.processScannedSlip(
+                                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+                                     await 
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipSelfTransferGuard.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/AlbumDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ MainTabView.swift,\ NameInputView.swift,\ OnboardingView.swift,\ ScanView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/MainTabView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/NameInputView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/OnboardingView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/ScanView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/MainTabView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/NameInputView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/OnboardingView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/ScanView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ PhotoImageProvider.swift,\ PhotoService.swift,\ SlipParserService.swift,\ SlipRecordService.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/PhotoImageProvider.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/PhotoService.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipParserService.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipRecordService.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/PhotoImageProvider.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/PhotoService.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipParserService.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/SlipRecordService.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ SettingsView.swift,\ SlipDetailView.swift,\ SlipImageDetailView.swift,\ GeneratedAssetSymbols.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/SettingsView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/SlipDetailView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/SlipImageDetailView.swift /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/SettingsView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/SlipDetailView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/SlipImageDetailView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ DashboardView.swift,\ HistoryView.swift,\ InitialScanView.swift,\ MailView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/DashboardView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/HistoryView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/InitialScanView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Views/MailView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/DashboardView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/HistoryView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/InitialScanView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Views/MailView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ AlbumInfo.swift,\ BankType.swift,\ DashboardModels.swift,\ SlipRecord.swift,\ OCRService.swift /Users/markcnw/Developer/SlipSense/SlipSense/Models/AlbumInfo.swift /Users/markcnw/Developer/SlipSense/SlipSense/Models/BankType.swift /Users/markcnw/Developer/SlipSense/SlipSense/Models/DashboardModels.swift /Users/markcnw/Developer/SlipSense/SlipSense/Models/SlipRecord.swift /Users/markcnw/Developer/SlipSense/SlipSense/Services/OCRService.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Models/AlbumInfo.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Models/BankType.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Models/DashboardModels.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Models/SlipRecord.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Services/OCRService.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 Compiling\ SlipSenseApp.swift,\ DetailRow.swift,\ ThumbnailView.swift,\ GetTodayExpenseIntent.swift,\ SlipSenseShortcuts.swift /Users/markcnw/Developer/SlipSense/SlipSense/App/SlipSenseApp.swift /Users/markcnw/Developer/SlipSense/SlipSense/Components/DetailRow.swift /Users/markcnw/Developer/SlipSense/SlipSense/Components/ThumbnailView.swift /Users/markcnw/Developer/SlipSense/SlipSense/Intents/GetTodayExpenseIntent.swift /Users/markcnw/Developer/SlipSense/SlipSense/Intents/SlipSenseShortcuts.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/App/SlipSenseApp.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Components/DetailRow.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Components/ThumbnailView.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Intents/GetTodayExpenseIntent.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+/Users/markcnw/Developer/SlipSense/SlipSense/Intents/GetTodayExpenseIntent.swift:77:13: warning: initialization of immutable value 'dailyLimit' was never used; consider replacing with assignment to '_' or removing it
+        let dailyLimit = UserDefaults.standard.double(forKey: "dailyLimit")
+        ~~~~^~~~~~~~~~
+        _
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/Intents/SlipSenseShortcuts.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling AlbumInfo.swift, BankType.swift, DashboardModels.swift, SlipRecord.swift, OCRService.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 Compiling\ OnboardingViewModel.swift,\ ScanViewModel.swift,\ SettingsViewModel.swift,\ SlipDetailViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/OnboardingViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/ScanViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SettingsViewModel.swift /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SlipDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/OnboardingViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/ScanViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SettingsViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+
+SwiftCompile normal arm64 /Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SlipDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+/Users/markcnw/Developer/SlipSense/SlipSense/ViewModels/SlipDetailViewModel.swift:30:27: warning: no 'async' operations occur within 'await' expression
+            scannedText = await OCRService.shared
+                          ^
+
+SwiftDriverJobDiscovery normal arm64 Compiling PhotoImageProvider.swift, PhotoService.swift, SlipParserService.swift, SlipRecordService.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling DashboardViewModel.swift, HistoryViewModel.swift, InitialScanViewModel.swift, NameInputViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for SlipSense (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriver\ Compilation\ Requirements SlipSense normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SlipSense -Onone @/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios17.4.1-simulator -g -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache -output-file-map /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_const_extract_protocols.json -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-generated-files.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-own-target-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-target-headers.hmap -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-project-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources-normal/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-Swift.h -working-directory /Users/markcnw/Developer/SlipSense -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/SlipSense-Swift.h /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-Swift.h (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-swiftHeaderTool -arch arm64 /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-Swift.h -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/SlipSense-Swift.h
+
+Copy /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.swiftmodule /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.swiftmodule
+
+Copy /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.swiftdoc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftdoc (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftdoc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.swiftdoc
+
+Copy /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.abi.json /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.abi.json (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.abi.json /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/arm64-apple-ios-simulator.abi.json
+
+Copy /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftsourceinfo (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftsourceinfo /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling SlipScanResult.swift, SlipScanWorker.swift, SlipSelfTransferGuard.swift, AlbumDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MainTabView.swift, NameInputView.swift, OnboardingView.swift, ScanView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SlipImageDetailViewModel.swift, AlbumDetailView.swift, BankExpenseSummary.swift, ContentView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SlipSenseApp.swift, DetailRow.swift, ThumbnailView.swift, GetTodayExpenseIntent.swift, SlipSenseShortcuts.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SettingsView.swift, SlipDetailView.swift, SlipImageDetailView.swift, GeneratedAssetSymbols.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling OnboardingViewModel.swift, ScanViewModel.swift, SettingsViewModel.swift, SlipDetailViewModel.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriverJobDiscovery normal arm64 Compiling DashboardView.swift, HistoryView.swift, InitialScanView.swift, MailView.swift (in target 'SlipSense' from project 'SlipSense')
+
+SwiftDriver\ Compilation SlipSense normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SlipSense -Onone @/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -target arm64-apple-ios17.4.1-simulator -g -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.5-23F81a-6cfe768891a92b912361537c460fe42b.sdkstatcache -output-file-map /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/markcnw/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_const_extract_protocols.json -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-generated-files.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-own-target-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-all-target-headers.hmap -Xcc -iquote -Xcc /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-project-headers.hmap -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources-normal/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources/arm64 -Xcc -I/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-Swift.h -working-directory /Users/markcnw/Developer/SlipSense -experimental-emit-module-separately -disable-cmo
+
+Ld /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib normal (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.4.1-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -L/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator -F/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -filelist /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.LinkFileList -install_name @rpath/SlipSense.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.swiftmodule @/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense-linker-args.resp -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -Xlinker -no_adhoc_codesign -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib
+
+ConstructStubExecutorLinkFileList /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-ExecutorLinkFileList-normal-arm64.txt (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    construct-stub-executor-link-file-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'SlipSense' from project 'SlipSense')
+
+Ld /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense normal (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.4.1-simulator -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk -O0 -L/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -F/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker @executable_path/Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense-ExecutorLinkFileList-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.app-Simulated.xcent.der /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense
+
+LinkAssetCatalog /Users/markcnw/Developer/SlipSense/SlipSense/Assets.xcassets (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-linkAssetCatalog --thinned /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/thinned --thinned-dependencies /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist_unthinned --output /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app --plist-output /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist
+note: Emplaced /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/AppIcon76x76@2x~ipad.png (in target 'SlipSense' from project 'SlipSense')
+note: Emplaced /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Assets.car (in target 'SlipSense' from project 'SlipSense')
+note: Emplaced /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/AppIcon60x60@2x.png (in target 'SlipSense' from project 'SlipSense')
+
+ProcessInfoPlistFile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Info.plist /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/empty-SlipSense.plist (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-infoPlistUtility /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/empty-SlipSense.plist -producttype com.apple.product-type.application -genpkginfo /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/assetcatalog_generated_info.plist -o /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Info.plist
+
+CopySwiftLibs /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib --scan-folder /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Frameworks --scan-folder /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/PlugIns --scan-folder /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SystemExtensions --scan-folder /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name SlipSense --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.5.sdk --xcode-version 17F113 --platform-family iOS --deployment-target 17.4.1 --bundle-identifier com.markcnw.SlipSense --output /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app --target-triple arm64-apple-ios17.4.1-simulator --binary-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense --dependency-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense_dependency_info.dat --stringsdata-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftFileList --metadata-file-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyMetadataFileList --static-metadata-file-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyStaticMetadataFileList --swift-const-vals-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/Objects-normal/arm64/SlipSense.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-07-27 20:31:33.697 appintentsmetadataprocessor[5765:234462] Starting appintentsmetadataprocessor export
+2026-07-27 20:31:33.704 appintentsmetadataprocessor[5765:234462] Writing Metadata.appintents
+2026-07-27 20:31:33.704 appintentsmetadataprocessor[5765:234462] Metadata root: /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Metadata.appintents
+
+AppIntentsSSUTraining (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Info.plist --temp-dir-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/ssu --bundle-id com.markcnw.SlipSense --product-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app --extracted-metadata-path /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Metadata.appintents --metadata-file-list /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/SlipSense.DependencyMetadataFileList --source-file /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Info.plist --archive-ssu-assets
+2026-07-27 20:31:33.722 appintentsnltrainingprocessor[5766:234465] Parsing options for appintentsnltrainingprocessor
+2026-07-27 20:31:33.722 appintentsnltrainingprocessor[5766:234465] Starting AppIntents SSU YAML Generation
+2026-07-27 20:31:33.726 appintentsnltrainingprocessor[5766:234465] Training 'ยอดใช้จ่ายวันนี้จาก ${+applicationName}|อัปเดตสลิปใน ${+applicationName}|เช็คยอด ${+applicationName}' for en
+2026-07-27 20:31:33.726 appintentsnltrainingprocessor[5766:234465] Training Negative Phrases '' for en
+2026-07-27 20:31:33.726 appintentsnltrainingprocessor[5766:234465] Application name 'SlipSense' for en
+2026-07-27 20:31:33.730 appintentsnltrainingprocessor[5766:234465] Generated AppIntents SSU YAML files in file:///Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Intermediates.noindex/SlipSense.build/Debug-iphonesimulator/SlipSense.build/ssu/
+2026-07-27 20:31:33.730 appintentsnltrainingprocessor[5766:234465] Copied AppIntents SSU YAML files to file:///Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Metadata.appintents/
+Archiving all locales.
+[------------------------------------------------------------] 0% archiving en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢] 100% archived en[🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢🁢] 100% archived 1 locales/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Metadata.appintents/nlu
+/Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/Metadata.appintents/nlu/0e025994dbd6ee42ff9c2149497ccb90.version
+
+
+CodeSign /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/SlipSense.debug.dylib
+
+CodeSign /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/__preview.dylib (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app/__preview.dylib
+
+CodeSign /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app
+
+RegisterExecutionPolicyException /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-RegisterExecutionPolicyException /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app
+
+Validate /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    builtin-validationUtility /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app (in target 'SlipSense' from project 'SlipSense')
+    cd /Users/markcnw/Developer/SlipSense
+    /usr/bin/touch -c /Users/markcnw/Library/Developer/Xcode/DerivedData/SlipSense-cptvwaafnsiumcbsjoptsjcybwps/Build/Products/Debug-iphonesimulator/SlipSense.app
+
+** BUILD SUCCEEDED **
+

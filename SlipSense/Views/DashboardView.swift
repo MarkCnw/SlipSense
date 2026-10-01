@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 import Charts
 
-
 struct DashboardView: View {
     // 📍 1. ดึง ModelContext สำหรับเซฟข้อมูลลงฐานข้อมูล
     @Environment(\.modelContext) private var modelContext
@@ -13,8 +12,6 @@ struct DashboardView: View {
     // 📍 2. ประกาศตัวแปร Services สำหรับทำ Auto-Sync เบื้องหลัง
     @State private var photoProvider = PhotoImageProvider()
     @State private var photoService = PhotoService()
-
-    // 💡 ลบ @AppStorage("dailyLimit") ออกจากตรงนี้ แล้วย้ายไปไว้ใน DailyLimitSection แทน
     
     var body: some View {
         NavigationStack {
@@ -24,33 +21,68 @@ struct DashboardView: View {
                 
                 VStack(spacing: 25) {
                     
-                    // 🌟 [แก้ไขใหม่] เรียกใช้คอมโพเนนต์โดยส่งแค่ currentTotal ไป
-                   
-                    
                     TimeFramePickerSection(viewModel: viewModel)
-                    DonutChartSection(
-                        viewModel: viewModel,
-                        currentPeriodTotal: currentPeriodTotal,
-                        bankSpendData: viewModel.bankSpendData(from: periodSlips)
-                    )
                     
-                    DailyTrendChartSection(
-                        viewModel: viewModel,
-                        chartData: viewModel.chartData(from: periodSlips)
-                    )
-                    TimeSpendChartSection(
-                        timeSpendData: viewModel.timeSpendData(from: periodSlips)
-                    )
-                    ExpenseChartView()
+                    // 🌟 1. ตัวสลับแท็บเมนู (ย้ายมาวางให้ถูกที่)
+                    HStack(spacing: 0) {
+                        ForEach(DashboardViewModel.DashboardTab.allCases, id: \.self) { tab in
+                            Button {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    viewModel.selectedTab = tab
+                                }
+                            } label: {
+                                VStack(spacing: 8) {
+                                    Text(tab.rawValue)
+                                        .font(.system(size: 16, weight: viewModel.selectedTab == tab ? .bold : .medium, design: .rounded))
+                                        .foregroundStyle(viewModel.selectedTab == tab ? .primary : .secondary)
+                                    
+                                    // ตัวขีดเส้นใต้
+                                    Rectangle()
+                                        .fill(viewModel.selectedTab == tab ? Color.accentColor : Color.clear)
+                                        .frame(height: 3)
+                                        .cornerRadius(1.5)
+                                        .padding(.horizontal, 16)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.top, 10)
+                                .contentShape(Rectangle()) // ทำให้กดติดง่ายขึ้น
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    // 🌟 2. ใช้ if-else ควบคุมการแสดงผลตามแท็บที่เลือก
+                    if viewModel.selectedTab == .overview {
+                        // 📊 แท็บ 1: ภาพรวม
+                        DonutChartSection(
+                            viewModel: viewModel,
+                            currentPeriodTotal: currentPeriodTotal,
+                            bankSpendData: viewModel.bankSpendData(from: periodSlips)
+                        )
+                        ExpenseChartView()
+                        
+                        
+                    } else if viewModel.selectedTab == .behavior {
+                        
+                        // 🕵️ แท็บ 3: พฤติกรรม
+                        TimeSpendChartSection(
+                            timeSpendData: viewModel.timeSpendData(from: periodSlips)
+                        )
+                        
+                        DailyTrendChartSection(
+                            viewModel: viewModel,
+                            chartData: viewModel.chartData(from: periodSlips)
+                        )
+                    }
+                       
+                    
                     
                 }
                 .padding(.bottom, 30)
             }
             .navigationTitle("แดชบอร์ด")
             .background(Color(.systemGroupedBackground))
-            
-            
-            // 📍 3. สั่งให้ AI วิ่งไปหาสลิปใหม่ทันทีที่หน้าแดชบอร์ดเปิดขึ้นมา
             .task {
                 await viewModel.autoSyncBankSlips(
                     context: modelContext,
@@ -58,9 +90,6 @@ struct DashboardView: View {
                     photoService: photoService
                 )
             }
-            
-           
-            
             .onChange(of: viewModel.selectedTimeframe) { _, newValue in
                 if newValue == .custom {
                     viewModel.showDatePickerSheet = true
@@ -71,12 +100,9 @@ struct DashboardView: View {
             }
         }
     }
-    
 }
 
-
-
-// MARK: - Subviews เดิม
+// MARK: - Subviews
 
 struct TimeFramePickerSection: View {
     @Bindable var viewModel: DashboardViewModel
@@ -134,7 +160,7 @@ struct DonutChartSection: View {
                         .clipShape(Capsule())
                 }
             }
-
+            
             if currentPeriodTotal > 0 {
                 HStack(spacing: 16) {
                     Chart(bankSpendData) { item in
@@ -174,7 +200,7 @@ struct DonutChartSection: View {
                             .fill(.ultraThinMaterial)
                             .padding(24)
                     )
-
+                    
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(bankSpendData.prefix(5)) { item in
                             let name = viewModel.displayBankName(fromCode: item.bank.rawValue)
@@ -184,7 +210,7 @@ struct DonutChartSection: View {
                                 Circle()
                                     .fill(colorForBank(name))
                                     .frame(width: 10, height: 10)
-
+                                
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(name)
                                         .font(.caption.weight(.semibold))
@@ -196,14 +222,14 @@ struct DonutChartSection: View {
                                 Spacer(minLength: 0)
                             }
                         }
-
+                        
                         if bankSpendData.count > 5 {
                             Text("และอีก \(bankSpendData.count - 5) ธนาคาร")
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
                                 .padding(.top, 2)
                         }
-
+                        
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -215,7 +241,7 @@ struct DonutChartSection: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 150, height: 150)
-                        
+                    
                         .grayscale(1.0)
                         .opacity(0.6)
                     

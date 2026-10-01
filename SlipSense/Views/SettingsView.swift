@@ -4,6 +4,7 @@ import MessageUI
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var context
+    @Environment(SecurityService.self) private var securityService
     @State private var viewModel = SettingsViewModel()
     
     // 💡 ตัวแปรหลักที่เชื่อมกับระบบหลังบ้าน
@@ -13,113 +14,37 @@ struct SettingsView: View {
     // 💡 ตัวแปรสำหรับรับค่าแยกช่องบนหน้าจอ
     @State private var thaiName: String = ""
     @State private var englishName: String = ""
+    @State private var security = false
     
-    // 📍 1. เพิ่มตัวแปร 2 ตัวนี้ สำหรับควบคุมหน้าต่างส่งอีเมล
+    // 📍 ตัวแปรสำหรับควบคุมหน้าต่างส่งอีเมล
     @State private var isShowingMailView = false
     @State private var showingMailAlert = false
-    
     
     var body: some View {
         NavigationStack {
             Form {
-                // MARK: - Filter Settings
-                Section {
-                    HStack {
-                        Image(systemName: "character.book.closed.fill")
-                            .foregroundStyle(.blue)
-                            .frame(width: 28)
-                        TextField("สมหมาย ใจดี", text: $thaiName)
-                            .submitLabel(.done)
-                            .onChange(of: thaiName) { _, _ in updateRealName() }
-                    }
-                    
-                    HStack {
-                        Image(systemName: "textformat.abc")
-                            .foregroundStyle(.blue)
-                            .frame(width: 28)
-                        TextField("Sommai jaidee", text: $englishName)
-                            .submitLabel(.done)
-                            .onChange(of: englishName) { _, _ in updateRealName() }
-                    }
-                } header: {
-                    Text("ชื่อจริงของคุณ (สำหรับดักจับยอดโอนตัวเอง)")
-                } footer: {
-                    Text("ใส่ชื่อจริงเเละนามสกุล ระบบจะใช้ข้อมูลนี้เพื่อตรวจสอบและข้ามการคำนวณสลิปที่คุณโอนเงินระหว่างบัญชีของตัวเอง")
-                }
-                
-                // MARK: - About App
-                Section {
-                    HStack {
-                        Image(systemName: "info.circle.fill")
-                            .foregroundStyle(.gray)
-                            .frame(width: 28)
-                        Text("เวอร์ชัน")
-                        Spacer()
-                        Text(viewModel.appVersion)
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    HStack {
-                        Image(systemName: "hammer.fill")
-                            .foregroundStyle(.gray)
-                            .frame(width: 28)
-                        Text("ผู้พัฒนา")
-                        Spacer()
-                        Text("MarkCnw")
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    // 📍 2. แก้ไขปุ่มติดต่อผู้พัฒนาให้เรียกใช้ MessageUI
-                    Button(action: {
-                        if MFMailComposeViewController.canSendMail() {
-                            isShowingMailView = true
-                        } else {
-                            showingMailAlert = true
-                        }
-                    }) {
-                        Text("ติดต่อผู้พัฒนา / แจ้งปัญหา")
-                    }
-                    Button(action: {
-                        // ใส่แค่ตัวเลข ID ของแอป SlipSense เท่านั้นครับ
-                        let appID = "6792425485"
-                        
-                        // โค้ดตรงนี้จะทำหน้าที่เอาตัวเลขไปต่อกับลิงก์ที่ถูกต้องให้เองครับ
-                        if let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: "star.fill")
-                                .foregroundColor(.yellow)
-                                .frame(width: 28)
-                            Text("ให้คะแนนแอปเรา")
-                                .foregroundColor(.primary)
-                        }
-                    }
-                    
-                } header: {
-                    Text("เกี่ยวกับแอป")
-                }
-                
-                // MARK: - Danger Zone
-                Section {
-                    Button(role: .destructive) {
-                        viewModel.showingDeleteAlert = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "trash.fill")
-                                .frame(width: 28)
-                            Text("ล้างประวัติการสแกนทั้งหมด")
-                        }
-                    }
-                    
-                } header: {
-                    Text("โซนอันตราย")
-                }
+                filterSection
+                aboutSection
+                securitySection
+                dangerZoneSection
             }
             .navigationTitle("การตั้งค่า")
             .onAppear {
                 loadNamesToFields()
+            }
+            .sheet(isPresented: $viewModel.isShowingCreatePINSheet) {
+                CreatePINView(securityService: securityService)
+            }
+            .sheet(isPresented: $viewModel.isShowingDisablePIN) {
+                LockScreenView(securityService: securityService, isForDisable: true)
+            }
+            .sheet(isPresented: $isShowingMailView) {
+                MailView(
+                    isShowing: $isShowingMailView,
+                    toRecipients: ["chinnawong.working@gmail.com"],
+                    subject: "Feedback SlipSense App",
+                    messageBody: "รายละเอียดปัญหา หรือ ข้อเสนอแนะ:\n"
+                )
             }
             .alert("ยืนยันการล้างข้อมูล?", isPresented: $viewModel.showingDeleteAlert) {
                 Button("ยกเลิก", role: .cancel) { }
@@ -139,15 +64,6 @@ struct SettingsView: View {
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
-            // 📍 3. เพิ่มการแสดงผลหน้าต่างอีเมล (Sheet) และแจ้งเตือน (Alert) ไว้ตรงนี้
-            .sheet(isPresented: $isShowingMailView) {
-                MailView(
-                    isShowing: $isShowingMailView,
-                    toRecipients: ["chinnawong.working@gmail.com"], // 👈 อย่าลืมเปลี่ยนเป็นอีเมลของคุณมาร์คนะครับ
-                    subject: "Feedback SlipSense App",
-                    messageBody: "รายละเอียดปัญหา หรือ ข้อเสนอแนะ:\n"
-                )
-            }
             .alert("ไม่สามารถส่งอีเมลได้", isPresented: $showingMailAlert) {
                 Button("ตกลง", role: .cancel) { }
             } message: {
@@ -156,13 +72,127 @@ struct SettingsView: View {
         }
     }
     
+    // MARK: - Subviews
+    
+    @ViewBuilder
+    private var filterSection: some View {
+        Section {
+            HStack {
+                Image(systemName: "character.book.closed.fill")
+                    .foregroundStyle(.blue)
+                    .frame(width: 28)
+                TextField("สมหมาย ใจดี", text: $thaiName)
+                    .submitLabel(.done)
+                    .onChange(of: thaiName) { _, _ in updateRealName() }
+            }
+            
+            HStack {
+                Image(systemName: "textformat.abc")
+                    .foregroundStyle(.blue)
+                    .frame(width: 28)
+                TextField("Sommai jaidee", text: $englishName)
+                    .submitLabel(.done)
+                    .onChange(of: englishName) { _, _ in updateRealName() }
+            }
+        } header: {
+            Text("ชื่อจริงของคุณ (สำหรับดักจับยอดโอนตัวเอง)")
+        } footer: {
+            Text("ใส่ชื่อจริงเเละนามสกุล ระบบจะใช้ข้อมูลนี้เพื่อตรวจสอบและข้ามการคำนวณสลิปที่คุณโอนเงินระหว่างบัญชีของตัวเอง")
+        }
+    }
+    
+    @ViewBuilder
+    private var aboutSection: some View {
+        Section {
+            HStack {
+                Image(systemName: "info.circle.fill")
+                    .foregroundStyle(.gray)
+                    .frame(width: 28)
+                Text("เวอร์ชัน")
+                Spacer()
+                Text(viewModel.appVersion)
+                    .foregroundStyle(.secondary)
+            }
+            
+            HStack {
+                Image(systemName: "hammer.fill")
+                    .foregroundStyle(.gray)
+                    .frame(width: 28)
+                Text("นักพัฒนา")
+                Spacer()
+                Text("MarkCnw")
+                    .foregroundStyle(.secondary)
+            }
+            
+            Button(action: {
+                if MFMailComposeViewController.canSendMail() {
+                    isShowingMailView = true
+                } else {
+                    showingMailAlert = true
+                }
+            }) {
+                Text("ติดต่อผู้พัฒนา / แจ้งปัญหา")
+            }
+            
+            Button(action: {
+                let appID = "6792425485"
+                if let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") {
+                    UIApplication.shared.open(url)
+                }
+            }) {
+                HStack {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                        .frame(width: 28)
+                    Text("ให้คะแนนแอปเรา")
+                        .foregroundColor(.primary)
+                }
+            }
+        } header: {
+            Text("เกี่ยวกับแอป")
+        }
+    }
+    
+    @ViewBuilder
+    private var securitySection: some View {
+        Section(header: Text("ความปลอดภัย")) {
+            HStack {
+                Image(systemName: "lock.fill")
+                    .foregroundColor(.blue)
+                    .frame(width: 28)
+                Toggle("เปิดใช้ Face ID เเละ รหัส", isOn: Binding(
+                    get: { securityService.isSecurityEnabled },
+                    set: { newValue in
+                        viewModel.toggleSecurity(isEnabled: newValue, securityService: securityService)
+                    }
+                ))
+            }
+            
+        }
+    }
+    
+    @ViewBuilder
+    private var dangerZoneSection: some View {
+        Section {
+            Button(role: .destructive) {
+                viewModel.showingDeleteAlert = true
+            } label: {
+                HStack {
+                    Image(systemName: "trash.fill")
+                        .frame(width: 28)
+                    Text("ล้างประวัติการสแกนทั้งหมด")
+                }
+            }
+        } header: {
+            Text("โซนอันตราย")
+        }
+    }
     
     // MARK: - Helper Functions
     
     private func updateRealName() {
         let tName = thaiName.trimmingCharacters(in: .whitespaces)
         let eName = englishName.trimmingCharacters(in: .whitespaces)
-        
         userRealName = "\(tName)|\(eName)"
     }
     
@@ -192,6 +222,9 @@ struct SettingsView: View {
         }
     }
 }
+
+// MARK: - Components Outside View
+
 struct FilterChip: View {
     let title: String
     let isSelected: Bool
@@ -203,7 +236,6 @@ struct FilterChip: View {
                 .font(.subheadline)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                // ถ้าถูกเลือกให้เป็นสีฟ้า ถ้าไม่เลือกให้เป็นสีเทาอ่อน
                 .background(isSelected ? Color.blue : Color(UIColor.systemGray6))
                 .foregroundColor(isSelected ? .white : .primary)
                 .clipShape(Capsule())
