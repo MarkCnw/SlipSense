@@ -9,6 +9,9 @@ final class SettingsViewModel {
     @ObservationIgnored
     @AppStorage("appTheme") var appTheme: Int = 0
     
+    var isShowingCreatePINSheet: Bool = false
+        var isShowingDisablePIN: Bool = false
+    
     var showingDeleteAlert = false
     var errorMessage: String?
     
@@ -23,6 +26,17 @@ final class SettingsViewModel {
         default: return "circle.lefthalf.filled"
         }
     }
+    
+    // 🌟 2. เพิ่มฟังก์ชันนี้สำหรับจัดการตอนผู้ใช้กดเปิด/ปิดสวิตช์ความปลอดภัย
+        func toggleSecurity(isEnabled: Bool, securityService: SecurityService) {
+            if isEnabled {
+                // ถ้ากดเปิด -> โชว์หน้าตั้ง PIN
+                isShowingCreatePINSheet = true
+            } else {
+                // ถ้ากดปิด -> โชว์หน้าใส่ PIN เพื่อยืนยัน
+                isShowingDisablePIN = true
+            }
+        }
     
     func deleteAllData(context: ModelContext) {
         do {

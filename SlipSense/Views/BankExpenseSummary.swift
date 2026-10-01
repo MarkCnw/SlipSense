@@ -1,10 +1,3 @@
-//
-//  BankExpenseSummary.swift
-//  SlipSense
-//
-//  Created by MarkCnw on 7/21/26.
-//
-
 
 import SwiftUI
 import SwiftData

@@ -8,11 +8,13 @@ actor SlipScanWorker {
     private let parser: SlipParserService
         private let recordService: SlipRecordService
         private let modelContainer: ModelContainer
+   
         
         init(modelContainer: ModelContainer) {
             self.modelContainer = modelContainer
             self.parser = SlipParserService()
             self.recordService = SlipRecordService()
+         
         }
     
     /// ฟังก์ชันวนลูปสแกนรูปทั้งหมดที่เบื้องหลัง
@@ -24,6 +26,7 @@ actor SlipScanWorker {
         
         // สร้าง ModelContext สำหรับหลังบ้านโดยเฉพาะ ปลอดภัยและไม่แลค
         let backgroundContext = ModelContext(modelContainer)
+        
         
         for asset in assets {
             // 🛑 เช็คว่า Task ถูกยกเลิกหรือยัง
@@ -73,7 +76,7 @@ actor SlipScanWorker {
             }
             
             let memo = text.replacingOccurrences(of: "\n", with: " ")
-            
+          
             do {
                 let saveStatus = try recordService.processScannedSlip(
                     amount: amount,
@@ -82,7 +85,8 @@ actor SlipScanWorker {
                     assetIdentifier: assetID,
                     bankName: parsed.bank,
                     memo: memo,
-                    context: backgroundContext
+                    context: backgroundContext,
+                    
                 )
                 
                 // บันทึกข้อมูลลงฐานข้อมูลเบื้องหลัง
