@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F2C25AAE306FC79D00EF1455 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C25AAD306FC79D00EF1455 /* WidgetKit.framework */; };
+		F2C25AB0306FC79D00EF1455 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C25AAF306FC79D00EF1455 /* SwiftUI.framework */; };
+		F2C25ABB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F2C25AAB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F2887FB42F9DD4C8000FF09F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -14,22 +20,75 @@
 			remoteGlobalIDString = F283935B2F798A1100ABA3D8;
 			remoteInfo = SlipSense;
 		};
+		F2C25AB9306FC79D00EF1455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F28393542F798A1100ABA3D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2C25AAA306FC79D00EF1455;
+			remoteInfo = SlipSenseWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F2C25AC0306FC79D00EF1455 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F2C25ABB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F283935C2F798A1100ABA3D8 /* SlipSense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlipSense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlipSenseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C25AAB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SlipSenseWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C25AAD306FC79D00EF1455 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		F2C25AAF306FC79D00EF1455 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		F2C25AC1306FC7A400EF1455 /* SlipSenseWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SlipSenseWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F2C25AA5306FBE5B00EF1455 /* Exceptions for "SlipSense" folder in "SlipSense" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F283935B2F798A1100ABA3D8 /* SlipSense */;
+		};
+		F2C25ABF306FC79D00EF1455 /* Exceptions for "SlipSenseWidget" folder in "SlipSenseWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F2C25AAA306FC79D00EF1455 /* SlipSenseWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F283935E2F798A1100ABA3D8 /* SlipSense */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F2C25AA5306FBE5B00EF1455 /* Exceptions for "SlipSense" folder in "SlipSense" target */,
+			);
 			path = SlipSense;
 			sourceTree = "<group>";
 		};
 		F2887FB12F9DD4C8000FF09F /* SlipSenseTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = SlipSenseTests;
+			sourceTree = "<group>";
+		};
+		F2C25AB1306FC79D00EF1455 /* SlipSenseWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F2C25ABF306FC79D00EF1455 /* Exceptions for "SlipSenseWidget" folder in "SlipSenseWidgetExtension" target */,
+			);
+			path = SlipSenseWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -49,14 +108,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2C25AA8306FC79D00EF1455 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C25AB0306FC79D00EF1455 /* SwiftUI.framework in Frameworks */,
+				F2C25AAE306FC79D00EF1455 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		F28393532F798A1100ABA3D8 = {
 			isa = PBXGroup;
 			children = (
+				F2C25AC1306FC7A400EF1455 /* SlipSenseWidgetExtension.entitlements */,
 				F283935E2F798A1100ABA3D8 /* SlipSense */,
 				F2887FB12F9DD4C8000FF09F /* SlipSenseTests */,
+				F2C25AB1306FC79D00EF1455 /* SlipSenseWidget */,
+				F2C25AAC306FC79D00EF1455 /* Frameworks */,
 				F283935D2F798A1100ABA3D8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,8 +137,18 @@
 			children = (
 				F283935C2F798A1100ABA3D8 /* SlipSense.app */,
 				F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */,
+				F2C25AAB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F2C25AAC306FC79D00EF1455 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2C25AAD306FC79D00EF1455 /* WidgetKit.framework */,
+				F2C25AAF306FC79D00EF1455 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,10 +161,12 @@
 				F28393582F798A1100ABA3D8 /* Sources */,
 				F28393592F798A1100ABA3D8 /* Frameworks */,
 				F283935A2F798A1100ABA3D8 /* Resources */,
+				F2C25AC0306FC79D00EF1455 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F2C25ABA306FC79D00EF1455 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				F283935E2F798A1100ABA3D8 /* SlipSense */,
@@ -118,6 +201,28 @@
 			productReference = F2887FB02F9DD4C8000FF09F /* SlipSenseTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F2C25AAA306FC79D00EF1455 /* SlipSenseWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2C25ABC306FC79D00EF1455 /* Build configuration list for PBXNativeTarget "SlipSenseWidgetExtension" */;
+			buildPhases = (
+				F2C25AA7306FC79D00EF1455 /* Sources */,
+				F2C25AA8306FC79D00EF1455 /* Frameworks */,
+				F2C25AA9306FC79D00EF1455 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F2C25AB1306FC79D00EF1455 /* SlipSenseWidget */,
+			);
+			name = SlipSenseWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = SlipSenseWidgetExtension;
+			productReference = F2C25AAB306FC79D00EF1455 /* SlipSenseWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -125,7 +230,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2640;
+				LastSwiftUpdateCheck = 2700;
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					F283935B2F798A1100ABA3D8 = {
@@ -134,6 +239,9 @@
 					F2887FAF2F9DD4C8000FF09F = {
 						CreatedOnToolsVersion = 26.4.1;
 						TestTargetID = F283935B2F798A1100ABA3D8;
+					};
+					F2C25AAA306FC79D00EF1455 = {
+						CreatedOnToolsVersion = 27.0;
 					};
 				};
 			};
@@ -154,6 +262,7 @@
 			targets = (
 				F283935B2F798A1100ABA3D8 /* SlipSense */,
 				F2887FAF2F9DD4C8000FF09F /* SlipSenseTests */,
+				F2C25AAA306FC79D00EF1455 /* SlipSenseWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -167,6 +276,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F2887FAE2F9DD4C8000FF09F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2C25AA9306FC79D00EF1455 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -190,6 +306,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2C25AA7306FC79D00EF1455 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -197,6 +320,11 @@
 			isa = PBXTargetDependency;
 			target = F283935B2F798A1100ABA3D8 /* SlipSense */;
 			targetProxy = F2887FB42F9DD4C8000FF09F /* PBXContainerItemProxy */;
+		};
+		F2C25ABA306FC79D00EF1455 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2C25AAA306FC79D00EF1455 /* SlipSenseWidgetExtension */;
+			targetProxy = F2C25AB9306FC79D00EF1455 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -333,11 +461,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SlipSense/SlipSense.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HJ24GQ285H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SlipSense/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "แอปต้องการเข้าถึงอัลบั้มรูปภาพ เพื่อค้นหาและจัดการสลิปโอนเงินของคุณ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -352,6 +482,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -371,11 +502,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SlipSense/SlipSense.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HJ24GQ285H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SlipSense/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "แอปต้องการเข้าถึงอัลบั้มรูปภาพ เพื่อค้นหาและจัดการสลิปโอนเงินของคุณ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -390,6 +523,7 @@
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -446,6 +580,72 @@
 			};
 			name = Release;
 		};
+		F2C25ABD306FC79D00EF1455 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SlipSenseWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HJ24GQ285H;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SlipSenseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SlipSenseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSense.SlipSenseWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F2C25ABE306FC79D00EF1455 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SlipSenseWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = HJ24GQ285H;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SlipSenseWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SlipSenseWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.markcnw.SlipSense.SlipSenseWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -472,6 +672,15 @@
 			buildConfigurations = (
 				F2887FB62F9DD4C8000FF09F /* Debug */,
 				F2887FB72F9DD4C8000FF09F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2C25ABC306FC79D00EF1455 /* Build configuration list for PBXNativeTarget "SlipSenseWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2C25ABD306FC79D00EF1455 /* Debug */,
+				F2C25ABE306FC79D00EF1455 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

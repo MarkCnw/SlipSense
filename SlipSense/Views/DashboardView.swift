@@ -89,6 +89,13 @@ struct DashboardView: View {
                     photoProvider: photoProvider,
                     photoService: photoService
                 )
+                SlipWidgetDataManager.shared.updateTodayExpense(from: slips)
+            }
+            .onAppear {
+                SlipWidgetDataManager.shared.updateTodayExpense(from: slips)
+            }
+            .onChange(of: slips) { _, newSlips in
+                SlipWidgetDataManager.shared.updateTodayExpense(from: newSlips)
             }
             .onChange(of: viewModel.selectedTimeframe) { _, newValue in
                 if newValue == .custom {
