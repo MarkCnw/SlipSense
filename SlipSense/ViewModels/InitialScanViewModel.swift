@@ -72,6 +72,17 @@ final class InitialScanViewModel {
                 guard let self = self else { return }
                 // Update LastBankSyncDate after initial scan is done
                 UserDefaults.standard.set(Date(), forKey: "LastBankSyncDate")
+                
+                // อัปเดตข้อมูลวิดเจ็ตทันที
+                let calendar = Calendar.current
+                let startOfDay = calendar.startOfDay(for: Date())
+                let descriptor = FetchDescriptor<SlipRecord>(
+                    predicate: #Predicate<SlipRecord> { $0.scanDate >= startOfDay && !$0.isSelfTransfer }
+                )
+                let todaySlips = (try? context.fetch(descriptor)) ?? []
+                let totalAmount = todaySlips.reduce(0.0) { $0 + $1.amount }
+                SlipWidgetDataManager.shared.saveTodayExpense(amount: totalAmount, slipCount: todaySlips.count)
+                
                 self.scanState = .complete
                 
                 // หน่วงเวลา 1.5 วินาทีเพื่อให้โชว์รูป "สำเร็จ" ก่อนปิดหน้า

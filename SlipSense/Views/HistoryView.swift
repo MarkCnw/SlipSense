@@ -16,113 +16,222 @@ struct HistoryView: View {
         return sorted.map { $0.key }
     }
     
+    private var displaySlips: [SlipRecord] {
+        let searchedSlips = viewModel.getFilteredSlips(from: slips)
+        return searchedSlips.filter { slip in
+            selectedBanks.isEmpty || selectedBanks.contains(slip.bankName)
+        }
+    }
+    
+    private var groupedSlips: [SlipDateGroup] {
+        viewModel.groupSlipsByDate(displaySlips)
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // 1. ค้นหาจากข้อความก่อน
-                let searchedSlips = viewModel.getFilteredSlips(from: slips)
-                
-                // 2. กรองธนาคาร (ถ้า selectedBanks ว่างเปล่า = แสดงทั้งหมด)
-                let displaySlips = searchedSlips.filter { slip in
-                    selectedBanks.isEmpty || selectedBanks.contains(slip.bankName)
-                }
-                
-                // MARK: - แสดงผลรายการ
                 if displaySlips.isEmpty {
-                    VStack(spacing: 16) {
-                        Image("Analyze-Data-2--Streamline-Manila")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 150)
-                            .grayscale(1.0)
-                            .opacity(0.6)
-                        
-                        Text(slips.isEmpty ? "ยังไม่มีประวัติการสแกน" : "ไม่พบข้อมูลที่ค้นหา")
-                            .font(.headline)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    emptyStateView
                 } else {
-                    List {
-                        ForEach(displaySlips) { slip in
-                            NavigationLink(destination: SlipImageDetailView(slip: slip)) {
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(slip.bankName)
-                                            .font(.headline)
-                                        
-                                        Text(slip.category.isEmpty ? "อื่นๆ" : slip.category)
-                                                                                    .font(.subheadline)
-                                                                                    .foregroundStyle(.blue)
-                                        
-                                        
-                                        Text(slip.scanDate.formatted(.dateTime.day().month(.abbreviated).year().hour().minute().locale(Locale(identifier: "th_TH"))))
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    Spacer()
-                                    Text(slip.amount.formatted(.currency(code: "THB")))
-                                        .font(.headline)
-                                        .foregroundStyle(slip.isSelfTransfer ? .secondary : .primary)
-                                }
-                            }
-                        }
-                        .onDelete { indexSet in
-                            for index in indexSet {
-                                viewModel.deleteSlip(displaySlips[index], context: context)
-                            }
-                        }
-                    }
-                    .listStyle(.plain)
+                    slipListView
                 }
             }
             .navigationTitle("ประวัติรายจ่าย")
             .searchable(text: $viewModel.searchText, prompt: "ค้นหาธนาคาร, ยอดเงิน...")
-            
-            // MARK: - ปุ่ม Filter สไตล์ Apple HIG
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        // ปุ่มเคลียร์ตัวกรอง (จะโชว์ก็ต่อเมื่อมีการเลือกธนาคารไว้อยู่)
-                        if !selectedBanks.isEmpty {
-                            Button(role: .destructive) {
-                                withAnimation(.snappy) {
-                                    selectedBanks.removeAll()
-                                }
-                            } label: {
-                                Label("ล้างตัวกรองทั้งหมด", systemImage: "xmark.circle")
-                            }
-                            Divider()
+                    filterMenu
+                }
+            }
+            .onAppear {
+                SlipWidgetDataManager.shared.updateTodayExpense(from: slips)
+            }
+            .onChange(of: slips) { _, newSlips in
+                SlipWidgetDataManager.shared.updateTodayExpense(from: newSlips)
+            }
+        }
+    }
+    
+    // MARK: - Subviews
+    
+    private var emptyStateView: some View {
+        VStack(spacing: 16) {
+            Image("Analyze-Data-2--Streamline-Manila")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+                .grayscale(1.0)
+                .opacity(0.6)
+            
+            Text(slips.isEmpty ? "ยังไม่มีสลิปที่สแกน" : "ไม่พบข้อมูลที่ค้นหา")
+                .font(.headline)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+    private var slipListView: some View {
+        List {
+            ForEach(groupedSlips) { group in
+                Section {
+                    ForEach(group.slips) { slip in
+                        slipRow(for: slip)
+                    }
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            viewModel.deleteSlip(group.slips[index], context: context)
                         }
+                    }
+                } header: {
+                    sectionHeader(for: group)
+                }
+            }
+        }
+        .listStyle(.plain)
+    }
+    
+    private func slipRow(for slip: SlipRecord) -> some View {
+        NavigationLink(destination: SlipImageDetailView(slip: slip)) {
+            HStack(alignment: .center, spacing: 12) {
+                VStack(alignment: .leading, spacing: 6) {
+                    if !slip.memo.isEmpty {
+                        Text(slip.memo)
+                            .font(.system(.body, weight: .medium))
+                            .foregroundStyle(.primary)
+                            .lineLimit(1)
                         
-                        // วนลูปรายชื่อธนาคารให้กดเลือกได้หลายอัน
-                        ForEach(dynamicBankFilters, id: \.self) { bank in
-                            Button {
-                                withAnimation(.snappy) {
-                                    // โลจิก Multi-select: ถ้ามีอยู่แล้วให้เอาออก ถ้าไม่มีให้เพิ่มเข้าไป
-                                    if selectedBanks.contains(bank) {
-                                        selectedBanks.remove(bank)
-                                    } else {
-                                        selectedBanks.insert(bank)
-                                    }
-                                }
-                            } label: {
-                                // ถ้าธนาคารนี้อยู่ใน Set ให้แสดงเครื่องหมายถูก (Checkmark) แบบ Native
-                                if selectedBanks.contains(bank) {
-                                    Label(bank, systemImage: "checkmark")
-                                } else {
-                                    Text(bank)
-                                }
+                        HStack(spacing: 6) {
+                            Text(slip.bankName)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            
+                            if shouldShowCategory(slip.category) {
+                                Text("•")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                                
+                                categoryBadge(slip.category)
                             }
+                            
+                            Text("•")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                            
+                            Text(slip.scanDate.formatted(.dateTime.hour().minute().locale(Locale(identifier: "th_TH"))))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
-                    } label: {
-                        // ไอคอนปุ่ม Filter มุมขวาบน จะทึบและเป็นสีฟ้าเมื่อมีการใช้งานตัวกรองอยู่
-                        Image(systemName: selectedBanks.isEmpty ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
-                            .font(.title3)
-                            .foregroundColor(selectedBanks.isEmpty ? .primary : .blue)
+                    } else {
+                        Text(slip.bankName)
+                            .font(.system(.body, weight: .medium))
+                            .foregroundStyle(.primary)
+                        
+                        HStack(spacing: 6) {
+                            if shouldShowCategory(slip.category) {
+                                categoryBadge(slip.category)
+                                
+                                Text("•")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                            }
+                            
+                            Text(slip.scanDate.formatted(.dateTime.hour().minute().locale(Locale(identifier: "th_TH"))))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("\(slip.amount.formatted(.number.precision(.fractionLength(2)))) บาท")
+                        .font(.system(.body, design: .rounded, weight: .semibold))
+                        .monospacedDigit()
+                        .foregroundStyle(slip.isSelfTransfer ? .secondary : .primary)
+                    
+                    if slip.isSelfTransfer {
+                        Text("โอนให้ตัวเอง")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
+            .padding(.vertical, 4)
+        }
+    }
+    
+    private func shouldShowCategory(_ category: String) -> Bool {
+        let trimmed = category.trimmingCharacters(in: .whitespacesAndNewlines)
+        return !trimmed.isEmpty && trimmed != "ทั่วไป" && trimmed != "อื่นๆ" && trimmed != "ไม่มีหมวดหมู่"
+    }
+    
+    private func categoryBadge(_ category: String) -> some View {
+        Text(category)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(Color(.tertiarySystemFill))
+            .clipShape(Capsule())
+    }
+    
+    private func sectionHeader(for group: SlipDateGroup) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(group.header)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.primary)
+            
+            Spacer()
+            
+            HStack(spacing: 4) {
+                Text("รวม")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                
+                Text("\(group.totalAmount.formatted(.number.precision(.fractionLength(2)))) บาท")
+                    .font(.subheadline.weight(.semibold))
+                    .monospacedDigit()
+                    .foregroundStyle(.primary)
+            }
+        }
+        .padding(.vertical, 2)
+    }
+    
+    private var filterMenu: some View {
+        Menu {
+            if !selectedBanks.isEmpty {
+                Button(role: .destructive) {
+                    withAnimation(.snappy) {
+                        selectedBanks.removeAll()
+                    }
+                } label: {
+                    Label("ล้างตัวกรองทั้งหมด", systemImage: "xmark.circle")
+                }
+                Divider()
+            }
+            
+            ForEach(dynamicBankFilters, id: \.self) { bank in
+                Button {
+                    withAnimation(.snappy) {
+                        if selectedBanks.contains(bank) {
+                            selectedBanks.remove(bank)
+                        } else {
+                            selectedBanks.insert(bank)
+                        }
+                    }
+                } label: {
+                    if selectedBanks.contains(bank) {
+                        Label(bank, systemImage: "checkmark")
+                    } else {
+                        Text(bank)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: selectedBanks.isEmpty ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+                .font(.title3)
+                .foregroundColor(selectedBanks.isEmpty ? .primary : .blue)
         }
     }
 }

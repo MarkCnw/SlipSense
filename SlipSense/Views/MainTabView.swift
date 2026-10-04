@@ -1,33 +1,53 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var selectedTab: Int = 0
+
     var body: some View {
-        TabView {
-            // 탭ที่ 1: หน้า Dashboard (เดี๋ยวเราสร้างกัน)
+        TabView(selection: $selectedTab) {
+            // แท็บที่ 1: หน้า Dashboard
             DashboardView()
                 .tabItem {
                     Label("หน้าหลัก", systemImage: "chart.pie.fill")
                 }
+                .tag(0)
             
-            // 탭ที่ 2: หน้าอัลบั้มสลิป
+            // แท็บที่ 2: หน้าสแกนสลิป
             ScanView()
                 .tabItem {
                     Label("สแกน", systemImage: "viewfinder")
                 }
+                .tag(1)
             
-            // 탭ที่ 3: หน้าประวัติ
+            // แท็บที่ 3: หน้าประวัติ
             HistoryView()
                 .tabItem {
                     Label("ประวัติ", systemImage: "list.bullet.rectangle.fill")
                 }
+                .tag(2)
             
-            // 탭ที่ 4: หน้าตั้งค่า
+            // แท็บที่ 4: หน้าตั้งค่า
             SettingsView()
                 .tabItem {
                     Label("ตั้งค่า", systemImage: "gearshape.fill")
                 }
+                .tag(3)
         }
-        .tint(.purple) // เปลี่ยนสีไอคอนที่ถูกเลือกเป็นสีประจำแอป (ม่วง)
+        .tint(.purple) // สีประจำแอป (ม่วง)
+        .onOpenURL { url in
+            switch url.host {
+            case "dashboard":
+                selectedTab = 0
+            case "scan":
+                selectedTab = 1
+            case "history", "today":
+                selectedTab = 2
+            case "settings":
+                selectedTab = 3
+            default:
+                break
+            }
+        }
     }
 }
 
