@@ -59,8 +59,8 @@ struct SyncIntent: AudioPlaybackIntent {
         let todaySlips = (try? context.fetch(descriptor)) ?? []
         let totalAmount = todaySlips.reduce(0.0) { $0 + $1.amount }
         
-        // 4. บันทึกผลลัพธ์ลง App Group UserDefaults สำหรับ Widget
-        SlipWidgetDataManager.shared.saveTodayExpense(amount: totalAmount, slipCount: todaySlips.count)
+        // 4. บันทึกผลลัพธ์ลง App Group UserDefaults สำหรับ Widget (พร้อมแจกแจงหมวดหมู่)
+        SlipWidgetDataManager.shared.updateTodayExpense(from: todaySlips)
         
         return .result()
     }

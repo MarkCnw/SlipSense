@@ -80,8 +80,7 @@ struct SlipSenseApp: App {
                 predicate: #Predicate<SlipRecord> { $0.scanDate >= startOfDay && !$0.isSelfTransfer }
             )
             let todaySlips = (try? container.mainContext.fetch(descriptor)) ?? []
-            let total = todaySlips.reduce(0.0) { $0 + $1.amount }
-            SlipWidgetDataManager.shared.saveTodayExpense(amount: total, slipCount: todaySlips.count)
+            SlipWidgetDataManager.shared.updateTodayExpense(from: todaySlips)
             
             task.setTaskCompleted(success: true)
         }

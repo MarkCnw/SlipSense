@@ -93,6 +93,9 @@ struct HistoryView: View {
     private func slipRow(for slip: SlipRecord) -> some View {
         NavigationLink(destination: SlipImageDetailView(slip: slip)) {
             HStack(alignment: .center, spacing: 12) {
+                // 🏦 โลโก้ธนาคารขนาด 40x40 แบบ Squircle เต็มกรอบ
+                BankLogoView(bankName: slip.bankName, size: 40)
+                
                 VStack(alignment: .leading, spacing: 6) {
                     if !slip.memo.isEmpty {
                         Text(slip.memo)

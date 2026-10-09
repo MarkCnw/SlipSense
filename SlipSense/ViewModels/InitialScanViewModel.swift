@@ -80,8 +80,7 @@ final class InitialScanViewModel {
                     predicate: #Predicate<SlipRecord> { $0.scanDate >= startOfDay && !$0.isSelfTransfer }
                 )
                 let todaySlips = (try? context.fetch(descriptor)) ?? []
-                let totalAmount = todaySlips.reduce(0.0) { $0 + $1.amount }
-                SlipWidgetDataManager.shared.saveTodayExpense(amount: totalAmount, slipCount: todaySlips.count)
+                SlipWidgetDataManager.shared.updateTodayExpense(from: todaySlips)
                 
                 self.scanState = .complete
                 

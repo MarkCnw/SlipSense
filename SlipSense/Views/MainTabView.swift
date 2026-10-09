@@ -13,11 +13,11 @@ struct MainTabView: View {
                 .tag(0)
             
             // แท็บที่ 2: หน้าสแกนสลิป
-            ScanView()
-                .tabItem {
-                    Label("สแกน", systemImage: "viewfinder")
-                }
-                .tag(1)
+            //ScanView()
+               // .tabItem {
+                   // Label("สแกน", systemImage: "viewfinder")
+               // }
+              //  .tag(1)
             
             // แท็บที่ 3: หน้าประวัติ
             HistoryView()
