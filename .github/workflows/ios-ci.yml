@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
     - name: Checkout repository
@@ -21,10 +21,10 @@ jobs:
 
     - name: Build project
       run: |
+        set -o pipefail
         xcodebuild build \
           -scheme SlipSense \
-          -destination 'generic/platform=iOS' \
+          -destination 'generic/platform=iOS Simulator' \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
-          CODE_SIGNING_ALLOWED=NO \
-          -quiet
+          CODE_SIGNING_ALLOWED=NO | xcbeautify --renderer github-actions
