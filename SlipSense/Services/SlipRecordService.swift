@@ -11,7 +11,7 @@ struct SlipRecordService {
         assetIdentifier: String,
         bankName: String,
         memo: String,
-        context: ModelContext,
+        context: ModelContext
        
     ) throws -> SlipScanStatus {
         
